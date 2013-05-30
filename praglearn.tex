@@ -39,7 +39,7 @@ Stanford, CA, USA \\
 \maketitle
 
 \begin{abstract}
-Adult language users are remarkably good at making inferences about speakers' intentions in context, and children learning their native language also display substantial pragmatic skill in acquiring the meanings of unknown words. While pragmatic inference and word learning have both been characterized in probabilistic terms, no current models make appropriate inferences about the meanings of words in pragmatically-rich inferential contexts. We describe a model in which language learners assume that they jointly approximate a shared, external lexicon and reason recursively about the goals of others in using this lexicon. This model captures phenomena in word learning and pragmatic inference; it additionally leads to insights about the emergence of communicative systems in conversation and the mechanisms by which pragmatic inferences become incorporated into word meanings.
+  Adult language users are remarkably good at making inferences about speakers' intentions in context, and children learning their native language also display substantial pragmatic skill in acquiring the meanings of unknown words. While pragmatic inference and word learning have both been characterized in probabilistic terms, no current models make appropriate inferences about the meanings of words in pragmatically-rich inferential contexts. We describe a model in which language learners assume that they jointly approximate a shared, external lexicon and reason recursively about the goals of others in using this lexicon. This model captures phenomena in word learning and pragmatic inference; it additionally leads to insights about the emergence of communicative systems in conversation and the mechanisms by which pragmatic inferences become incorporated into word meanings.
 \end{abstract}
 
 \section{Introduction}
@@ -126,28 +126,55 @@ something wrong about taking evidence from the pragmatic speaker and using it to
 
 \subsection{``Social anxiety'' model}
 
-\section{Experiments}
+\section{Experiments 1: Empirical coverage}
+
+In this section, we describe the coverage of our pragmatic learning model on phenomena previously investigated with the pragmatics and word learning components of the model. To summarize these simulations: the pragmatic learning model reproduces previous findings and provides some new insights into the ``disambiguation'' phenomenon described above. 
 
 \begin{table}[t]
-\caption{Table of empirical results and references}
 \label{tab:results}
 \begin{center}
-\begin{tabular}{llllll}
+\begin{tabular}{lccccc}
 \hline \\
-Phenomenon & Ref. & Word learning \cite{frank2009} & Pragmatics \cite{frank2012,bergen2012}  & Model 1 & Model 2 \\
+Phenomenon & Ref. & WL & PI & Lifted PI  & PIL \\
 \hline
-Scalar implicature & \cite{stiller2011} & & & & \\
-Horn implicature & & & & & \\
-Cross-situational learning & \cite{yu2007} & & & & \\
-Disambiguation & \cite{markman1988} & & & & \\
-Communicative equilibria & \cite{galantucci2007} & & & & \\
+Scalar implicature & \cite{grice1975} &  & x &x & x\\
+Horn implicature & \cite{horn1984} & &  & x& x\\
+Cross-situational learning & \cite{smith2008} & x& & & x \\
+Disambiguation & \cite{markman1988} &x  & & & x \\
+Communicative equilibria & \cite{galantucci2005} & & & & x \\
+\hline
 \end{tabular}
 \end{center}
+\caption{Empirical results and references. WL refers to the word learning model of \cite{frank2009}; PI refers to the pragmatic inference model of \cite{frank2012}; Lifted PI refers to the pragmatic inference model of \cite{bergen2012}, and PIL refers to the pragmatic inference and learning model described here.  }
+
 \end{table}
 
-\subsection{Pragmatic reasoning}
 
-\subsubsection{Scalar implicature}
+\subsection{Scalar implicature}
+
+Many sets of words in natural language form scales in which each term refers to successively stronger restrictions on the situations compatible with the term. ``Some'' and ``all'' form a scale of this type. While ``I ate some of the cookies'' is compatible with the followup ``in fact, I ate {\it all} of the cookies,'' the reverse is not true. ``Might'' and ``must'' are another example, as are ``OK,'' ``good,'' and ``excellent.'' All of these scales allow for {\it scalar implicatures} \cite{grice1975}: if a speaker uses a weaker term, a listener is licensed to infer that the stronger term was not true in this situation. So although ``I ate some of the cookies'' could in principle be compatible with eating all of them, the listener is lead to believe that ``some but not all'' is the likely state of affairs. 
+
+The recursive pragmatic reasoning portions of our model capture set of findings on scalar implicature effectively. Consider a representation of scalar implicature as a matrix 
+$\left[
+    \begin{array}{cc}
+      1 & 1 \\
+      0 & 1
+    \end{array} 
+  \right]$,
+where rows show the terms ``some'' and ``all'' and columns indicate worlds where {\sc some} and {\sc all} are true, respectively, capturing the regularity that ``some'' can be said of situations where {\sc all} is actually the case. Assuming uniform costs for the two words and uniform priors, each recursion of listener modeling speaker reduces the probability that ``some'' will be used to refer to {\sc all}. Using the fixed parameters employed in our other simulations results in speaker use probabilities of 
+$\left[
+    \begin{array}{cc}
+      1.00 & 0.00 \\
+      0.00 & 1.00
+    \end{array} 
+  \right]$
+and listener interpretation probabilities of 
+$\left[
+    \begin{array}{cc}
+      .86 & .14 \\
+      .03 & .97
+    \end{array} 
+  \right]$.
 
 % Simulation parameters:
 %   prior on meaning of "some": dirichlet(10, 10)
@@ -161,7 +188,24 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 % array([[ 0.86214895,  0.13785105],
 %        [ 0.03151434,  0.96848566]])
 
-\subsubsection{Horn implicature}
+\subsection{Horn implicature}
+
+Horn implicatures are inferences where the critical factor is not the extension of the words in context (as in scalar implicatures), but instead the relative cost of two expressions. In Horn's example, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g. not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car.'' In other words, the costly expression is assumed to be associated with the unusual outcome.
+
+Such an implicature again arises naturally from our model. We create a situation in which expressions have differential costs (e.g. $[.5 1.0]$) and referents have differential probabilities (e.g. $[.8 .2]$). Speakers in such a situation choose simple words to refer to common referents, e.g. 
+$\left[
+    \begin{array}{cc}
+      .88 & .54 \\
+      .12 & .46
+    \end{array} 
+  \right]$.\footnote{Rows indicate words and columns indicate referents. For speakers, columns are normalized to indicate a distribution over words to be produced given referents, and for listeners rows are normalized to indicate a distribution on referents given words heard.} Similarly, listeners interpret ``cheap'' and ``expensive'' words to refer to common and rare objects respectively:
+$\left[
+    \begin{array}{cc}
+      .77 & .23 \\
+      .65 & .35
+    \end{array} 
+  \right]$.
+
 
 % Simulation parameters:
 %   word costs: 0.5, 1.0
@@ -175,24 +219,23 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 % array([[ 0.77458316,  0.22541684],
 %        [ 0.64702551,  0.35297449]])
 
-\subsection{Word learning}
+\subsection{Statistical cross-situational word learning}
 
-\subsubsection{Statistical cross-situational word learning}
+A recent line of work in language acquisition has 
+% \begin{figure}[t]
+%   \centering
+%   \includegraphics[width=0.20\textwidth]{figures/cross-sit.pdf}
+%   \caption{Cross-situational simulation}
+%   \label{fig:cross-sit}
+% \end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.20\textwidth]{figures/cross-sit.pdf}
-  \caption{Cross-situational simulation}
-  \label{fig:cross-sit}
-\end{figure}
-
-\subsubsection{Disambiguation using known words}
+\subsection{Disambiguation using known words}
 
 % Novel word means: Familiar object: 25.5%. Novel object: 74.5%.
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
 % To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
 
-\begin{figure}
+\begin{figure}[t]
   \centering
   \includegraphics[width=0.20\textwidth]{figures/ME-1dax.pdf}
   \includegraphics[width=0.20\textwidth]{figures/ME-flat-10dog-10dax.pdf}
@@ -202,11 +245,11 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
   \label{fig:mutual-exclusivity}
 \end{figure}
 
-\subsection{Lexical learning in pragmatic contexts}
+\section{Experiments 2: Lexical learning in pragmatic contexts}
 
-\subsubsection{Emergence of communicative equilibria}
+\subsection{Emergence of communicative equilibria}
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.48\textwidth]{figures/emergence2x2-1.pdf}
 \includegraphics[width=0.48\textwidth]{figures/emergence2x2-3.pdf} \\
@@ -215,9 +258,9 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 \caption{\label{fig:emergence} Simulations....}
 \end{figure}
 
-\subsubsection{Lexicalization of Horn implicatures}
+\subsection{Lexicalization of Horn implicatures}
 
-\begin{figure}
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.48\textwidth]{figures/horn-emergence-0.pdf}
 \includegraphics[width=0.48\textwidth]{figures/horn-emergence-1.pdf}
@@ -260,7 +303,7 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 %        [ 0.02170542,  0.97829458]])
 
 
-\subsubsection{Lexicalization and preservation of scalar implicature}
+\subsection{Lexicalization and preservation of scalar implicature}
 
 
 \begin{figure}
