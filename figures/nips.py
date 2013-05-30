@@ -14,6 +14,11 @@ import matplotlib
 matplotlib.use("Cairo")
 matplotlib.rcParams["xtick.direction"] = "out"
 matplotlib.rcParams["ytick.direction"] = "out"
+matplotlib.rcParams["font.size"] = 24
+for tick in ["xtick", "ytick"]:
+    for size in ["major", "minor"]:
+        for attr in ["pad", "size"]:
+            matplotlib.rcParams["%s.%s.%s" % (tick, size, attr)] *= 2
 from matplotlib.pyplot import *
 import matplotlib.pyplot as plt
 
@@ -42,7 +47,7 @@ def show_lex_posterior(path, weights_particles, idx1, idx2,
             plt.ylabel("P(word %s means obj %s | data)" % idx2)
         else:
             plt.ylabel(ylabel)
-    savefig(path)
+    savefig(path, bbox_inches="tight")
     close(f)
 
 def simulate_dialogues(count, turns_per_dialogue, domain, lexicon_prior=None,
@@ -117,7 +122,7 @@ def show_dialogue(path, dialogue):
             sub_ax.set_yticks([])
     ax.set_zorder(10)
     ax.patch.set_alpha(0)
-    fig.savefig(path)
+    fig.savefig(path, bbox_inches="tight")
 
 def show_dialogues(base_path, dialogues, **kwargs):
     for i, dialogue in enumerate(dialogues):

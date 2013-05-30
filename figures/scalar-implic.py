@@ -1,15 +1,17 @@
 from nips import *
 
+f = open("scalar-implic.log", "w")
+
 # Demonstrating scalar implicature
 
 some_all_domain = dom(adjectives=2, objects=2)
 some_all_prior = [[10, 10], [1, 10]]
 dialogue = conpact2.Dialogue(some_all_domain, LISTENER_DEPTH, 0, PARTICLES, lexicon_prior=some_all_prior)
 
-print "How speaker refers to \"some\" and \"all\" objects:"
-print np.exp(dialogue.uncertain_s_dist())
-print "How listener interprets \"some\" and \"all\" words:"
-print np.exp(dialogue.uncertain_l_dist())
+f.write("How speaker refers to \"some\" and \"all\" objects:\n")
+f.write(repr(np.exp(dialogue.uncertain_s_dist())))
+f.write("\n\nHow listener interprets \"some\" and \"all\" words:\n")
+f.write(np.exp(dialogue.uncertain_l_dist()))
 
 # Learning scalar implicature
 

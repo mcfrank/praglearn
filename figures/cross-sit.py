@@ -41,10 +41,10 @@ for missing_obj in xrange(CS_OBJECTS):
                                              np.log(object_prior)))
 
 d = dom(adjectives=4, objects=3)
-learner = conpact2.FixedSupportImportanceSampler(d, 23, PARTICLES * 1,
+learner = conpact2.FixedSupportImportanceSampler(d, 23, PARTICLES * 100,
                                                  data=data_points * 10)
 matshow(np.exp(learner.marginal_dist_n(LISTENER_DEPTH)), cmap="binary",
         vmin=0, vmax=1)
 xlabel("Objects")
 ylabel("Words")
-gcf.savefig("cross-sit.pdf")
+gcf().savefig("cross-sit.pdf", bbox_inches="tight")

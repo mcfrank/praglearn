@@ -1,5 +1,7 @@
 from nips import *
 
+f = open("horn.log", "w")
+
 # Horn implicature alone
 
 # A trivial version of Leon's common/rare cheap/expensive domain
@@ -8,10 +10,10 @@ bgl_domain = dom(adjectives=2, objects=2,
                  default_object_prior=[0.8, 0.2])
 dialogue = conpact2.Dialogue(bgl_domain, LISTENER_DEPTH, 0, PARTICLES)
 
-print "How speaker refers to \"common\" and \"rare\" objects:"
-print np.exp(dialogue.uncertain_s_dist())
-print "How listener interprets \"cheap\" and \"expensive\" words:"
-print np.exp(dialogue.uncertain_l_dist())
+f.write("How speaker refers to \"common\" and \"rare\" objects:\n")
+f.write(repr(np.exp(dialogue.uncertain_s_dist())))
+f.write("\n\nHow listener interprets \"cheap\" and \"expensive\" words:\n")
+f.write(repr(np.exp(dialogue.uncertain_l_dist())))
 
 # Emergence + Horn implicature
 

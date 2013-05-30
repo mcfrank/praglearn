@@ -1,6 +1,14 @@
+# Our junk
 praglearn*.pdf
 
+# Python junk
+*.pyc
+
+# Emacs junk
+auto/
 *~
+
+# LaTeX junk
 *.aux
 *.glo
 *.idx
