@@ -29,6 +29,9 @@ Stanford, CA, USA \\
 \newcommand{\fix}{\marginpar{FIX}}
 \newcommand{\new}{\marginpar{NEW}}
 
+\newcommand{\word}{\text{word}}
+\newcommand{\obj}{\text{object}}
+
 % \nipsfinalcopy % Uncomment for camera-ready version
 
 \begin{document}
@@ -53,7 +56,46 @@ The goal of our current work is to investigate the possibilities for integrating
 
 \section{Models}
 
-Consider a simple communicative game: two participants
+Consider a simple communicative game: two participants each,
+separately, view identical arrays of objects. On the
+\textit{Speaker's} screen, one object is highlighted; their goal is to
+get the \textit{Listener} to click on this item. To do this, they have
+available a fixed, finite set of words; they must pick one. The
+Listener then receives this word, and attempts to guess which object
+the Speaker meant by it.
+
+This suggest a simple probabilistic model. Given any particular
+decision procedure used by the Speaker $S$, the optimal way for the
+Listener $L$ to judge the probability of each object is to invert this
+decision procedure using Bayes' rule, taking into account the prior
+likelihood of each object:
+\begin{align*}
+P_L(\obj | \word) &\propto P_S(\word | \obj) P_{\text{prior}}(\obj |
+\text{context})
+\end{align*}
+$S$, meanwhile, being herself a rational Bayesian agent, chooses her
+word so as to soft-maximize a utility function $U(\word | \obj)$. She
+gains utility if $L$ is likely to understand her; she loses utility if
+the word is particularly costly to say (e.g., it may be long).
+\begin{align*}
+P_S(\word | \obj) &\propto \exp \lambda U(\word | \obj) \\
+U(\word | \obj) &= \log P_L(\obj | \word) - \text{cost}(\word)
+\end{align*}
+The degree to which she optimizes this utility is controlled by the
+softmax parameter $\lambda$. If $\lambda = 1$ and all words cost the
+same, then her probability of producing a word will be proportional to
+the likelihood that it will cause $L$ to reach the correct
+interpretation; as $\lambda$ increases, she becomes more likely to
+choose the word which maximizes this likelihood. (We somewhat
+arbitrarily set $\lambda = 3$ throughout.)
+
+This model as stated is optimal by various criteria, but suffers from
+a fatal flaw: $S$'s decision procedure depends on $L$'s interpretive
+procedure, and vice-versa. This means that it can only be implemented
+as stated for a very spei
+
+And indeed, in similar games, humans seem to reason only a few levels
+deep (XX cite p-beauty contests), and
 
 Basic idea of iterated pragmatic reasoning models. $S_i$ defines a causal model for utterances described by a simple Bayes net. $L_{i+1}$ does standard rational inference over this network. But the likelihood function in $S_i$'s model is very complicated, and includes equations derived from considering how a hypothetical $L_{i-1}$ would interpret utterances if they were doing rational inference about another hypothetical causal agent $S_{i-2}$.
 
@@ -61,15 +103,11 @@ To simplify matters we envision a simple world that has $k$ words and $l$ object
 
 extensional as marginalization over intensional
 
-\newcommand{\word}{\text{word}}
-\newcommand{\obj}{\text{object}}
 \begin{align*}
 P_{L_0}(\obj | \word) &= \text{lexicon}(\word, \obj) P_{\text{prior}}(\obj | \text{context}). \\
 P_{S_i}(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_{i - 1}}(\obj | \word) - \text{cost}(\word)\big)\Big) \\
 P_{L_i}(\obj | \word) &\propto P_{S_{i-1}}(\word | \obj) P_{\text{prior}}(\obj | \text{context})
 \end{align*}
-
-For the rest of this paper we somewhat arbitrarily fix the softmax parameter to $\lambda = 3$.
 
 \subsection{Naive literal learner model}
 
