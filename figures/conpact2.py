@@ -125,7 +125,6 @@ from itertools import combinations_with_replacement
 from collections import OrderedDict
 import numpy as np
 from scipy.special import gammaln
-import pandas
 
 ################################################################
 # The model
@@ -799,6 +798,7 @@ def trace_length_dist(turn, dialogue, log_object_prior=None):
     linear_utt_dist = np.sum(np.exp(s_dist + log_object_prior[np.newaxis, :]),
                              axis=1)
     # Sum the probability mass over all same-length utterances
+    import pandas
     length_dist = (pandas.Series(linear_utt_dist)
                      .groupby(dialogue.domain.utt_lengths)
                        .aggregate(np.sum))
