@@ -269,6 +269,7 @@ class Domain(object):
         return U
 
     def dist_n(self, n, lexicon, log_object_prior=None):
+        assert n >= 0
         log_object_prior = self.log_object_prior(log_object_prior)
         if n % 2 == 0:
             # Listener

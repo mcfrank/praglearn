@@ -11,7 +11,7 @@ dialogue = conpact2.Dialogue(some_all_domain, LISTENER_DEPTH, 0, PARTICLES, lexi
 f.write("How speaker refers to \"some\" and \"all\" objects:\n")
 f.write(repr(np.exp(dialogue.uncertain_s_dist())))
 f.write("\n\nHow listener interprets \"some\" and \"all\" words:\n")
-f.write(np.exp(dialogue.uncertain_l_dist()))
+f.write(repr(np.exp(dialogue.uncertain_l_dist())))
 
 # Learning scalar implicature
 

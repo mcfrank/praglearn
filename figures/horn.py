@@ -14,6 +14,7 @@ f.write("How speaker refers to \"common\" and \"rare\" objects:\n")
 f.write(repr(np.exp(dialogue.uncertain_s_dist())))
 f.write("\n\nHow listener interprets \"cheap\" and \"expensive\" words:\n")
 f.write(repr(np.exp(dialogue.uncertain_l_dist())))
+f.write("\n\n")
 
 # Emergence + Horn implicature
 
@@ -27,5 +28,13 @@ f.write(repr(np.exp(dialogue.uncertain_l_dist())))
 # XX mention: Horn implicature can't survive as implicatures. And connect to
 # scalar implicature, which *can* survive.
 
-bgl_dialogues = simulate_dialogues(4, 20, bgl_domain)
+bgl_dialogues = simulate_dialogues(4, 10, bgl_domain)
 show_dialogues("horn-emergence-%i.pdf", bgl_dialogues)
+
+for i, dialogue in enumerate(bgl_dialogues):
+    f.write("Dialogue %s, after disabling implicature:\n" % (i,))
+    f.write("  How speaker refers to \"common\" and \"rare\" objects:\n")
+    f.write(repr(np.exp(dialogue.uncertain_s_dist(log_object_prior=np.log([0.5, 0.5])))))
+    f.write("\n  Listener's interpretation of \"cheap\" and \"expensive\" words:\n")
+    f.write(repr(np.exp(dialogue.uncertain_l_dist(log_object_prior=np.log([0.5, 0.5])))))
+    f.write("\n\n")
