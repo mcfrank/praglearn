@@ -16,6 +16,17 @@ f.write("\n\nHow listener interprets \"cheap\" and \"expensive\" words:\n")
 f.write(repr(np.exp(dialogue.uncertain_l_dist())))
 f.write("\n\n")
 
+DEEP = 20
+dialogue_deep = conpact2.Dialogue(bgl_domain, DEEP, 0, PARTICLES * 10)
+
+f.write("How %s-deep speaker refers to \"common\" and \"rare\" objects:\n"
+        % (DEEP + 1,))
+f.write(repr(np.exp(dialogue_deep.uncertain_s_dist())))
+f.write("\n\nHow %s-deep listener interprets \"cheap\" and \"expensive\" words:\n"
+        % (DEEP,))
+f.write(repr(np.exp(dialogue_deep.uncertain_l_dist())))
+f.write("\n\n")
+
 # Emergence + Horn implicature
 
 # XX mention: this is a very general result, can speculate about it as a

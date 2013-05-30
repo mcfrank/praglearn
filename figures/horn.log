@@ -1,0 +1,48 @@
+How speaker refers to "common" and "rare" objects:
+array([[ 0.897285  ,  0.46196392],
+       [ 0.102715  ,  0.53803608]])
+
+How listener interprets "cheap" and "expensive" words:
+array([[ 0.77458316,  0.22541684],
+       [ 0.64702551,  0.35297449]])
+
+How 21-deep speaker refers to "common" and "rare" objects:
+array([[ 0.95231034,  0.18999493],
+       [ 0.04768966,  0.81000507]])
+
+How 20-deep listener interprets "cheap" and "expensive" words:
+array([[ 0.8075909 ,  0.1924091 ],
+       [ 0.50549173,  0.49450827]])
+
+Dialogue 0, after disabling implicature:
+  How speaker refers to "common" and "rare" objects:
+array([[  9.99994203e-01,   1.71934097e-02],
+       [  5.79687883e-06,   9.82806590e-01]])
+  Listener's interpretation of "cheap" and "expensive" words:
+array([[ 0.84765063,  0.15234937],
+       [ 0.02451694,  0.97548306]])
+
+Dialogue 1, after disabling implicature:
+  How speaker refers to "common" and "rare" objects:
+array([[ 0.34523614,  0.99033549],
+       [ 0.65476386,  0.00966451]])
+  Listener's interpretation of "cheap" and "expensive" words:
+array([[ 0.63610084,  0.36389916],
+       [ 0.21333186,  0.78666814]])
+
+Dialogue 2, after disabling implicature:
+  How speaker refers to "common" and "rare" objects:
+array([[  9.99985008e-01,   2.16395403e-02],
+       [  1.49918931e-05,   9.78360460e-01]])
+  Listener's interpretation of "cheap" and "expensive" words:
+array([[ 0.83486332,  0.16513668],
+       [ 0.03421814,  0.96578186]])
+
+Dialogue 3, after disabling implicature:
+  How speaker refers to "common" and "rare" objects:
+array([[  9.99868275e-01,   3.05101758e-02],
+       [  1.31724937e-04,   9.69489824e-01]])
+  Listener's interpretation of "cheap" and "expensive" words:
+array([[ 0.83458161,  0.16541839],
+       [ 0.05814998,  0.94185002]])
+
