@@ -10,6 +10,8 @@ PARTICLES = 1000
 LISTENER_DEPTH = 2
 CONVERGENCE_FIG_WIDTH = 20
 
+TURN_XLABEL = "Dialogue turn"
+
 import matplotlib
 matplotlib.use("Cairo")
 matplotlib.rcParams["xtick.direction"] = "out"
@@ -81,7 +83,7 @@ def show_dialogue(path, dialogue):
     xlim(x[0], x[-1] + 1)
     ylim(0, 1)
     ax.set_yticks([0, 0.5, 1.0])
-    xlabel("Dialogue turn")
+    xlabel(TURN_XLABEL)
     ylabel("P(L understands S)")
     # These are in data coordinates
     IDEAL_BOX_WIDTH = 0.8

@@ -18,9 +18,6 @@ f.write("\n\n")
 
 # Emergence + Horn implicature
 
-# XX TODO: calculate some statistics on P(convergence to good system) by
-# running a few hundred dialogues
-#
 # XX mention: this is a very general result, can speculate about it as a
 # partial cause of things like common words being shorter, rise of useful
 # social conventions in general
@@ -28,7 +25,7 @@ f.write("\n\n")
 # XX mention: Horn implicature can't survive as implicatures. And connect to
 # scalar implicature, which *can* survive.
 
-bgl_dialogues = simulate_dialogues(4, 30, bgl_domain)
+bgl_dialogues = simulate_dialogues(4, 10, bgl_domain)
 show_dialogues("horn-emergence-%i.pdf", bgl_dialogues)
 
 for i, dialogue in enumerate(bgl_dialogues):

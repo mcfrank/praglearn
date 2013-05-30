@@ -41,7 +41,7 @@ for missing_obj in xrange(CS_OBJECTS):
                                              np.log(object_prior)))
 
 d = dom(adjectives=4, objects=3)
-learner = conpact2.FixedSupportImportanceSampler(d, 23, PARTICLES * 100,
+learner = conpact2.FixedSupportImportanceSampler(d, 23, PARTICLES * 1000,
                                                  data=data_points * 10)
 matshow(np.exp(learner.marginal_dist_n(LISTENER_DEPTH)), cmap="binary",
         vmin=0, vmax=1)
