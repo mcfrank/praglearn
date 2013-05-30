@@ -71,6 +71,8 @@ For the rest of this paper we somewhat arbitrarily fix the softmax parameter to 
 
 \subsection{Naive literal learner model}
 
+
+
 To see how
 Make $L_0$ uncertain about values in $\text{lexicon}(\word, \obj)$, impose a prior, and then
 
@@ -107,13 +109,58 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 
 \subsubsection{Scalar implicature}
 
+% Simulation parameters:
+%   prior on meaning of "some": dirichlet(10, 10)
+%   prior on meaning of "all": dirichlet(1, 10)
+%
+% How speaker refers to "some" and "all" objects:
+% array([[  9.99951162e-01,   2.87541198e-03],
+%        [  4.88378335e-05,   9.97124588e-01]])
+%
+% How listener interprets "some" and "all" words:
+% array([[ 0.86214895,  0.13785105],
+%        [ 0.03151434,  0.96848566]])
+
 \subsubsection{Horn implicature}
+
+% Simulation parameters:
+%   word costs: 0.5, 1.0
+%   object prior: 0.8, 0.2
+%
+% How speaker refers to "common" and "rare" objects:
+% array([[ 0.88491473,  0.53858973],
+%        [ 0.11508527,  0.46141027]])
+%
+% How listener interprets "cheap" and "expensive" words:
+% array([[ 0.77458316,  0.22541684],
+%        [ 0.64702551,  0.35297449]])
 
 \subsection{Word learning}
 
 \subsubsection{Statistical cross-situational word learning}
 
+\begin{figure}
+  \centering
+  \includegraphics[width=0.20\textwidth]{figures/cross-sit.pdf}
+  \caption{Cross-situational simulation}
+  \label{fig:cross-sit}
+\end{figure}
+
 \subsubsection{Disambiguation using known words}
+
+% Novel word means: Familiar object: 25.5%. Novel object: 74.5%.
+% To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
+% To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.20\textwidth]{figures/ME-1dax.pdf}
+  \includegraphics[width=0.20\textwidth]{figures/ME-flat-10dog-10dax.pdf}
+  \includegraphics[width=0.20\textwidth]{figures/ME-antisparse-10dog-10dax.pdf}
+  \includegraphics[width=0.20\textwidth]{figures/ME-sparse-10dog-10dax.pdf}
+  \caption{Mutual exclusivity simulation}
+  \label{fig:mutual-exclusivity}
+\end{figure}
 
 \subsection{Lexical learning in pragmatic contexts}
 
@@ -128,7 +175,6 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 \caption{\label{fig:emergence} Simulations....}
 \end{figure}
 
-
 \subsubsection{Lexicalization of Horn implicatures}
 
 \begin{figure}
@@ -138,8 +184,43 @@ Communicative equilibria & \cite{galantucci2007} & & & & \\
 \caption{\label{fig:horn} Simulations.}
 \end{figure}
 
+% To show that they're lexicalized, at end of each of 4 dialogues, we
+% look at how speaker and listener talk about/interpret the objects/words:
+%
+% Dialogue 0, after disabling implicature:
+%   How speaker refers to "common" and "rare" objects:
+% array([[  9.99994601e-01,   1.67862018e-02],
+%        [  5.39888463e-06,   9.83213798e-01]])
+%   Listener's interpretation of "cheap" and "expensive" words:
+% array([[ 0.84765063,  0.15234937],
+%        [ 0.02451694,  0.97548306]])
 
-\subsubsection{Lexicaliation and preservation of scalar implicature}
+% Dialogue 1, after disabling implicature:
+%   How speaker refers to "common" and "rare" objects:
+% array([[  9.99997339e-01,   1.04639034e-02],
+%        [  2.66058112e-06,   9.89536097e-01]])
+%   Listener's interpretation of "cheap" and "expensive" words:
+% array([[ 0.86951534,  0.13048466],
+%        [ 0.01986478,  0.98013522]])
+
+% Dialogue 2, after disabling implicature:
+%   How speaker refers to "common" and "rare" objects:
+% array([[  9.99984637e-01,   2.19135388e-02],
+%        [  1.53629560e-05,   9.78086461e-01]])
+%   Listener's interpretation of "cheap" and "expensive" words:
+% array([[ 0.83486332,  0.16513668],
+%        [ 0.03421814,  0.96578186]])
+
+% Dialogue 3, after disabling implicature:
+%   How speaker refers to "common" and "rare" objects:
+% array([[  9.99996148e-01,   1.92821280e-02],
+%        [  3.85172462e-06,   9.80717872e-01]])
+%   Listener's interpretation of "cheap" and "expensive" words:
+% array([[ 0.83985034,  0.16014966],
+%        [ 0.02170542,  0.97829458]])
+
+
+\subsubsection{Lexicalization and preservation of scalar implicature}
 
 
 \begin{figure}

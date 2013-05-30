@@ -51,7 +51,9 @@ def show_lex_posterior(path, weights_particles, idx1, idx2,
     close(f)
 
 def simulate_dialogues(count, turns_per_dialogue, domain, lexicon_prior=None,
-                       listener_depth=LISTENER_DEPTH, particle_seed_base=0, particle_count=PARTICLES):
+                       listener_depth=LISTENER_DEPTH,
+                       particle_seed_base=0, particle_count=PARTICLES):
+    listener_speaker_depth = listener_depth - 1
     dialogues = []
     for i in xrange(count):
         r = np.random.RandomState(i)
@@ -64,12 +66,10 @@ def simulate_dialogues(count, turns_per_dialogue, domain, lexicon_prior=None,
             obj, utt, interp, backchannel = dialogue.sample_obj_utt_interp_backchannel(r)
             # Speaker observes listener's interpretation; listener observe speaker's intended meaning
             s_datum = conpact2.SDataInterp(listener_depth, utt, interp)
-            l_datum = conpact2.LDataUttWithMeaning(listener_depth - 1, utt, obj)
+            l_datum = conpact2.LDataUttWithMeaning(listener_speaker_depth,
+                                                   utt, obj)
             dialogue.new_data([s_datum], [l_datum])
     return dialogues
-
-# XX graphs: write "speaker model of listener", "listener model of listener"
-# directly on the graphs somewhere? Where?
 
 def show_dialogue(path, dialogue):
     fig = figure(figsize=(CONVERGENCE_FIG_WIDTH, CONVERGENCE_FIG_WIDTH / 4.0))
