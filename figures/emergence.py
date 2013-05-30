@@ -2,9 +2,6 @@ from nips import *
 
 # Galantucci emergence
 
-# XX TODO: calculate some statistics on P(convergence) by running a few
-# hundred dialogues
-#
 # XX mention: speaker model of listener being a bit noisy is fine, because
 # speaker does an extra layer of pragmatic recursion to clean things up (which
 # is why accuracy is so high even when speaker model is noiser than listener
@@ -19,5 +16,5 @@ dialogues = simulate_dialogues(4, 10, d)
 show_dialogues("emergence2x2-%i.pdf", dialogues)
 
 d = dom(adjectives=3, objects=3)
-dialogues = simulate_dialogues(4, 30, d, particle_count=PARTICLES * 10)
+dialogues = simulate_dialogues(4, 20, d, particle_count=PARTICLES * 10)
 show_dialogues("emergence3x3-%i.pdf", dialogues)

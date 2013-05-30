@@ -98,11 +98,27 @@ def extract_P_understood(pattern, turn):
         return traces["P-understood"][turn]
     return list(extract(pattern, f))
 
+epsilon = 10 ** -2
+
+def gt(x, y):
+    return (x - y) > epsilon
+def lt(x, y):
+    return gt(y, x)
+
 def extract_horn_success(pattern, turn):
     def f(traces):
         S = traces["horn-S-lexicalization"][turn]
-        S_success = S[0, 0] > S[1, 0] and S[0, 1] < S[1, 1]
+        S_success = gt(S[0, 0], S[1, 0]) and lt(S[0, 1], S[1, 1])
         L = traces["horn-L-lexicalization"][turn]
-        L_success = L[0, 0] > L[0, 1] and L[1, 0] < L[1, 1]
+        L_success = gt(L[0, 0], L[0, 1]) and lt(L[1, 0], L[1, 1])
         return S_success and L_success
+    return list(extract(pattern, f))
+
+def extract_horn_antisuccess(pattern, turn):
+    def f(traces):
+        S = traces["horn-S-lexicalization"][turn]
+        S_antisuccess = lt(S[0, 0], S[1, 0]) and gt(S[0, 1], S[1, 1])
+        L = traces["horn-L-lexicalization"][turn]
+        L_antisuccess = lt(L[0, 0], L[0, 1]) and gt(L[1, 0], L[1, 1])
+        return S_antisuccess and L_antisuccess
     return list(extract(pattern, f))
