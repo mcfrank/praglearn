@@ -19,5 +19,5 @@ dialogues = simulate_dialogues(4, 10, d)
 show_dialogues("emergence2x2-%i.pdf", dialogues)
 
 d = dom(adjectives=3, objects=3)
-dialogues = simulate_dialogues(4, 10, d, particle_count=PARTICLES * 10)
+dialogues = simulate_dialogues(4, 30, d, particle_count=PARTICLES * 10)
 show_dialogues("emergence3x3-%i.pdf", dialogues)

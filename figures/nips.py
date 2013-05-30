@@ -52,16 +52,8 @@ def show_lex_posterior(path, weights_particles, idx1, idx2,
 
 def simulate_dialogues(count, turns_per_dialogue, domain, lexicon_prior=None,
                        listener_depth=LISTENER_DEPTH,
-                       listener_speaker_depth=None,
                        particle_seed_base=0, particle_count=PARTICLES):
-    # The listener always models their evidence as coming from the speaker
-    # just below them, so this should normally be None. The only reason this
-    # argument exists is for the hack in non-emergence.py where we want to
-    # model the speaker just sampling from the lexicon and the listener
-    # likewise, and to do that we set it up so that S1 and S-1 are
-    # equivalent, and then L0 learns from S1.
-    if listener_speaker_depth is None:
-        listener_speaker_depth = listener_depth - 1
+    listener_speaker_depth = listener_depth - 1
     dialogues = []
     for i in xrange(count):
         r = np.random.RandomState(i)

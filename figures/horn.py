@@ -28,7 +28,7 @@ f.write("\n\n")
 # XX mention: Horn implicature can't survive as implicatures. And connect to
 # scalar implicature, which *can* survive.
 
-bgl_dialogues = simulate_dialogues(4, 10, bgl_domain)
+bgl_dialogues = simulate_dialogues(4, 30, bgl_domain)
 show_dialogues("horn-emergence-%i.pdf", bgl_dialogues)
 
 for i, dialogue in enumerate(bgl_dialogues):

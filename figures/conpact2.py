@@ -1,6 +1,3 @@
-# SNAPSHOT of the conpact2.py model code used for NIPS 2013 submission
-# See pragmods repository for the "official" version
-
 # Second attempt to model conceptual pacts via bayesian pragmatics.
 
 # We imagine a scenario in which a speaker describes an object using a
@@ -40,7 +37,7 @@
 # and they do a softmax from the resulting marginalized distribution.
 #
 # Both speaker and listener use a dirichlet prior on each word's meaning, the
-# vector lex[obj, :]. However, they have different conditioning data. For
+# vector lex[word, :]. However, they have different conditioning data. For
 # listeners, conditioning data might include:
 #   -- that certain utterances were produced (this is informative because it
 #      suggests that those utterances are distinctive)
@@ -245,6 +242,46 @@ class Domain(object):
         logZ = np.logaddexp.reduce(logP_L, axis=1)
         logP_L -= logZ[:, np.newaxis]
         return logP_L
+
+    def S_minus_one(self, lexicon):
+        # 'lexicon' is an L0 lexicon. Figure out the corresponding P(word|obj)
+        # for a speaker that would lead to this effective lexicon if L_0 were
+        # doing rational inference over S_{-1}.
+        # This sub-lexicon is an unknown matrix, that satisfied two
+        # constraints:
+        # - each column sums to 1
+        # - each entry, divided by its row's sum, equals the corresponding
+        #   entry in the lexicon
+        #   - which means, that lex entry times the row's sum equals the
+        #     sublex entry, so this is a linear constraint.
+        # We unravel sublex into a vector and solve for it.
+        # There are 'objects' constraints of the first kind, and 'objects x
+        # adjectives' constraints of the second kind. (Yes, this means some of
+        # them are redundant. Whatever.)
+        A = np.empty((self.objects + (self.adjectives * self.objects),
+                      self.adjectives * self.objects))
+        b = np.empty(self.objects + (self.adjectives * self.objects))
+        constraint_i = 0
+        for j in xrange(self.objects):
+            # Each column sums to 1
+            constraint = np.zeros((self.adjectives, self.objects))
+            constraint[:, j] = 1
+            A[constraint_i, :] = constraint.ravel()
+            b[constraint_i] = 1
+            constraint_i += 1
+        for i in xrange(self.adjectives):
+            for j in xrange(self.objects):
+                constraint = np.zeros((self.adjectives, self.objects))
+                # sublex[i, j] = lexicon[i, j] * sum(sublex[i, :])
+                # sublex[i, j] - lexicon[i, j] * sum(sublex[i, :]) = 0
+                constraint[i, j] = 1
+                constraint[i, :] -= lexicon[i, j]
+                A[constraint_i, :] = constraint.ravel()
+                b[constraint_i] = 0
+                constraint_i += 1
+        sublex = np.dot(np.linalg.pinv(A), b).reshape(lexicon.shape)
+        import pdb; pdb.set_trace()
+        return np.log(sublex)
 
     def L(self, logP_S, log_object_prior=None):
         # logP_S is P(utt|obj, ...) as an (utt, object) matrix
@@ -649,7 +686,8 @@ class Dialogue(object):
         return s.marginal_dist_n(self.listener, log_object_prior)
 
     def uncertain_s_dist(self, log_object_prior=None):
-        subjective_l_dist = self.uncertain_l_dist(log_object_prior)
+        s = self.speaker_sampler
+        subjective_l_dist = s.marginal_dist_n(self.listener, log_object_prior)
         return self.domain.S(subjective_l_dist)
 
     def new_data(self, speaker_data, listener_data):
