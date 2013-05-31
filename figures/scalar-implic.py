@@ -30,8 +30,7 @@ some_for_partial_alone = conpact2.LDataUttWithMeaning(LISTENER_DEPTH - 1, 0, 0, 
 
 def show_scalar_posterior(path, listener):
     show_lex_posterior(path, listener.weighted_lexicons(), (0, 0), (1, 0),
-                       xlabel="P(Some means partial, not full)",
-                       ylabel="P(All means partial, not full)")
+                       xlabel="", ylabel="")
 
 # Only pragmatically strengthened examples:
 
