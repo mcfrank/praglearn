@@ -7,7 +7,7 @@
 \usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
-\title{Learning communication systems through recursive pragmatic
+\title{Learning to communicate using recursive pragmatic
   reasoning about other agents}
 % \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
@@ -51,11 +51,14 @@ Stanford, CA, USA \\
 \begin{abstract}
   Language users are remarkably good at making inferences about
   speakers' intentions in context, and children learning their native
-  language also display substantial pragmatic skill in acquiring the
-  meanings of unknown words. While pragmatic inference and word
-  learning have both been characterized in probabilistic terms, no
-  current models make appropriate inferences about the meanings of
-  words in pragmatically-rich inferential contexts. We describe a
+  language also display substantial skill in acquiring the
+  meanings of unknown words. These two cases are deeply related:
+  Language users invent new terms in conversation, and language
+  learners learn the literal meanings of words based on their
+  pragmatic inferences about how those words are used. 
+ While pragmatic inference and word
+  learning have both been independently characterized in probabilistic
+  terms, no current work unifies these two. We describe a
   model in which language learners assume that they jointly
   approximate a shared, external lexicon and reason recursively about
   the goals of others in using this lexicon. This model captures
@@ -68,14 +71,15 @@ Stanford, CA, USA \\
 \section{Introduction}
 
 Natural language is a powerful tool for conveying meaning in
-context. Our utterances are pervasively underspecified. Consider
+context. Consider
 ``it's raining,'' ``I ate some of the cookies,'' or ``can you close
 the window?'' In each, a listener must go beyond the literal meaning
 of the words to fill in contextual details (``it's raining here and
 now''), infer that a stronger alternative is not true (``I ate some
 but not all of the cookies''), or more generally infer the speaker's
 communicative goal (``I want you to close the window right now because
-I'm cold''), a process known as \textit{pragmatic reasoning}.
+I'm cold''), a process known as \textit{pragmatic reasoning}. 
+This kind of pragmatic reasoning is core to language use, 
 
 Following this intuition, theories of pragmatic communication frame
 the process of language comprehension as inference about the
@@ -158,7 +162,7 @@ consider a simple model of the agents in the above game. First we
 define a \textit{literal listener} $L_0$. This agent has a
 \textit{lexicon} which probabilistically maps words to meanings;
 specifically, it assigns each word $w$ a vector describing the extent
-to which this word provides evidence for each possible object\footnote{We
+to which this word provides evidence for each possible object.\footnote{We
   assume words refer directly to objects, rather than to abstract
   semantic features. Our simplification is without loss of
   generalization, however, because we can interpret our model as
@@ -362,7 +366,7 @@ Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
 Disambiguation without mapping & \cite{horst2008} &  & & & x \\
 Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
 Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
-Lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
+Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 \hline
 \end{tabular}
 \end{center}
@@ -384,6 +388,8 @@ Lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 
 
 \subsection{Specificity implicature}
+
+\label{sec:spec}
 
 Many sets of words in natural language form scales in which each term
 refers to successively stronger restrictions on the situations
@@ -419,20 +425,22 @@ scalar implicature as a matrix $\left[
   rational listener will place on ``some'' as well. To simulate this
   situation, we place a Dirichlet(10, 10) prior on the meaning of
   \textit{some} and a Dirichlet(1, 10) prior on the meaning of
-  \textit{all}, and find this gives speaker use probabilities of
+  \textit{all}, giving speaker probabilities of
   $\left[
     \begin{array}{cc}
       1.00 & 0.00 \\
       0.00 & 1.00
     \end{array}
   \right]$
-and listener interpretation probabilities of
+and listener probabilities of
 $\left[
     \begin{array}{cc}
       .86 & .14 \\
       .03 & .97
     \end{array}
-  \right]$.
+  \right]$. These revised interpretation probabilities minimize
+  ambiguity (with weight concentrated on the diagonal), capturing the specificity implicature.
+  
 
 % Simulation parameters:
 %   prior on meaning of "some": dirichlet(10, 10)
@@ -597,7 +605,7 @@ on disambiguation situations \cite{bion2012}).
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
 % To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
 
-\subsection{Lexicalization and preservation of specificity implicature}
+\subsection{Preservation of specificity implicatures}
 \label{sec:learning-specificity-implic}
 
 % \begin{SCfigure}[1]
@@ -611,27 +619,79 @@ on disambiguation situations \cite{bion2012}).
 
 The acquisition of scalar adjectives like ``some'' provides a puzzle
 for most models of word learning: given that in many contexts, the
-word ``some'' is used to mean \textsc{some but not all}, how do
-children learn that {\sc some but not all} is not in fact its literal meaning? Our model
+word ``some'' is used to mean \textsc{some-but-not-all}, how do
+children learn that {\sc some-but-not-all} is not in fact its literal meaning? Our model
 is able to take specificity implicatures into account when learning,
-and thus provide a potential solution. 
+and thus provide a potential solution, congruent with the observation
+that no known language in fact lexicalizes {\sc some-but-not-all}.
 
-Imagine two bowls: one
-containing a mixture of apples and oranges, the other containing
-apples alone. After encountering the words ``some'' and ``all'' used contrastively
-to refer to these two bowls (as in e.g.\ ``the bowl with some
-apples''), a learner under our model believes that at least one of these words must have a
-restrictive literal meaning, but not both---it leaves open the
-possibility that either ``some'' or ``all'' might be literally
-ambiguous. But if examples of ``some'' are given that refer to exactly
-the same object in contexts where this is the only object
-available, so there is no contrast and thus no implicature; this
-convinces the model that ``all apple'' literally refers only to the
-bowl that contains no oranges, while ``some'' most likely is somewhat
-ambiguous. Crucially, the model is able to learn this without once
-ever observing ``some'' used
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\textwidth]{figures/emergence-composite.pdf}
+% \includegraphics[width=0.48\textwidth]{figures/emergence2x2-1.pdf}
+% \includegraphics[width=0.48\textwidth]{figures/emergence2x2-3.pdf} \\
+% \includegraphics[width=0.48\textwidth]{figures/emergence3x3-0.pdf}
+% \includegraphics[width=0.48\textwidth]{figures/emergence3x3-1.pdf} \\
+\caption{\label{fig:emergence} Simulations of two pragmatic agents
+  playing a naming game. Each panel shows two representative
+  simulation runs, with run 1 chosen to show strong convergence and
+  run 2 chosen to show relatively weaker convergence. At each stage,
+  $S$ and $L$ have different, possibly contradictory posteriors over
+  the conventional, consensus lexicon. From these posteriors we derive
+  the probability $P(\text{$L$ understands $S$})$ (marginalizing over
+  target objects and word choices), and also depict graphically $S$'s
+  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$,
+  and $L$'s actual model, $P_{L_n}(\obj | \word, \text{$L$'s
+    data})$. }
+\end{figure}
+
+Following the details of \S\ref{sec:spec}, we created a simulation in
+which the meaning of ``all'' was fixed to be a particular set {\sc
+  all}, and where the learner must infer the meaning of ``some,''
+distinguishing two possible meanings: {\sc some-but-not-all}
+(unambiguous, 
+pragmatically strengthened) or
+{\sc some-but-not-all or all} (ambiguous). Training exposure in the
+simulation consisted of situations in which ``some'' was pragmatically
+strengthened to refer to {\sc some-but-not-all}. Despite this
+unambiguous training, the model maintained substantial
+posterior probability on the correct (ambiguous) hypothesis about the
+meaning of ``some.'' In each
+situation, the model essentially reasoned that although the evidence
+was unambiguous, it could have been produced by an implicature and
+hence should be discounted. Thus, a pragmatically-informed learner
+might both be able to maintain the true meaning of {\sc some} and
+interpret it correctly as denoting {\sc some-but-not-all} in
+appropriate contexts. 
+
+
+% Exposure to these
+% situations does not result in mapping of ``some'' to {\sc
+%   some-but-not-all}, despite the evidence that 
+% Imagine two bowls: one
+% containing a mixture of apples and oranges, the other containing
+% apples alone. After encountering the words ``some'' and ``all'' used contrastively
+% to refer to these two bowls (as in e.g.\ ``the bowl with some
+% apples''), a learner under our model believes that at least one of these words must have a
+% restrictive literal meaning, but not both---it leaves open the
+% possibility that either ``some'' or ``all'' might be literally
+% ambiguous. But if examples of ``some'' are given that refer to exactly
+% the same object in contexts where this is the only object
+% available, so there is no contrast and thus no implicature; this
+% convinces the model that ``all apple'' literally refers only to the
+% bowl that contains no oranges, while ``some'' most likely is somewhat
+% ambiguous. Crucially, the model is able to learn this without once
+% ever observing ``some'' used
+
+% s1: reasonable chance that ``some'' literally refers to only one, but
+% maybe ``some'' refers to both. so you can learn ambiguity even with
+% unambiguous evidence. 
+
+% s2: 
 
 \section{Mutual learning situations}
+
 
 \subsection{Emergence of efficient communicative conventions}
 
@@ -662,25 +722,6 @@ behavior should not change over time.
 % such feedback is removed, the phenomenon is dramatically reduced (XX
 % krauss 1966, branigan catchpole pickering 2011).
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.98\textwidth]{figures/emergence-composite.pdf}
-% \includegraphics[width=0.48\textwidth]{figures/emergence2x2-1.pdf}
-% \includegraphics[width=0.48\textwidth]{figures/emergence2x2-3.pdf} \\
-% \includegraphics[width=0.48\textwidth]{figures/emergence3x3-0.pdf}
-% \includegraphics[width=0.48\textwidth]{figures/emergence3x3-1.pdf} \\
-\caption{\label{fig:emergence} Simulations of two pragmatic agents
-  playing a naming game. Each panel shows two representative
-  simulation runs, with run 1 chosen to show strong convergence and
-  run 2 chosen to show relatively weaker convergence. At each stage,
-  $S$ and $L$ have different, possibly contradictory posteriors over
-  the conventional, consensus lexicon. From these posteriors we derive
-  the probability $P(\text{$L$ understands $S$})$ (marginalizing over
-  target objects and word choices), and also depict graphically $S$'s
-  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$,
-  and $L$'s actual model, $P_{L_n}(\obj | \word, \text{$L$'s
-    data})$. }
-\end{figure}
 
 To model such phenomena, we imagine two agents playing the simple
 referential game introduced above. On each turn the speaker is
