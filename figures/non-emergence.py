@@ -51,11 +51,13 @@ def simulate_non_pragmatic(r, turns, prior=None):
     for i in xrange(turns):
         for S_alpha, L_alpha in [(a1_alpha, a2_alpha),
                                  (a2_alpha, a1_alpha)]:
-        target = r.randint(SIZE)
-        S_dist = marginal_S_dist(speaker_posterior)
-        L_dist = marginal_S_dist(listener_posterior)
-        L_dist -= np.logaddexp.reduce(L_dist, axis=1)[:, np.newaxis]
+            S_dist = marginal_S_dist(S_alpha)
+            L_dist = L_dist_for(marginal_S_dist(L_alpha))
+            target = r.randint(SIZE)
+            word = conpact2.weighted_choice(r, np.exp(S_dist[:, target]))
+            L_alpha[word, target] += 1
 
+            P_understood =
 
     # Want out:
     #   P(understood)
