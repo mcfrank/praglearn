@@ -12,19 +12,19 @@
 % : The blessing of social anxiety - not a huge fan of colon titles
 
 \author{
-Nathaniel Smith\thanks{...} \\
+Nathaniel J.~Smith\thanks{...} \\
 School of Informatics\\
 University of Edinburgh\\
 Edinburgh, Scotland, UK\\
 \texttt{nathaniel.smith@ed.ac.uk} \\
 \AND
-Noah D. Goodman \\
+Noah D.~Goodman \\
 Department of Psychology\\
 Stanford University \\
 Stanford, CA, USA \\
 \texttt{ngoodman@stanford.edu} \\
 \And
-Michael C. Frank \\
+Michael C.~Frank \\
 Department of Psychology \\
 Stanford University \\
 Stanford, CA, USA \\
@@ -36,7 +36,9 @@ Stanford, CA, USA \\
 \newcommand{\word}{\text{word}}
 \newcommand{\obj}{\text{object}}
 \newcommand{\lex}{\text{lexicon}}
-\newcommand{\prior}{P_{\text{prior}}(\obj | \text{context})}
+%\newcommand{\prior}{P_{\text{prior}}(\obj | \text{context})}
+\newcommand{\prior}{P_{\text{prior}}(\obj)}
+
 
 % \nipsfinalcopy % Uncomment for camera-ready version
 
@@ -183,19 +185,22 @@ Multi-agent interactions are difficult to model in a normative or
 optimal framework without falling prey to paradox. For example,
 consider a simple model of the agents in the above game. First we
 define a \textit{literal listener} $L_0$. This agent has a
-\textit{lexicon} which probabilistically maps words to meanings;
-specifically, it assigns each word $w$ a vector describing the extent
-to which this word provides evidence for each possible object.\footnote{We
+\textit{lexicon} of associations between words and meanings;
+specifically, it assigns each word $w$ a vector of numbers in $(0, 1)$ describing the extent
+to which this word provides evidence for each possible object\footnote{We
   assume words refer directly to objects, rather than to abstract
   semantic features. Our simplification is without loss of
   generalization, however, because we can interpret our model as
   marginalizing over such a representation, with our literal
   $P_\lex(\obj | \word) = \sum_\text{features} P(\obj |
-  \text{features}) P_\lex(\text{features} | \word)$.} Each entry in
-the vector is in $(0, 1)$, and together they sum to 1:
+  \text{features}) P_\lex(\text{features} | \word)$.}.%
+If we assume the listener simply re-weights their prior expectation   
+about what is referred to using their lexicon:
 \begin{align*}
 P_{L_0}(\obj | \word, \lex) &\propto \lex(\word, \obj) \times \prior.
 \end{align*}
+Because of the normalization in this equation, there is a systematic but unimportant symmetry among lexicons; we 
+remove this by assuming the lexicon sums to $1$ over objects for each word.
 Confronted with such a listener, a probabilistically rational speaker
 should attempt to choose a word which soft-maximizes the probability
 that the listener will assign to the target object---modulated by the
@@ -214,19 +219,19 @@ longer optimal for speakers to implement strategy $S_1$; instead, they
 should implement strategy $S_3$ which soft-maximizes $P_{L_2}$ instead
 of $P_{L_0}$. And then listeners ought to implement $L_4$, and so on.
 
-One computationally expensive option is to continue iterating such
+One option is to continue iterating such
 strategies until reaching a fixed point equilibrium. While this
 strategy guarantees that each agent will behave normatively given the
 other agent's strategy, there is no guarantee that such strategies
-will be near the system's global optimum; equilibrium strategies make
-up only a small subspace of all possible strategies. Nor is there much
-evidence the humans find such equilibria; their behavior in language
+will be near the system's global optimum. More importantly, there is a
+great deal of
+evidence that humans do not use such equilibrium strategies; their behavior in language
 games (and in other games \cite{camerer2004}) can be well-modeled as
 implementing $S_n$ or $L_n$ for some small $n$
 \cite{frank2012}. Following this work, we recurse a finite (small)
 number of times. The consequence is that one agent, implementing
 $S_n$, is fully optimal with respect to the game, while the other,
-implementing $L_{n-1}$, is nearly optimal---off by only a single
+implementing $L_{n-1}$, is only nearly optimal---off by a single
 recursion.
 
 As soon as we attempt to add uncertainty about the meanings of words
@@ -267,7 +272,7 @@ therefore not be trying to infer the speaker's lexicon.\footnote{Of
 % nothing for the listener to learn from the speaker's
 % behavior.
 
-To add insult to injury, one final problem is that there is nothing
+One final problem is that there is nothing
 constraining speaker and listener to use the same language under this
 model. In principle, so long as the listener has a good model of the
 speaker, and the speaker has a good model of the listener, then
@@ -308,36 +313,50 @@ avoids the explosion of hyper$^n$-distributions described above: If
 agent $n$ knows the lexicon, they assume that all lower agents do as
 well, reducing to the original tractable model without
 uncertainty. And assumption (c) introduces a limited form of
-uncertainty, and thus the potential for learning.
+uncertainty at the top level, and thus the potential for learning.
 % Everything else follows by applying standard Bayesian reasoning
 % given these assumptions.
 
-Formally, let an unadorned $L$ and $S$ denote our socially-anxious
-listener and speaker. $L$ inverts their marginal distribution over the
-speaker; $S$ soft-maximizes their marginal distribution over the
-listener. With $L_i$ and $S_i$ as above, this gives:
+Formally, let an unadorned $L$ and $S$ denote our convention-based
+listener and speaker. By assumption (c), the top-level listener has uncertainty over the lexicon; if the lexicon were known they would draw inferences as in $L_n$ above:
+%\begin{align*}
+%  P_L(\obj | \word) &= P_{S_{n-1}}(\word | \obj, \text{$L$'s data}) \times \prior \\
+%    &= \sum_\lex P_{S_{n-1}}(\word | \obj, \lex) \times P(\lex | \text{$L$'s data}) \times \prior. \\
+%    &= P_{L_n}(\obj | \word, \text{$L$'s data}). \\
+%  P_S(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_n}(\obj | \word, \text{$S$'s data}) - \text{cost}(\word)\big)\Big).
+%\end{align*}
+%
 \begin{align*}
-  P_L(\obj | \word) &= P_{S_{n-1}}(\word | \obj, \text{$L$'s data}) \times \prior \\
-    &= \sum_\lex P_{S_{n-1}}(\word | \obj, \lex) \times P(\lex | \text{$L$'s data}) \times \prior \\
-    &= P_{L_n}(\obj | \word, \text{$L$'s data}). \\
-  P_S(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_n}(\obj | \word, \text{$S$'s data}) - \text{cost}(\word)\big)\Big).
+  P_L(\obj | \word, \text{$L$'s data}) &=  \sum_\lex P_{L_n}(\obj | \word, \lex) P(\lex | \text{$L$'s data}) \\
 \end{align*}
 Here $L$'s data consists of $S$'s utterances together with whatever
 other information $L$ may have about their meaning (e.g.~from
-contextual clues). By assumption (b), $L$ treats these as utterances
+contextual clues). 
+By assumption (b), $L$ treats these  utterances
 as samples from the knowledgeable speaker $S_{n-1}$, not $S$, and thus
-as being informative about the lexicon. Similarly, $S$ may observe
-$L$'s interpretations of various utterances, and will treat these as
+as being informative about the lexicon. For instance, when the data is a set of fully observed 
+word-referent pairs $\{w_i, o_i\}$:
+\begin{align*}
+  P(\lex | \text{$L$'s data}) \propto P(\lex) \prod_i P_{S_{n-1}}(w_i|o_i,  \lex)
+\end{align*}
+The top-level speaker attempts to select the word which soft-maximizes their utility, with utility now being defined in terms of the informativity of the expectation (over lexicons) that the listener will have for at the right referent\footnote{An alternative model would have the speaker take the expectation over informativity, instead of the informativity of the expectation.}:
+\begin{align*}
+  P_S(\word | \obj, \text{$S$'s data}) &\propto \exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
+\end{align*}
+Here $P(\lex|\text{$S$'s data}$ is defined similarly, when $S$ observes
+$L$'s interpretations of various utterances, and treats them as
 samples from $L_n$, not $L$.
 
-In several important cases, these assumptions are as close to rational
-as possible within the finite-recursion framework. If $L_n(\obj |
-\word, \text{$S$'s data})$ and $L_n(\obj | \word, \text{$L$'s data})$
-coincide, then $S$ is fully normative and $L$ is off by only a single
-recursion. This case in particular includes all previous experiments
-using this pragmatic reasoning framework, which considered only
-single-turn interactions where $\text{$L$'s data} = \text{$S$'s data}
-= \emptyset$. Alternatively, if one agent has enough data that their
+%In several important cases, these assumptions are as close to rational
+%as possible within the finite-recursion framework. If $L_n(\obj |
+%\word, \text{$S$'s data})$ and $L_n(\obj | \word, \text{$L$'s data})$
+%coincide, then $S$ is fully normative and $L$ is off by only a single
+%recursion. This case in particular includes all previous experiments
+%using this pragmatic reasoning framework, which considered only
+%single-turn interactions where $\text{$L$'s data} = \text{$S$'s data}
+%= \emptyset$. 
+
+If the speaker has enough data that their
 uncertainty is effectively non-existent, then it becomes normative for
 their partner to treat them as being fully knowledgeable, and this is
 a reasonable description of the child language learning case. In

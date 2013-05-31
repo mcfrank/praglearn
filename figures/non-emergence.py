@@ -24,26 +24,37 @@ def DM_dist(alpha):
     dist -= np.logaddexp.reduce(dist)
     return dist
 
-def marginal_S_dist(posterior):
+def marginal_S_dist(alpha):
     dist = np.empty((SIZE, SIZE))
     for obj in xrange(SIZE):
-        dist[:, obj] = DM_dist(posterior[:, obj])
+        dist[:, obj] = DM_dist(alpha[:, obj])
+    assert np.allclose(np.logaddexp.reduce(dist, axis=0), 1)
     return dist
 
-def L_dist(posterior):
+def L_dist_for(S_dist):
+    L_dist = S_dist.copy()
+    L_dist -= np.logaddexp.reduce(L_dist, axis=1)[:, np.newaxis]
+    assert np.allclose(np.logaddexp.reduce(L_dist, axis=1), 1)
+    return L_dist
 
+def sample_S_dist(r, target, alpha):
+    S_dist = marginal_S_dist(alpha)
+    target_dist = S_dist[:, target]
+    linear = np.exp(target_dist)
+    assert np.allclose(np.sum(linear), 1)
+    return conpact2.weighted_choice(r, linear)
 
 def simulate_non_pragmatic(r, turns, prior=None):
-    speaker_posterior = np.ones((SIZE, SIZE))
-    listener_posterior = np.ones((SIZE, SIZE))
+    a1_alpha = np.ones((SIZE, SIZE))
+    a2_alpha = np.ones((SIZE, SIZE))
 
     for i in xrange(turns):
+        for S_alpha, L_alpha in [(a1_alpha, a2_alpha),
+                                 (a2_alpha, a1_alpha)]:
         target = r.randint(SIZE)
         S_dist = marginal_S_dist(speaker_posterior)
         L_dist = marginal_S_dist(listener_posterior)
         L_dist -= np.logaddexp.reduce(L_dist, axis=1)[:, np.newaxis]
-        assert np.allclose(np.logaddexp.reduce(S_dist, axis=0), 1)
-        assert np.allclose(np.logaddexp.reduce(L_dist, axis=1), 1)
 
 
     # Want out:
