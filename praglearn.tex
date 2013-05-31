@@ -7,7 +7,9 @@
 \usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
-\title{Learning words by recursive pragmatic reasoning about other agents}
+\title{Learning communication systems through recursive pragmatic
+  reasoning about other agents}
+% \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
 
 \author{
@@ -73,7 +75,7 @@ of the words to fill in contextual details (``it's raining here and
 now''), infer that a stronger alternative is not true (``I ate some
 but not all of the cookies''), or more generally infer the speaker's
 communicative goal (``I want you to close the window right now because
-I'm cold.'') -- a process known as \textit{pragmatic reasoning}.
+I'm cold''), a process known as \textit{pragmatic reasoning}.
 
 Following this intuition, theories of pragmatic communication frame
 the process of language comprehension as inference about the
@@ -162,8 +164,8 @@ to which this word provides evidence for each possible object\footnote{We
   generalization, however, because we can interpret our model as
   marginalizing over such a representation, with our literal
   $P_\lex(\obj | \word) = \sum_\text{features} P(\obj |
-  \text{features}) P_\lex(\text{features} | \word)$.}. Each entry in
-the vector is in $(0, 1)$, and together they sum to 1. By Bayes rule:
+  \text{features}) P_\lex(\text{features} | \word)$.} Each entry in
+the vector is in $(0, 1)$, and together they sum to 1:
 \begin{align*}
 P_{L_0}(\obj | \word, \lex) &\propto \lex(\word, \obj) \times \prior.
 \end{align*}
@@ -839,11 +841,16 @@ this implicature-free case, while less than 20\% believed in the
 
 \section{Conclusion}
 
-allows us to preserve most of the normative Bayesian framework within
-the multi-agent setting, while avoiding paradoxes and allowing both
-pragmatic reasoning and learning. The resulting model not only unifies
-previous models of each phenomenon separately, it also accounts for a
-range of
+If each agent in a multi-agent setting assumes the existence of a
+shared, conventional norm underlying everyone's behaviour, and further
+assumes that other agents are knowledgeable about this norm while they
+themselves are not, then we are able to preserve most of the normative
+Bayesian framework, explicitly model both learning and recursive
+social reasoning simultaneously within the same framework, and avoid
+paradox. The resulting theory unifies two previously separate
+strands of modelling work on language usage and acquisition,
+accounting for a superset of previous phenomena, while producing a
+variety of new qualitative patterns. In particular, we make new 
 
 the deviations from rationality -- assumption that words have
 meanings, suspicion that everyone else knows what they are -- are

@@ -682,7 +682,9 @@ class Dialogue(object):
 
     def uncertain_l_dist(self, log_object_prior=None):
         s = self.listener_sampler
-        return s.marginal_dist_n(self.listener, log_object_prior)
+        # return s.marginal_dist_n(self.listener, log_object_prior)
+        subjective_s_dist = s.marginal_dist_n(self.listener - 1, log_object_prior)
+        return self.domain.L(subjective_s_dist)
 
     def uncertain_s_dist(self, log_object_prior=None):
         s = self.speaker_sampler
