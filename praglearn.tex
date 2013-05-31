@@ -218,9 +218,9 @@ Humans, however, unlike traditional game theoretic models, do make the inference
 
 The model of \cite{bergen2012} differs from ours in that they then apply further layers of pragmatic recursion on top of these marginal distributions, which as described above removes the possibility of learning; in their model it is only hypothetical agents who are ignorant, while the actual speaker and listener know everything there is to know about each other's behaviour. However, the core result carries over to our model. For example, with a uniform prior over lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$, $\text{cost}(\text{``cheap''}) = 0.5$, $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the appropriate way: Despite total ignorance about the conventional system, speakers prefer to use simple words for common referents ($P_S(\text{``cheap''} | \text{\textsc{common}}) = 0.88, P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) = 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) = 0.65$). This preference is somewhat weak; the critical observation is that it exists at all, given the unbiased priors. We return to this point in \S\ref{sec:horn-emergence}.
 
-\subsection{Statistical cross-situational word learning}
+% \subsection{Statistical cross-situational word learning}
 
-Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
+% Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
 
 % A representative simulation is shown in Fig. \ref{fig:cross-sit}.
 
@@ -306,12 +306,12 @@ The role of learning here is obvious, but what does the pragmatics part of the m
 \subsection{Lexicalization and loss of Horn implicatures}
 \label{sec:horn-emergence}
 
-\begin{figure}[t]
+\begin{SCfigure}
 \centering
-\includegraphics[width=0.48\textwidth]{figures/horn-emergence-0.pdf}
-\includegraphics[width=0.48\textwidth]{figures/horn-emergence-1.pdf}
+\includegraphics[width=0.5\textwidth]{figures/horn-composite.pdf}
+% \includegraphics[width=0.48\textwidth]{figures/horn-emergence-1.pdf}
 \caption{\label{fig:horn} Simulations.}
-\end{figure}
+\end{SCfigure}
 
 A stronger example of how pragmatics can create such biases can be observed if we simulate agents playing this naming game in the ``cheap''/``expensive'' \textsc{common}/\textsc{rare} domain of \S\ref{sec:horn-implicature}. Recall that in this domain, pragmatic reasoning causes each agent to start out independently biased -- but only weakly -- towards the associations ``cheap'' $\leftrightarrow$ \textsc{common}, ``expensive'' $\leftrightarrow$ \textsc{rare}, and that this bias arises exactly because their prior on literal meaning is uniform and uninformative. A fully rational listener, therefore, observing our uncertain speaker using this mapping, would discount it as arising from this bias, and conclude that the speaker in fact did not know which convention was in use. Our socially anxious listener, however, believes that the speaker does know which convention is in use, and therefore tends to take their behaviour as evidence that the good system is in fact in use. Similarly, the socially anxious speaker will wager that since on average they will succed more often if the listener is using the good system, they might as well try it -- and when they succeed, they take this as evidence that the listener was in fact using the good system all along. As a result, dyads in this game not only end up converging onto a stable system, but onto specifically the good system, at a rate far above chance. However, something fundamentally different happens here than in the specificity implicature case (\S\ref{sec:learning-specificity-implic}). There, we saw that our model could learn hear pragmatically strengthened usages of words while recovering the underlying literal meaning. In this case, though, the pragmatic strengthening depends essentially on ignorance about literal meaning. As the agents gather more data, therefore, the implicature disappears, to be replaced by a belief that ``cheap'' \textit{literally} means \textsc{common}. To demonstrate this, we queried each agent in each dyad about how they would refer to or interpret each object and word, \textit{if} the two objects were equally common, which cancels the Horn implicature. As shown in Fig.~\ref{emergence-average} (right), after 30 turns, in nearly 70\% of dyads both $S$ and $L$ believed in the ``good'' mapping even in this implicature-free case, while less than 20\% believed in the ``bad'' mapping (with the rest being inconsistent).
 
