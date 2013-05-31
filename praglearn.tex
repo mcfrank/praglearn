@@ -569,7 +569,7 @@ distributions, which as described above removes the possibility of
 learning; in their model it is only hypothetical agents who are
 ignorant, while the actual speaker and listener know everything there
 is to know about each other's behavior. However, the core result
-carries over to our model. For example, with a uniform prior over
+carries over to our model. E.g., with a uniform prior over
 lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$,
 $\text{cost}(\text{``cheap''}) = 0.5$,
 $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the
@@ -579,9 +579,9 @@ system, speakers prefer to use simple words for common referents
 P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners
 show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) =
 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) =
-0.65$). This preference is somewhat weak; the critical observation is
+0.65$). This preference is weak; the critical point is
 that it exists at all, given the unbiased priors. We return to this
-point in \S\ref{sec:horn-emergence}.
+\S\ref{sec:horn-emergence}.
 
 % \subsection{Statistical cross-situational word learning}
 
@@ -841,8 +841,10 @@ and what started as a ``superstition'' becomes normatively correct.
 \caption{\label{fig:horn} Example simulations showing the
   lexicalization of Horn implicatures. Plotting conventions are as
   above. In the first run, speaker and listener converge on a sparse
-  and  efficient communicative equilibrium, while in the second they reach
-  a sub-optimal equilibrium.}
+  and  efficient communicative equilibrium, in which ``cheap'' means
+  \textsc{COMMON} and ``expensive'' means \textsc{RARE}, while in the
+  second they reach a sub-optimal equilibrium. As shown in
+  Fig.~\ref{fig:emergence-average}, the former is more typical.}
 \end{SCfigure}
 
 
@@ -862,7 +864,8 @@ and what started as a ``superstition'' becomes normatively correct.
 
 A stronger example of how pragmatics can create communicative biases can be
 observed by considering the Horn implicatures introduced in \S\ref{sec:horn-implicature}. 
-In these games, pragmatic reasoning causes each agent to start out weakly biasedtowards the associations ``cheap'' $\leftrightarrow$
+In these games, pragmatic reasoning causes each agent to start out
+weakly biased towards the associations ``cheap'' $\leftrightarrow$
 \textsc{common}, ``expensive'' $\leftrightarrow$ \textsc{rare}; this bias arises because their prior on literal meaning
 is uniform and uninformative. A fully rational listener, therefore,
 observing an uncertain speaker using this mapping, would discount it
