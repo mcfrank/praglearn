@@ -10,7 +10,7 @@
 % http://www.latex-community.org/forum/viewtopic.php?f=45&t=12364
 \sidecaptionvpos{figure}{c}
 
-\title{Language learning via recursive pragmatic reasoning}
+\title{Language learning in context via recursive pragmatic reasoning}
 % \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
 
@@ -74,8 +74,9 @@ Stanford, CA, USA \\
 
 \section{Introduction}
 
-Natural language is a powerful tool for conveying meaning in
-context. Consider the utterances
+Two puzzles present themselves to language users: What do words mean in general and what do they mean in context?
+%Natural language is a powerful tool for conveying meaning in context. 
+Consider the utterances
 ``it's raining,'' ``I ate some of the cookies,'' or ``can you close
 the window?'' In each, a listener must go beyond the literal meaning
 of the words to fill in contextual details (``it's raining here and
@@ -90,8 +91,9 @@ reason, ``if she had wanted me to think `all' of the cookies, she
 would have said `all'---but she didn't. Hence `all' must not be true
 and she must have eaten some {\it but not all} of the cookies.'' This kind of reasoning is core to language use. 
 
-But pragmatic reasoning often intersects with language learning as
-well. In both adults and children, uncertainty about word meanings is
+But pragmatic reasoning about meaning-in-context relies on stable literal meanings that must  themselves be learned.
+%and often intersects with learning the meaning of language in general. 
+In both adults and children, uncertainty about word meanings is
 common, and often considering speakers' pragmatic goals can help to resolve this uncertainty. For example,
 if a novel word is used in a context containing both a novel and a
 familiar object, young children can make the inference
@@ -471,24 +473,26 @@ scalar implicature as a matrix $\left[
   costs for the two words, a rational speaker confronted with such a
   lexicon will prefer to say ``some'' only when they mean \textsc{some
     but not all}, and this is therefore the interpretation that a
-  rational listener will place on ``some'' as well. To simulate this
-  situation, we place a Dirichlet(10, 10) prior on the meaning of
-``some'' and a Dirichlet(1, 10) prior on the meaning of
-``some'', giving speaker probabilities of
-  $\left[
-    \begin{array}{cc}
-      1.00 & 0.00 \\
-      0.00 & 1.00
-    \end{array}
-  \right]$
-and listener probabilities of
-$\left[
-    \begin{array}{cc}
-      .86 & .14 \\
-      .03 & .97
-    \end{array}
-  \right]$. These revised interpretation probabilities minimize
-  ambiguity (with weight concentrated on the diagonal), capturing the specificity implicature.
+  rational listener will place on ``some'' as well.
+
+% To simulate this
+%   situation, we place a Dirichlet(10, 10) prior on the meaning of
+% ``some'' and a Dirichlet(1, 10) prior on the meaning of
+% ``some'', giving speaker probabilities of
+%   $\left[
+%     \begin{array}{cc}
+%       1.00 & 0.00 \\
+%       0.00 & 1.00
+%     \end{array}
+%   \right]$
+% and listener probabilities of
+% $\left[
+%     \begin{array}{cc}
+%       .86 & .14 \\
+%       .03 & .97
+%     \end{array}
+%   \right]$. These revised interpretation probabilities minimize
+%   ambiguity (with weight concentrated on the diagonal), capturing the specificity implicature.
   
 
 % Simulation parameters:
@@ -930,35 +934,34 @@ of the words involved.
 
 \section{Conclusion}
 
-If each agent in a multi-agent setting assumes the existence of a
-shared, conventional norm underlying everyone's behaviour, and further
-assumes that other agents are knowledgeable about this norm while they
-themselves are not, then we are able to simultaneously preserve most
-of the normative Bayesian framework, explicitly model learning and
-recursive social reasoning within the same framework, and avoid
-paradox. The resulting model unifies two previously separate strands
-of modelling work on language usage and acquisition, and -- having
-done so -- accounts for not just the phenomena these previous models
-accounted for, but a variety of new ones as well. We propose new
-explanations of the child language acquisition phenomena of
-disambiguation without mapping \cite{horst2008} and the acquisition of
-scalar adjectives (XX ask Mike what the levinson cite is really, see
-also table), and demonstrate that our model is capable of developing
+Language learners and language users must consider word meanings both
+within and across contexts. A critical part of this process is
+reasoning pragmatically about agents' goals in individual
+situations. In the current work we assume that agents communicating
+with one another assume that there is a shared conventional lexicon
+which they both rely on. They then
+reason recursively about how this lexicon should be used to convey
+particular meanings in context. This pair of assumptions allows us to
+create a model that unifies two previously separate strands
+of modeling work on language usage and acquisition, and account for a
+variety of new phenomena. In particular, we consider new
+explanations of disambiguation in early word learning and the acquisition of
+scalar adjectives, and demonstrate that our model is capable of developing
 novel and efficient communicative systems through iterated learning
 within the context of a single simulated conversation.
 
-Accomplishing this requires limited deviations from rationality, and
-as such necessarily introduces biases in agent behaviour. We've
-identified two such biases here: the tendency for pragmatic speakers
+Our work identifies two biases in communicators' behavior: a tendency for pragmatic speakers
 and listeners to accentuate useful, sparse patterns in their
-communicative systems (\S\ref{sec:emergence}), and for cheap words to
+communicative systems (\S\ref{sec:emergence}), and for short,
+high-frequency (``low cost'') expressions to
 be assigned to common objects (\S\ref{sec:horn-emergence}).
-Remarkably, while both are locally sub-optimal for individual agents,
-they both systematically drive the overall communicative system
+Both of these biases systematically drive the overall communicative system
 towards greater global efficiency. In the long term, these processes
 should leave their mark on the structure of the language itself, which
-may provide a partial explanation for how languages become so tightly
+may contribute to explaining how languages become 
 optimized for effective communication \cite{zipf1936,piantadosi2011}.
+
+More generally, considering the interaction between pragmatics and learning may be a critical part of understanding human language. Our work here takes a first step towards unifying disparate strands of research that have treated language acquisition and language use as distinct. 
 
 % the deviations from rationality -- assumption that words have
 % meanings, suspicion that everyone else knows what they are -- are
