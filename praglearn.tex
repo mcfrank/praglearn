@@ -460,20 +460,20 @@ implicatures are conventionalized or whether they use a
 contextually-defined scale.
 
 The recursive pragmatic reasoning portions of our model capture
-findings on specificity implicature. Consider a representation of
-scalar implicature as a matrix $\left[
+findings on specificity implicature. Consider a lexicon in which the
+rows represent the meaning of ``some'' and ``all'', and the columns
+indicate worlds where \textsc{some-but-not-all} and \textsc{all} are
+true, respectively: $\left[
     \begin{array}{cc}
       0.5 & 0.5 \\
       0 & 1
     \end{array}
-  \right]$, where rows show the words ``some'' and ``all'' and columns
-  indicate worlds where {\sc some but not all} and {\sc all} are true,
-  respectively, capturing the regularity that ``some'' can be said of
+  \right]$. This lexicon captures the regularity that ``some'' can be said of
   situations where {\sc all} is actually the case. Assuming uniform
   costs for the two words, a rational speaker confronted with such a
   lexicon will prefer to say ``some'' only when they mean \textsc{some
     but not all}, and this is therefore the interpretation that a
-  rational listener will place on ``some'' as well.
+  rational listener -- and our model -- will place on ``some'' as well.
 
 % To simulate this
 %   situation, we place a Dirichlet(10, 10) prior on the meaning of
