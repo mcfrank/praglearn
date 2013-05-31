@@ -349,7 +349,8 @@ will have for the right referent\footnote{An alternative model would
   have the speaker take the expectation over informativity, instead of
   the informativity of the expectation.}:
 \begin{align*}
-  P_S(\word | \obj, \text{$S$'s data}) &\propto \exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
+  P_S(\word & | \obj, \text{$S$'s data})  \propto \\
+ &\exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
 \end{align*}
 Here $P(\lex|\text{$S$'s data})$ is defined similarly, when $S$ observes
 $L$'s interpretations of various utterances, and treats them as
@@ -471,7 +472,7 @@ true, respectively: $\left[
   costs for the two words, a rational speaker confronted with such a
   lexicon will prefer to say ``some'' only when they mean \textsc{some
     but not all}, and this is therefore the interpretation that a
-  rational listener -- and our model -- will place on ``some'' as well.
+  rational listener---and our model---will place on ``some'' as well.
 
 % To simulate this
 %   situation, we place a Dirichlet(10, 10) prior on the meaning of
@@ -504,6 +505,8 @@ true, respectively: $\left[
 % How listener interprets "some" and "all" words:
 % array([[ 0.86214895,  0.13785105],
 %        [ 0.03151434,  0.96848566]])
+
+\vspace{-2ex}
 
 \subsection{Horn implicature}
 
