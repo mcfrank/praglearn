@@ -120,7 +120,7 @@ In several important cases, these assumptions are as close to rational as possib
 %
 % something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
 
-\section{Experiments: Pragmatic and word learning phenomena}
+\section{Results: Pragmatic inference}
 
 In this section, we describe the coverage of our pragmatic learning model on phenomena previously investigated with the pragmatics and word learning components of the model. To summarize these simulations: the pragmatic learning model reproduces previous findings and provides some new insights into the ``disambiguation'' phenomenon described above. 
 
@@ -210,13 +210,18 @@ The model of \cite{bergen2012} differs from ours in that they then apply further
 
 \subsection{Statistical cross-situational word learning}
 
-Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. A representative simulation is shown in Fig. \ref{fig:cross-sit}.
+Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
 
-\begin{SCfigure}[2.5]
-  \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
-  \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
-  \label{fig:cross-sit}
-\end{SCfigure}
+% A representative simulation is shown in Fig. \ref{fig:cross-sit}.
+
+% \begin{SCfigure}[2.5]
+%   \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
+%   \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
+%   \label{fig:cross-sit}
+% \end{SCfigure}
+
+\section{Results: Learning in pragmatic contexts}
+
 
 \subsection{Disambiguation using known words}
 
@@ -241,9 +246,8 @@ Our model provides an intriguing possible explanation of this finding: given a s
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
 % To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
 
-\section{Experiments 2: Lexical learning in pragmatic contexts}
 
-XX maybe make the sections ``Pure pragmatics'' (scalar and horn implicature), ``Pure learning'' (cross-situational), ``Learning and pragmatics'' (subsection 1: disambiguation and learning scalar implicature, subsection 2: emergence with and without horn implicature)
+% XX maybe make the sections ``Pure pragmatics'' (scalar and horn implicature), ``Pure learning'' (cross-situational), ``Learning and pragmatics'' (subsection 1: disambiguation and learning scalar implicature, subsection 2: emergence with and without horn implicature)
 
 We now turn to phenomena which have not been modeled by previous pragmatic or learning models, as they seem to intrinsically require both together.
 
