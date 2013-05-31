@@ -1,9 +1,53 @@
 from nips import *
 
-# with a flat prior and softmax = 1, S1 becomes equivalent to old S0 --
-# basically just sampling the (renormalized) prior
+from scipy.special import gammaln
 
-d = conpact2.MemoizedDomain(max_utterance_length=1, adjectives=2, objects=2,
-                            softmax_weight=1)
-dialogues = simulate_dialogues(4, 20, d)
-show_dialogues("non-emergence-%i.pdf", dialogues)
+# speaker and listener each have dirichlet priors on a set of object -> word
+# multinomial distributions.
+# speaker to produce a word samples from dirichlet-multinomial
+# listener conditions on the word to guess the meaning
+# speaker increments this (word, interpretation) pair in its Dirichlet prior
+# listener increments (word, target) pair in its Dirichlet prior
+
+SIZE = 2
+
+def DM_dist(alpha):
+    # Joint density for N samples from a dirichlet-multinomial
+    # distribution with parameters alpha[i], and n_k
+    # repeats of each outcome is
+    #   Z * prod_k Gamma(n_k + alpha[k])
+    # where:
+    #   Z = Gamma(A) / Gamma(N + A) * prod_k 1/Gamma(alpha[k])
+    #   A = sum_k(alpha[k])
+    #   N = sum_k(n_k)
+    # For us N = 1
+    # So basically P(i|alpha) \propto gamma(1 + alpha[i])/gamma(alpha[i])
+    dist = gammaln(1 + alpha) - gammaln(alpha)
+    dist -= np.logaddexp.reduce(dist)
+    return dist
+
+def marginal_S_dist(posterior):
+    dist = np.empty((SIZE, SIZE))
+    for obj in xrange(SIZE):
+        dist[:, obj] = DM_dist(posterior[:, obj])
+    return dist
+
+def L_dist(posterior):
+
+
+def simulate_non_pragmatic(r, turns, prior=None):
+    speaker_posterior = np.ones((SIZE, SIZE))
+    listener_posterior = np.ones((SIZE, SIZE))
+
+    for i in xrange(turns):
+        target = r.randint(SIZE)
+        S_dist = marginal_S_dist(speaker_posterior)
+        L_dist = marginal_S_dist(listener_posterior)
+        L_dist -= np.logaddexp.reduce(L_dist, axis=1)[:, np.newaxis]
+        assert np.allclose(np.logaddexp.reduce(S_dist, axis=0), 1)
+        assert np.allclose(np.logaddexp.reduce(L_dist, axis=1), 1)
+
+
+    # Want out:
+    #   P(understood)
+    #   P(obj|word) using both posteriors
