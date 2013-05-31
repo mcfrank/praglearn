@@ -269,9 +269,9 @@ XX on figure, add x label: ``some'' means: ALL   SOME   SBNA, y label: ``all'' m
 
 The acquisition of scalar adjectives like ``some'' provides a puzzle for most models of word learning: given that in many contexts, the word ``some'' is used to mean \textsc{some but not all}, how do children learn that this is not in fact its literal meaning? (XX cite snedeker?) As suggested above, though, our model is able to take specificity implicatures into account when learning, and thus potentially answer this puzzle. Fig.~\ref{fig:scalar} (left) shows the model's beliefs after being shown several examples of ``some'' meaning \textsc{some but not all} and ``all'' meaning \textsc{all}: it believes that at least one of these meanings must be literal, but it isn't convinced that both are -- it's possible ``some'' means \textsc{some}, or that \textsc{all} means \textsc{all or some}. Fig.~\ref{fig:scalar} (right) then shows the model's beliefs if we also provide examples of ``some'' meaning \textsc{some but not all}, but in a context where the meaning \textsc{some but not all} was essentially known from context (has a high prior). 
 
-\subsection{Mutual learning}
+\section{Mutual learning}
 
-\subsubsection{Emergence of efficient communicative conventions}
+\subsection{Emergence of efficient communicative conventions}
 
 If two humans are forced to play a game which depends on communication, but are allowed to communicate only via a set of novel symbols which have no pre-existing conventional meaning, then over time they will generally derive a set of new conventions which allow them to accomplish their task \cite{galantucci2005}. Or if, less drastically, a task requires two people to repeatedly refer to novel objects, they will implicitly through the course of the interaction invent conventional names for them (e.g., ``the ice skater'' for an abstract figure vaguely resembling an ice skater, \cite{clark1986}). From a pure learning perspective this is anomalous: since both agents know perfectly well that there is no underlying convention to discover, there is nothing to learn from the other's behaviour. Furthermore, even if only one partner is producing the novel expressions, their behaviour still becomes more regular (conventional) over time, which would seem to rule out a role for learning -- even if there is some pattern in the expressions the speaker chooses to use, there is certainly nothing for the \textit{speaker} to learn by observing these patterns, and thus their behaviour should not change over time. An obvious hack might be to simply stipulate that speakers take their own utterances as training data for further learning, but this would fail to explain yet another wrinkle in this phenomenon: speakers only regularize their production over time if they have some kind of feedback indicating that the listener understands; if such feedback is removed, the phenomenon is dramatically reduced (XX krauss 1966, branigan catchpole pickering 2011).
 
@@ -303,7 +303,7 @@ The role of learning here is obvious, but what does the pragmatics part of the m
 
 % XXXX what can we say about the role pragmatics plays here? It's annoyingly non-trivial to sample from the equivalent model where the speaker just samples from a multinomial distribution and the listener inverts it. The listener's data is samples from a DM so they have conjugacy. But the speaker's data is listener interpretations, which necessarily do one tiny pragmatic inference step from using Bayes rule, which breaks conjugacy...
 
-\subsubsection{Lexicalization and loss of Horn implicatures}
+\subsection{Lexicalization and loss of Horn implicatures}
 \label{sec:horn-emergence}
 
 \begin{figure}[t]
