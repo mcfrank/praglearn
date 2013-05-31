@@ -44,7 +44,6 @@ Stanford, CA, USA \\
 \allowdisplaybreaks[4]
 
 \begin{document}
-
 \maketitle
 
 \begin{abstract}
@@ -126,8 +125,11 @@ integrating models of recursive pragmatic reasoning with models of
 language learning, with the hope of capturing phenomena in both
 domains. We begin by describing previous models in each domain as well
 as proposals for bringing the two together. We next simulate findings
-from the domains of pragmatic inference, word learning, and their
-intersection. We end by discussing the implications of our results for
+on pragmatic inference in one-shot games (replicating previous
+work). We then build on these results to simulate the results of pragmatic
+learning in the language acquisition setting where one communicator is
+uncertain about the lexicon and in iterated communication games where both
+communicators are uncertain about the lexicon. We end by discussing the implications of our results for
 work on language change.
 
 \section{Model}
@@ -144,7 +146,7 @@ our contribution here is as a generalization of one-shot models
 \cite{frank2012,bergen2012} to the iterated context.
 
 \subsection{Paradoxes in optimal models of pragmatic learning}
-% When modelling human behaviour, it's useful to begin with optimal
+% When modelling human behavior, it's useful to begin with optimal
 % models; this has the advantage that when we are then forced to
 % deviate from the purely rational approach, it's generally in a
 % theoretically interpretable way. However,
@@ -189,7 +191,7 @@ strategy guarantees that each agent will behave normatively given the
 other agent's strategy, there is no guarantee that such strategies
 will be near the system's global optimum; equilibrium strategies make
 up only a small subspace of all possible strategies. Nor is there much
-evidence the humans find such equilibria; their behaviour in language
+evidence the humans find such equilibria; their behavior in language
 games (and in other games \cite{camerer2004}) can be well-modeled as
 implementing $S_n$ or $L_n$ for some small $n$
 \cite{frank2012}. Following this work, we recurse a finite (small)
@@ -234,7 +236,7 @@ therefore not be trying to infer the speaker's lexicon.\footnote{Of
 % know their posterior over the lexicon -- and because
 % this is all that the speaker cares about, there is
 % nothing for the listener to learn from the speaker's
-% behaviour.
+% behavior.
 
 To add insult to injury, one final problem is that there is nothing
 constraining speaker and listener to use the same language under this
@@ -271,7 +273,7 @@ meanings, even though these meanings are unobservable to everyone who
 purportedly uses them. It also explains why learners speak the
 language they hear (rather than some private language that they assume
 listeners will eventually learn): Under assumption (a), observing
-other speakers' behaviour provides data about not just that speaker's
+other speakers' behavior provides data about not just that speaker's
 idiosyncratic lexicon, but the consensus lexicon. Assumption (b)
 avoids the explosion of hyper$^n$-distributions described above: If
 agent $n$ knows the lexicon, they assume that all lower agents do as
@@ -312,13 +314,21 @@ their partner to treat them as being fully knowledgeable, and this is
 a reasonable description of the child language learning case. In
 general, though, in arbitrary multi-turn interactions in which both
 agents have non-trivial uncertainty, this model induces complex and
-non-normative learning dynamics. In the remainder of this paper, we
-investigate the model's behaviour in all three situations.\footnote{In
+non-normative learning dynamics. 
+
+In the remainder of the paper, we apply the model described above to a set of one-shot
+pragmatic inference games that have been well-studied in linguistics
+\cite{grice1975,horn1984} and are addressed by previous one-shot
+models of pragmatic inference \cite{frank2012,bergen2012}. These
+situations set the stage for simulations investigating how learning
+proceeds in iterated versions of such games, described in the
+following section. Results captured by our model and previous models
+are summarized in Table \ref{tab:results}. In
   our simulations throughout, we somewhat arbitrarily set $n = 2$ (the
   minimal value that produces all the qualitative phenomena), $\lambda
   = 3$, and assume that all agents have shared priors on the lexicon
   and full knowledge of the cost function. Inference is via importance
-  sampling.}
+  sampling.
 
 % \subsection{Naive literal learner model}
 %
@@ -333,7 +343,7 @@ investigate the model's behaviour in all three situations.\footnote{In
 %
 % something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
 
-\section{Results: Pure pragmatic inference}
+\section{Pragmatic inference in one-shot games}
 
 
 \begin{table}[t]
@@ -362,15 +372,6 @@ Lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
   current model is referred to here as PIL, or pragmatic inference and
   learning.}
 \end{table}
-
-We begin by applying the model described above to a set of one-shot
-pragmatic inference games that have been well-studied in linguistics
-\cite{grice1975,horn1984} and are addressed by previous one-shot
-models of pragmatic inference \cite{frank2012,bergen2012}. These
-situations set the stage for simulations investigating how learning
-proceeds in iterated versions of such games, described in the
-following section. Results captured by our model and previous models
-are summarized in Table \ref{tab:results}.
 
 % In this section, we describe the coverage of our pragmatic learning
 % model on phenomena previously investigated with the pragmatics and
@@ -453,7 +454,7 @@ $\left[
 % and learning must always coincide. Also the intuition that this is a
 % general property of uncertainty for soft-max agents -- if you don't
 % know where you are, good worlds have more peaked utility
-% distributions than bad worlds, and thus more consistent behaviour by
+% distributions than bad worlds, and thus more consistent behavior by
 % other agents, so on average when you're guessing what other agents
 % will do, good worlds contribute more to your average than bad
 % worlds.
@@ -488,8 +489,8 @@ $P_S(\word | \obj)$ as the average of $P_S(\word | \obj, \text{good
   system})$ and $P_S(\word | \obj, \text{bad system})$. These might
 seem to cancel out, but in fact they do not. In the good system, the
 speaker has higher expected utility than the bad system; therefore, a
-soft-max agent in the bad system has noiser behaviour than in the good
-system, and their behaviour in the good system dominates the average,
+soft-max agent in the bad system has noiser behavior than in the good
+system, and their behavior in the good system dominates the average,
 breaking the symmetry. Similar reasoning applies to an uncertain
 speaker.
 
@@ -513,7 +514,7 @@ apply further layers of pragmatic recursion on top of these marginal
 distributions, which as described above removes the possibility of
 learning; in their model it is only hypothetical agents who are
 ignorant, while the actual speaker and listener know everything there
-is to know about each other's behaviour. However, the core result
+is to know about each other's behavior. However, the core result
 carries over to our model. For example, with a uniform prior over
 lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$,
 $\text{cost}(\text{``cheap''}) = 0.5$,
@@ -546,51 +547,49 @@ point in \S\ref{sec:horn-emergence}.
 %   \label{fig:cross-sit}
 % \end{SCfigure}
 
-\section{Results: The role of pragmatics in language acquisition}
+\section{The role of pragmatics in language acquisition}
 
 \subsection{Disambiguation using known words}
 
-\begin{SCfigure}[1]
-  \centering
-  % \includegraphics[width=0.24\textwidth]{figures/ME-1dax.pdf}
-  % \includegraphics[width=0.24\textwidth]{figures/ME-flat-10dog-10dax.pdf}
-  % \includegraphics[width=0.24\textwidth]{figures/ME-antisparse-10dog-10dax.pdf}
-  % \includegraphics[width=0.24\textwidth]{figures/ME-sparse-10dog-10dax.pdf}
-\includegraphics[width=.6\textwidth]{figures/ME-composite-small.pdf}
-  \caption{Results for simulations of the ``disambiguation'' phenomenon. A novel word is used in a situation with a novel object and a familiar object. Each plot shows the joint posterior probability that the familiar word refers to the familiar object (horizontal) and that the novel word refers to the familiar object (vertical). Left plot shows the posterior after a single situation; right plot shows multiple situations.
-%The right middle plot shows the posterior after a single situation given either a prior that makes it likely that there are words referring to both the novel and familiar objects (perhaps because the two objects are physically similar; the right plot shows a situation where the prior makes it unlikely that a word refers to both (objects dissimilar). 
-  }
-  \label{fig:me}
-\end{SCfigure}
+% \begin{SCfigure}[1]
+%   \centering
+%   % \includegraphics[width=0.24\textwidth]{figures/ME-1dax.pdf}
+%   % \includegraphics[width=0.24\textwidth]{figures/ME-flat-10dog-10dax.pdf}
+%   % \includegraphics[width=0.24\textwidth]{figures/ME-antisparse-10dog-10dax.pdf}
+%   % \includegraphics[width=0.24\textwidth]{figures/ME-sparse-10dog-10dax.pdf}
+% \includegraphics[width=.6\textwidth]{figures/ME-composite-small.pdf}
+%   \caption{Results for simulations of the ``disambiguation'' phenomenon. A novel word is used in a situation with a novel object and a familiar object. Each plot shows the joint posterior probability that the familiar word refers to the familiar object (horizontal) and that the novel word refers to the familiar object (vertical). Left plot shows the posterior after a single situation; right plot shows multiple situations.
+% %The right middle plot shows the posterior after a single situation given either a prior that makes it likely that there are words referring to both the novel and familiar objects (perhaps because the two objects are physically similar; the right plot shows a situation where the prior makes it unlikely that a word refers to both (objects dissimilar). 
+%   }
+%   \label{fig:me}
+% \end{SCfigure}
 
 Children, when presented with both a novel and a familiar object
 (e.g. an eggbeater and a ball), will treat a novel label
 (e.g. ``dax'') as referring to the novel object, for example by
 supplying the eggbeater when asked to ``give me the dax''
 \cite{markman1988}. This phenomenon is sometimes referred to as
-``mutual exclusivity'' or even ``Fast mapping,'' and many distinct
-theoretical accounts have been proposed in the psychological
-literature. Simple probabilistic word learning models can produce a
-similar pattern of findings \cite{frank2009}, often due to the kinds
-of ``explaining away'' type phenomena that are observed in such
-models. But all such models assume that learners in fact retain the
-mapping between word and object that is demonstrated in the
-experimental situation; this observation is contradicted, however, by
+``mutual exclusivity'' or even ``fast mapping.'' Simple probabilistic word learning models can produce a
+similar pattern of findings \cite{frank2009}, but all such models assume that learners retain the
+mapping between novel word and novel object demonstrated in the
+experimental situation. This observation is contradicted, however, by
 evidence that children often do not retain the mappings that are
 demonstrated by their inferences in the moment \cite{horst2008}.
 
 Our model provides an intriguing possible explanation of this finding:
 given a single disambiguation situation, the model gives a substantial
 probability (e.g. 75\%) that the speaker is referring to the novel
-object. Nevertheless, this is not accompanied by an increased belief
-that the novel word literally refers to this object (as shown in
-Fig. \ref{fig:me}, left). This comes in part from a potential
+object. Nevertheless, this inference is not accompanied by an increased belief
+that the novel word literally refers to this object. The learner's
+interpretation arises not from lexical mapping but instead from a kind
+of 
 specificity implicature: the listener knows that the familiar word
-\emph{does not} refer to the novel object--hence the novel word (even
+\emph{does not} refer to the novel object---hence the novel word (even
 if it refers to the familiar object as well) is the best way to refer
 to the novel object. Nevertheless, on repeated exposure to the same
-novel word, novel object situation, the model does lexicalize this
-inference (Fig. \ref{fig:me}, right).
+novel word, novel object situation, the learner does learn the mapping
+as part of the lexicon (congruent with other data on repeated training
+on disambiguation situations \cite{bion2012}).
 
 % Novel word means: Familiar object: 25.5%. Novel object: 74.5%.
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
@@ -599,38 +598,38 @@ inference (Fig. \ref{fig:me}, right).
 \subsection{Lexicalization and preservation of specificity implicature}
 \label{sec:learning-specificity-implic}
 
-\begin{SCfigure}[1]
-\centering
-\includegraphics[width=1.5in]{figures/some-all-only-pragmatic.pdf}
-\includegraphics[width=1.5in]{figures/some-all-pragmatic+unambiguous.pdf}
-\caption{\label{fig:scalar} Simulations..}
-\end{SCfigure}
+% \begin{SCfigure}[1]
+% \centering
+% \includegraphics[width=1.5in]{figures/some-all-only-pragmatic.pdf}
+% \includegraphics[width=1.5in]{figures/some-all-pragmatic+unambiguous.pdf}
+% \caption{\label{fig:scalar} Simulations..}
+% \end{SCfigure}
 
 % XX on figure, add x label: ``some'' means: ALL   SOME   SBNA, y label: ``all'' means: ALL  SOME  SBNA
 
 The acquisition of scalar adjectives like ``some'' provides a puzzle
 for most models of word learning: given that in many contexts, the
 word ``some'' is used to mean \textsc{some but not all}, how do
-children learn that this is not in fact its literal meaning? Our model
+children learn that {\sc some but not all} is not in fact its literal meaning? Our model
 is able to take specificity implicatures into account when learning,
-and thus potentially answer this puzzle. Imagine two bowls: one
+and thus provide a potential solution. 
+
+Imagine two bowls: one
 containing a mixture of apples and oranges, the other containing
-apples alone. Fig.~\ref{fig:scalar} (left) shows the model's beliefs
-after encountering the words ``some'' and ``all'' used contrastively
+apples alone. After encountering the words ``some'' and ``all'' used contrastively
 to refer to these two bowls (as in e.g.\ ``the bowl with some
-apples''). It believes that at least one of these words must have a
-restrictive literal meaning, but not both -- it leaves open the
+apples''), a learner under our model believes that at least one of these words must have a
+restrictive literal meaning, but not both---it leaves open the
 possibility that either ``some'' or ``all'' might be literally
-ambiguous. Fig.~\ref{fig:scalar} (right) then shows the model's
-beliefs if we also provide examples of ``some'' referring to exactly
-the same object, but in contexts where this is the only object
+ambiguous. But if examples of ``some'' are given that refer to exactly
+the same object in contexts where this is the only object
 available, so there is no contrast and thus no implicature; this
 convinces the model that ``all apple'' literally refers only to the
 bowl that contains no oranges, while ``some'' most likely is somewhat
 ambiguous. Crucially, the model is able to learn this without once
 ever observing ``some'' used
 
-\section{Results: Mutual learning}
+\section{Mutual learning situations}
 
 \subsection{Emergence of efficient communicative conventions}
 
@@ -643,16 +642,16 @@ conventions which allow them to accomplish their task
 asked to refer to novel objects invent conventional names for them
 over the course of repeated interactions (e.g., ``the ice skater'' for
 an abstract figure vaguely resembling an ice skater,
-\cite{clark1986}). From a pure learning perspective this is anomalous,
+\cite{clark1986}). From a pure learning perspective this behavior is anomalous,
 however: Since both agents know perfectly well that there is no
 underlying convention to discover, there is nothing to learn from the
-other's behaviour. Furthermore, even if only one partner is producing
-the novel expressions, their behaviour still becomes more regular
+other's behavior. Furthermore, even if only one partner is producing
+the novel expressions, their behavior still becomes more regular
 (conventional) over time, which would seem to rule out a role for
 learning---even if there is some pattern in the expressions the
 speaker chooses to use, there is certainly nothing for the
 \textit{speaker} to learn by observing these patterns, and thus their
-behaviour should not change over time.
+behavior should not change over time.
 % An obvious hack might be to simply stipulate that speakers take
 % their own utterances as training data for further learning, but this
 % would fail to explain yet another wrinkle in this phenomenon:
@@ -712,16 +711,16 @@ and what started as a ``superstition'' becomes normatively correct.
 % choose words by simply flipping a coin, and performance remains at
 % chance.
 
-Pragmatic inference here does two things. First, the pragmatic
-recursion makes it possible for the speaker to learn from the
-listener's interpretations, which would be impossible without an
-explicit model of the listener as a rational agent. Second, pragmatics
-creates the sparse structure in the observed lexicons: At each step,
-the goal-directed speaker attempts to exploit whatever communicatively
-useful asymmetries exist in its current model of the listener, and
-these attempts tend to be successful. If the listener has even a small
-asymmetry in their current posterior then their pragmatic reasoning
-will magnify it as well.
+% Pragmatic inference here does two things. First, the pragmatic
+% recursion makes it possible for the speaker to learn from the
+% listener's interpretations, which would be impossible without an
+% explicit model of the listener as a rational agent. Second, pragmatics
+% creates the sparse structure in the observed lexicons: At each step,
+% the goal-directed speaker attempts to exploit whatever communicatively
+% useful asymmetries exist in its current model of the listener, and
+% these attempts tend to be successful. If the listener has even a small
+% asymmetry in their current posterior then their pragmatic reasoning
+% will magnify it as well.
 
 % But over time, the speaker's use of such patterns, and the
 % listener's ability to understand them, will each be taken by the
@@ -746,7 +745,11 @@ will magnify it as well.
 \centering
 \includegraphics[width=0.5\textwidth]{figures/horn-composite.pdf}
 % \includegraphics[width=0.48\textwidth]{figures/horn-emergence-1.pdf}
-\caption{\label{fig:horn} Example simulations showing the lexicalization of horn implicatures. Plotting conventions are as above.}
+\caption{\label{fig:horn} Example simulations showing the
+  lexicalization of Horn implicatures. Plotting conventions are as
+  above. In the first run, speaker and listener converge on a sparse
+  and  efficient communicative equilibrium, while in the second they reach
+  a sub-optimal equilibrium.}
 \end{SCfigure}
 
 
@@ -756,46 +759,45 @@ will magnify it as well.
 \includegraphics[width=0.3\textwidth]{figures/emergence-average.pdf}
 \hspace{0.2in}
 \includegraphics[width=0.3\textwidth]{figures/emergence-horn-average.pdf}
-\caption{\label{fig:emergence-average} Averaged behaviour over 300
+\caption{\label{fig:emergence-average} Averaged behavior over 300
   dialogues as in Figs.~\ref{fig:emergence} and \ref{fig:horn}. Left:
   Communicative success by game type and dialogue turn. Right:
   Proportion of dyads in the Horn implicature game
   (\S\ref{sec:horn-emergence}) who have converged on the ``good'' or
   ``bad'' lexicons and believe that these are literal meanings.}
 \end{SCfigure}
-A stronger example of how pragmatics can create such biases can be
-observed if we simulate agents playing this naming game in the
-``cheap''/``expensive'' \textsc{common}/\textsc{rare} domain of
-\S\ref{sec:horn-implicature}. Recall that in this domain, pragmatic
-reasoning causes each agent to start out independently biased -- but
-only weakly -- towards the associations ``cheap'' $\leftrightarrow$
-\textsc{common}, ``expensive'' $\leftrightarrow$ \textsc{rare}, and
-that this bias arises exactly because their prior on literal meaning
+
+A stronger example of how pragmatics can create communicative biases can be
+observed by considering the Horn implicatures introduced in \S\ref{sec:horn-implicature}. 
+In these games, pragmatic reasoning causes each agent to start out weakly biasedtowards the associations ``cheap'' $\leftrightarrow$
+\textsc{common}, ``expensive'' $\leftrightarrow$ \textsc{rare}; this bias arises because their prior on literal meaning
 is uniform and uninformative. A fully rational listener, therefore,
-observing our uncertain speaker using this mapping, would discount it
+observing an uncertain speaker using this mapping, would discount it
 as arising from this bias, and conclude that the speaker in fact did
-not know which convention was in use. Our socially anxious listener,
-however, believes that the speaker does know which convention is in
-use, and therefore tends to take their behaviour as evidence that the
-good system is in fact in use. Similarly, the socially anxious speaker
-will wager that since on average they will succed more often if the
-listener is using the good system, they might as well try it -- and
-when they succeed, they take this as evidence that the listener was in
+not know which convention was in use. Conventional listeners,
+however, believe that speakers do know which convention is in
+use, and therefore tend to take their behavior as positive evidence that the
+``good'' system is in use. Similarly, conventional speakers
+will wager that since on average they will succed more often if
+listeners are using the ``good'' system, they might as well try
+it. When they succeed, they take their success as evidence that the listener was in
 fact using the good system all along. As a result, dyads in this game
-not only end up converging onto a stable system, but onto specifically
-the good system, at a rate far above chance. However, something
-fundamentally different happens here than in the specificity
-implicature case (\S\ref{sec:learning-specificity-implic}). There, we
-saw that our model could learn hear pragmatically strengthened usages
-of words while recovering the underlying literal meaning. In this
+not only end up converging onto a stable system at a rate far above
+chance (Fig.~\ref{fig:horn}. 
+
+Something
+fundamentally different happens in this case than in the specificity
+implicature case (\S\ref{sec:learning-specificity-implic}), however. There, we
+saw that our model could hear pragmatically strengthened usages
+of words while recovering the underlying literal meaning. In the Horn
 case, though, the pragmatic strengthening depends essentially on
 ignorance about literal meaning. As the agents gather more data,
-therefore, the implicature disappears, to be replaced by a belief that
+the implicature disappears, to be replaced by a belief that
 ``cheap'' \textit{literally} means \textsc{common}. To demonstrate
-this, we queried each agent in each dyad about how they would refer to
+this phenomenon, we queried each agent in each dyad about how they would refer to
 or interpret each object and word, \textit{if} the two objects were
 equally common, which cancels the Horn implicature. As shown in
-Fig.~\ref{emergence-average} (right), after 30 turns, in nearly 70\%
+Fig.~\ref{fig:emergence-average} (right), after 30 turns, in nearly 70\%
 of dyads both $S$ and $L$ believed in the ``good'' mapping even in
 this implicature-free case, while less than 20\% believed in the
 ``bad'' mapping (with the rest being inconsistent).
@@ -878,7 +880,7 @@ zipf, piantidosi et al
 % Thanks to ONR Grant #blahblah
 
 \newpage
-
+\small
 \bibliographystyle{plain}
 \bibliography{pragmatics}
 
