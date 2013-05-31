@@ -7,6 +7,9 @@
 \usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
+% http://www.latex-community.org/forum/viewtopic.php?f=45&t=12364
+\sidecaptionvpos{figure}{c}
+
 \title{Language learning via recursive pragmatic reasoning}
 % \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
@@ -408,7 +411,6 @@ Interpreting Horn implicature & \cite{horn1984} & &  & x& x\\
 Cross-situational learning & \cite{smith2008} & x& & & x \\
 Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
 Disambiguation without mapping & \cite{horst2008} &  & & & x \\
-Learning/lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
 Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
 Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
@@ -674,9 +676,10 @@ that no known language in fact lexicalizes {\sc some-but-not-all}.
   the conventional, consensus lexicon. From these posteriors we derive
   the probability $P(\text{$L$ understands $S$})$ (marginalizing over
   target objects and word choices), and also depict graphically $S$'s
-  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$,
+  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$
+  (top row within each run),
   and $L$'s actual model, $P_{L_n}(\obj | \word, \text{$L$'s
-    data})$. }
+    data})$ (bottom row within each run). }
 \end{figure}
 
 Following the details of \S\ref{sec:spec}, we created a simulation in
@@ -723,9 +726,9 @@ appropriate contexts.
 
 % s2: 
 
-agents not sure whether some literally means some-not-all or not,
-could lexicalize given the right kind of input, but regular pragmatic
-strengthening alone is not enough
+% agents not sure whether some literally means some-not-all or not,
+% could lexicalize given the right kind of input, but regular pragmatic
+% strengthening alone is not enough
 
 \section{Mutual learning situations}
 
