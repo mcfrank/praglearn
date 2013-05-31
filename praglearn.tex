@@ -156,14 +156,14 @@ consider a simple model of the agents in the above game. First we
 define a \textit{literal listener} $L_0$. This agent has a
 \textit{lexicon} which probabilistically maps words to meanings;
 specifically, it assigns each word $w$ a vector describing the extent
-to which this word provides evidence for each object\footnote{We
+to which this word provides evidence for each possible object\footnote{We
   assume words refer directly to objects, rather than to abstract
   semantic features. Our simplification is without loss of
   generalization, however, because we can interpret our model as
   marginalizing over such a representation, with our literal
   $P_\lex(\obj | \word) = \sum_\text{features} P(\obj |
   \text{features}) P_\lex(\text{features} | \word)$.}. Each entry in
-the vector is in $(0, 1)$, and together they sum to 1:
+the vector is in $(0, 1)$, and together they sum to 1. By Bayes rule:
 \begin{align*}
 P_{L_0}(\obj | \word, \lex) &\propto \lex(\word, \obj) \times \prior.
 \end{align*}
