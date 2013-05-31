@@ -94,7 +94,7 @@ listener models speaker (who may in turn be modeling a listener).
 Even before they are proficient language users, children learn the
 meanings of words from their pattern of use in context. For example,
 in demonstrations of the ``disambiguation effect,'' a novel word
-(e.g. ``dax'') is used in a context containing both a novel and a
+(e.g.~``dax'') is used in a context containing both a novel and a
 familiar object. From quite young, children tend to make the inference
 that ``dax'' refers to the novel object \cite{markman1988}. In another
 demonstration, even young toddlers can extract mappings between words
@@ -103,13 +103,13 @@ between pairs of words and pairs of objects \cite{smith2008}. Taking
 inspiration from children's learning prowess, recent work in the field
 of grounded language learning has explored the possibility that even
 relatively complex word meanings can be inferred from corpus data
-(e.g. \cite{zettlemoyer2005,chen2008,frank2009,kwiatkowski2010,johnson2012}).
+(e.g.~\cite{zettlemoyer2005,chen2008,frank2009,kwiatkowski2010,johnson2012}).
 
 Recursive pragmatic inferences such as those described above could be
 an important part of language learning.\footnote{Very young children
   make inferences that are often labeled as ``pragmatic'' in that they
   involve reasoning about context \cite{clark1988,baldwin1993}, though
-  they also show weaknesses in specific inferences (e.g. strengthening
+  they also show weaknesses in specific inferences (e.g.~strengthening
   ``some'' to ``some but not all'' \cite{papafragou2003}). Here we
   remain agnostic about the age at which children are able to make
   such inferences robustly, as it may vary depending on the linguistic
@@ -357,13 +357,14 @@ are summarized in Table \ref{tab:results}. In
 \begin{center}
 \begin{tabular}{lccccc}
 \toprule
-Phenomenon & Ref. & WL & PI & PI+U & PIL \\
+Phenomenon & Ref. & WL & PI & PI+U & PI+WL \\
 \midrule
 Interpreting specificity implicature & \cite{grice1975} &  & x &x & x\\
 Interpreting Horn implicature & \cite{horn1984} & &  & x& x\\
 Cross-situational learning & \cite{smith2008} & x& & & x \\
 Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
 Disambiguation without mapping & \cite{horst2008} &  & & & x \\
+Learning/lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
 Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
 Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
@@ -375,8 +376,8 @@ Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
   pragmatic inference model of \cite{frank2012}; PI+U refers to the
   pragmatic inference model of \cite{bergen2012} which includes
   lexical uncertainty, marginalizes it out, and then recurses. Our
-  current model is referred to here as PIL, or pragmatic inference and
-  learning.}
+  current model is referred to here as PI+WL, and combines pragmatic
+  inference with word learning.}
 \end{table}
 
 % In this section, we describe the coverage of our pragmatic learning
@@ -457,17 +458,6 @@ $\left[
 \subsection{Horn implicature}
 
 \label{sec:horn-implicature}
-
-% XX note the relation to BGL model; they need uncertainty in the
-% middle of the pragmatics specifically, which is where we end up
-% putting it for other reasons. And in Bayesian framework uncertainty
-% and learning must always coincide. Also the intuition that this is a
-% general property of uncertainty for soft-max agents -- if you don't
-% know where you are, good worlds have more peaked utility
-% distributions than bad worlds, and thus more consistent behavior by
-% other agents, so on average when you're guessing what other agents
-% will do, good worlds contribute more to your average than bad
-% worlds.
 
 Consider a world in which contains two words and two types of
 objects. One word is expensive to use, and one is cheap (call them
@@ -575,8 +565,8 @@ point in \S\ref{sec:horn-emergence}.
 % \end{SCfigure}
 
 Children, when presented with both a novel and a familiar object
-(e.g. an eggbeater and a ball), will treat a novel label
-(e.g. ``dax'') as referring to the novel object, for example by
+(e.g.~an eggbeater and a ball), will treat a novel label
+(e.g.~``dax'') as referring to the novel object, for example by
 supplying the eggbeater when asked to ``give me the dax''
 \cite{markman1988}. This phenomenon is sometimes referred to as
 ``mutual exclusivity'' or even ``fast mapping.'' Simple probabilistic word learning models can produce a
@@ -588,7 +578,7 @@ demonstrated by their inferences in the moment \cite{horst2008}.
 
 Our model provides an intriguing possible explanation of this finding:
 given a single disambiguation situation, the model gives a substantial
-probability (e.g. 75\%) that the speaker is referring to the novel
+probability (e.g.~75\%) that the speaker is referring to the novel
 object. Nevertheless, this inference is not accompanied by an increased belief
 that the novel word literally refers to this object. The learner's
 interpretation arises not from lexical mapping but instead from a kind
@@ -690,10 +680,15 @@ appropriate contexts.
 
 % s2: 
 
+agents not sure whether some literally means some-not-all or not,
+could lexicalize given the right kind of input, but regular pragmatic
+strengthening alone is not enough
+
 \section{Mutual learning situations}
 
 
 \subsection{Emergence of efficient communicative conventions}
+\label{sec:emergence}
 
 Experimental results suggest that communicators are able to establish
 novel, consensus-based communication systems. For example, adults
@@ -719,7 +714,7 @@ behavior should not change over time.
 % would fail to explain yet another wrinkle in this phenomenon:
 % speakers only regularize their production over time if they have
 % some kind of feedback indicating that the listener understands; if
-% such feedback is removed, the phenomenon is dramatically reduced (XX
+% such feedback is removed, the phenomenon is dramatically reduced (X X
 % krauss 1966, branigan catchpole pickering 2011).
 
 
@@ -772,7 +767,7 @@ and what started as a ``superstition'' becomes normatively correct.
 % priors over the lexicon, they are biased to end up believing in
 % lexicons that are communicatively useful for the task at hand.
 
-% XXXX what can we say about the role pragmatics plays here? It's
+% X X X X what can we say about the role pragmatics plays here? It's
 % annoyingly non-trivial to sample from the equivalent model where the
 % speaker just samples from a multinomial distribution and the
 % listener inverts it. The listener's data is samples from a DM so
@@ -843,7 +838,11 @@ equally common, which cancels the Horn implicature. As shown in
 Fig.~\ref{fig:emergence-average} (right), after 30 turns, in nearly 70\%
 of dyads both $S$ and $L$ believed in the ``good'' mapping even in
 this implicature-free case, while less than 20\% believed in the
-``bad'' mapping (with the rest being inconsistent).
+``bad'' mapping (with the rest being inconsistent). This makes the
+interesting prediction that while specificity implicatures can survive
+indefinitely in a language system, any Horn implicatures that arise
+consistently should transition to becoming part of the literal meaning
+of the words involved.
 
 % To show that they're lexicalized, at end of each of 4 dialogues, we
 % look at how speaker and listener talk about/interpret the objects/words:
@@ -885,37 +884,56 @@ this implicature-free case, while less than 20\% believed in the
 If each agent in a multi-agent setting assumes the existence of a
 shared, conventional norm underlying everyone's behaviour, and further
 assumes that other agents are knowledgeable about this norm while they
-themselves are not, then we are able to preserve most of the normative
-Bayesian framework, explicitly model both learning and recursive
-social reasoning simultaneously within the same framework, and avoid
-paradox. The resulting theory unifies two previously separate
-strands of modelling work on language usage and acquisition,
-accounting for a superset of previous phenomena, while producing a
-variety of new qualitative patterns. In particular, we make new 
+themselves are not, then we are able to simultaneously preserve most
+of the normative Bayesian framework, explicitly model learning and
+recursive social reasoning within the same framework, and avoid
+paradox. The resulting model unifies two previously separate strands
+of modelling work on language usage and acquisition, and -- having
+done so -- accounts for not just the phenomena these previous models
+accounted for, but a variety of new ones as well. We propose new
+explanations of the child language acquisition phenomena of
+disambiguation without mapping \cite{horst2008} and the acquisition of
+scalar adjectives (XX ask Mike what the levinson cite is really, see
+also table), and demonstrate that our model is capable of developing
+novel and efficient communicative systems through iterated learning
+within the context of a single simulated conversation.
 
-the deviations from rationality -- assumption that words have
-meanings, suspicion that everyone else knows what they are -- are
-highly interpretable and intuitively compelling, and while like any
-deviations from rationality they necessarily introduce biases, these
-biases appear in this case to improve the global performance of the
-system.
+Accomplishing this requires limited deviations from rationality, and
+as such necessarily introduces biases in agent behaviour. We've
+identified two such biases here: the tendency for pragmatic speakers
+and listeners to accentuate useful, sparse patterns in their
+communicative systems (\S\ref{sec:emergence}), and for cheap words to
+be assigned to common objects (\S\ref{sec:horn-emergence}).
+Remarkably, while both are locally sub-optimal for individual agents,
+they both systematically drive the overall communicative system
+towards greater global efficiency. In the long term, these processes
+should leave their mark on the structure of the language itself, which
+may provide a partial explanation for how languages become so tightly
+optimized for effective communication \cite{zipf1936,piantadosi2011}.
 
-if you're trying to collaborate with an agent who soft-maximizes
-utility, but there are multiple possible rules which might underlie
-their utility function, you should assign more weight to those rules
-which provide a sharp distinction in utility for different actions --
-which will generally be the rules that allow for higher expected
-utility. this actually explains both the uniform prior and the horn
-implicature emergence results.
+% the deviations from rationality -- assumption that words have
+% meanings, suspicion that everyone else knows what they are -- are
+% highly interpretable and intuitively compelling, and while like any
+% deviations from rationality they necessarily introduce biases, these
+% biases appear in this case to improve the global performance of the
+% system.
 
-provides new insight into use of pragmatic reasoning in word learning,
-the learning of literal meanings given pragmatically strengthened
-input, and makes the interesting prediction that some implicatures are
-intrinsically more stable, while others if consistently supported will
-tend to enter the lexicon and become part of the literal meaning of
-the relevant words.
+% if you're trying to collaborate with an agent who soft-maximizes
+% utility, but there are multiple possible rules which might underlie
+% their utility function, you should assign more weight to those rules
+% which provide a sharp distinction in utility for different actions --
+% which will generally be the rules that allow for higher expected
+% utility. this actually explains both the uniform prior and the horn
+% implicature emergence results.
 
-zipf, piantidosi et al
+% provides new insight into use of pragmatic reasoning in word learning,
+% the learning of literal meanings given pragmatically strengthened
+% input, and makes the interesting prediction that some implicatures are
+% intrinsically more stable, while others if consistently supported will
+% tend to enter the lexicon and become part of the literal meaning of
+% the relevant words.
+
+% zipf, piantidosi et al
 
 %\subsubsection*{Acknowledgments}
 
