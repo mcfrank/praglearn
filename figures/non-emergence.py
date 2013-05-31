@@ -2,12 +2,10 @@ from nips import *
 
 from scipy.special import gammaln
 
-# speaker and listener each have dirichlet priors on a set of object -> word
+# two agents each have dirichlet priors on a set of object -> word
 # multinomial distributions.
-# speaker to produce a word samples from dirichlet-multinomial
-# listener conditions on the word to guess the meaning
-# speaker increments this (word, interpretation) pair in its Dirichlet prior
-# listener increments (word, target) pair in its Dirichlet prior
+# without pragmatics we can't condition on listener interpretation, so
+# instead, they take turns speaking
 
 SIZE = 2
 
