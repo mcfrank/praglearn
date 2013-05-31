@@ -5,7 +5,7 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{booktabs}
-\usepackage{subcaption}
+\usepackage[raggedright]{sidecap}
 
 \title{Learning words by recursive pragmatic reasoning about other agents: The blessing of social anxiety}
 
@@ -120,7 +120,7 @@ In several important cases, these assumptions are as close to rational as possib
 %
 % something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
 
-\section{Experiments 1: Empirical coverage}
+\section{Experiments: Pragmatic and word learning phenomena}
 
 In this section, we describe the coverage of our pragmatic learning model on phenomena previously investigated with the pragmatics and word learning components of the model. To summarize these simulations: the pragmatic learning model reproduces previous findings and provides some new insights into the ``disambiguation'' phenomenon described above. 
 
@@ -131,24 +131,25 @@ In this section, we describe the coverage of our pragmatic learning model on phe
 \toprule
 Phenomenon & Ref. & WL & PI & PI+U & This work \\
 \midrule
-Interpreting scalar implicature & \cite{grice1975} &  & x &x & x\\
+Interpreting specificity implicature & \cite{grice1975} &  & x &x & x\\
 Interpreting Horn implicature & \cite{horn1984} & &  & x& x\\
 Cross-situational learning & \cite{smith2008} & x& & & x \\
 Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
+Disambiguation without mapping & \cite{horst2008} &  & & & x \\
 Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
-Learning scalar implicature & & & & & x \\
-\bottomrule
+Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
+Lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
+\hline
 \end{tabular}
 \end{center}
 \caption{Empirical results and references. WL refers to the word learning model of \cite{frank2009}; PI refers to the recursive pragmatic inference model of \cite{frank2012}; PI+U refers to the pragmatic inference model of \cite{bergen2012} which includes lexical uncertainty, marginalizes it out, and then recurses.}
 \end{table}
 
+\subsection{Specificity implicature}
 
-\subsection{Scalar implicature}
+Many sets of words in natural language form scales in which each term refers to successively stronger restrictions on the situations compatible with the term. ``Some'' and ``all'' form a scale of this type. While ``I ate some of the cookies'' is compatible with the followup ``in fact, I ate {\it all} of the cookies,'' the reverse is not true. ``Might'' and ``must'' are another example, as are ``OK,'' ``good,'' and ``excellent.'' All of these scales allow for {\it scalar implicatures} \cite{grice1975}: if a speaker uses a weaker term, a listener is licensed to infer that the stronger term was not true in this situation. So although ``I ate some of the cookies'' could in principle be compatible with eating all of them, the listener is lead to believe that ``some but not all'' is the likely state of affairs. We use the term {\it specificity implicature} here (following \cite{bergen2012}) to denote that we are agnostic about whether such implicatures are conventionalized or whether they use a contextually-defined scale.
 
-Many sets of words in natural language form scales in which each term refers to successively stronger restrictions on the situations compatible with the term. ``Some'' and ``all'' form a scale of this type. While ``I ate some of the cookies'' is compatible with the followup ``in fact, I ate {\it all} of the cookies,'' the reverse is not true. ``Might'' and ``must'' are another example, as are ``OK,'' ``good,'' and ``excellent.'' All of these scales allow for {\it scalar implicatures} \cite{grice1975}: if a speaker uses a weaker term, a listener is licensed to infer that the stronger term was not true in this situation. So although ``I ate some of the cookies'' could in principle be compatible with eating all of them, the listener is lead to believe that ``some but not all'' is the likely state of affairs. 
-
-The recursive pragmatic reasoning portions of our model capture set of findings on scalar implicature effectively. Consider a lexicon
+The recursive pragmatic reasoning portions of our model capture findings on specificity implicature. Consider a representation of scalar implicature as a matrix 
 $\left[
     \begin{array}{cc}
       0.5 & 0.5 \\
@@ -189,7 +190,23 @@ $\left[
 
 Consider a world in which contains two words and two types of objects. One word is expensive to use, and one is cheap (call them ``expensive'' and ``cheap'' for short). One object type is common and one is rare; denote these \textsc{common} and \textsc{rare}. Intuitively, there are two possible communicative systems here: a good system where ``cheap'' means \textsc{common} and ``expensive'' means \textsc{rare}, and a bad system where the opposite holds. Obviously we would prefer to use the good system, but it has historically proven very difficult to derive this conclusion in a game theoretic setting, because both systems are stable equilibria; if our partner uses the bad system, then we would rather follow and communicate at some cost than switch to the good system and fail entirely \cite{bergen2012}.
 
-Humans, however, unlike traditional game theoretic models, make the inference that if two utterances seem equivalent except that one is more costly to utter, then the costly utterance refers to an unusual event. We call this pattern \textit{Horn implicature}, after \cite{horn1984}. For instance, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g.~not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car'' \cite{horn1984}. Surprisingly, Bergen et al \cite{bergen2012} show that the key to achieving this favorable result is ignorance. If a listener assigns equal probability to her partner using the good system or the bad system, then their best bet is to estimate $P_S(\word | \obj)$ as the average of $P_S(\word | \obj, \text{good system})$ and $P_S(\word | \obj, \text{bad system})$. These might seem to cancel out, but in fact they do not. In the good system, the speaker has higher expected utility than the bad system; therefore, a soft-max agent in the bad system has noiser behaviour than in the good system, and their behaviour in the good system dominates the average, breaking the symmetry. Similar reasoning applies to an uncertain speaker.
+Humans, however, unlike traditional game theoretic models, do make the inference that if two utterances seem equivalent except that one is more costly to utter, then the costly utterance refers to an unusual event. We call this pattern \textit{Horn implicature}, after \cite{horn1984}. For instance, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g.~not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car'' \cite{horn1984}. Surprisingly, Bergen et al \cite{bergen2012} show that the key to achieving this favorable result is ignorance. If a listener assigns equal probability to her partner using the good system or the bad system, then their best bet is to estimate $P_S(\word | \obj)$ as the average of $P_S(\word | \obj, \text{good system})$ and $P_S(\word | \obj, \text{bad system})$. These might seem to cancel out, but in fact they do not. In the good system, the speaker has higher expected utility than the bad system; therefore, a soft-max agent in the bad system has noiser behaviour than in the good system, and their behaviour in the good system dominates the average, breaking the symmetry. Similar reasoning applies to an uncertain speaker.
+
+% Mike's text:
+% Such an implicature again arises naturally from our model. We create a situation in which expressions have differential costs (e.g. $[.5 1.0]$) and referents have differential probabilities (e.g. $[.8 .2]$). At the settings used throughout the manuscript, speakers in such a situation choose simple words to refer to common referents at different rates than for uncommon references. This situation breaks the symmetry though does not result in as dramatic a diagonal as in the specificity implicature, e.g. for the speaker, \footnote{Rows indicate words and columns indicate referents. For speakers, columns are normalized to indicate a distribution over words to be produced given referents, and for listeners rows are normalized to indicate a distribution on referents given words heard.}
+% $\left[
+%     \begin{array}{cc}
+%       .88 & .54 \\
+%       .12 & .46
+%     \end{array} 
+%   \right]$ 
+% and for the listener,
+% $\left[
+%     \begin{array}{cc}
+%       .77 & .23 \\
+%       .65 & .35
+%     \end{array} 
+%   \right]$. See Section \ref{sec:hornlearn} for the consequences of repeating this implicature until it is lexicalized.
 
 % Simulation parameters:
 %   word costs: 0.5, 1.0
@@ -203,33 +220,40 @@ Humans, however, unlike traditional game theoretic models, make the inference th
 % array([[ 0.77458316,  0.22541684],
 %        [ 0.64702551,  0.35297449]])
 
-The model of \cite{bergen2012} differs from ours in that they then apply further layers of pragmatic recursion on top of these marginal distributions, which as described above removes the possibility of learning; in their model it is only hypothetical agents who are ignorant, while the actual speaker and listener know everything there is to know about each other's behaviour. However, the core result carries over to our model. For example, with a uniform prior over lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$, $\text{cost}(\text{``cheap''}) = 0.5$, $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the appropriate way: Despite total ignorance of the conventional system, speakers prefer to use simple words for common referents ($P_S(\text{``cheap''} | \text{\textsc{common}}) = 0.88, P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) = 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) = 0.65$).
+The model of \cite{bergen2012} differs from ours in that they then apply further layers of pragmatic recursion on top of these marginal distributions, which as described above removes the possibility of learning; in their model it is only hypothetical agents who are ignorant, while the actual speaker and listener know everything there is to know about each other's behaviour. However, the core result carries over to our model. For example, with a uniform prior over lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$, $\text{cost}(\text{``cheap''}) = 0.5$, $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the appropriate way: Despite total ignorance about the conventional system, speakers prefer to use simple words for common referents ($P_S(\text{``cheap''} | \text{\textsc{common}}) = 0.88, P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) = 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) = 0.65$). This preference is somewhat weak, at least to start -- see \S\ref{sec:horn-emergence}
 
 \subsection{Statistical cross-situational word learning}
 
-A recent line of work in language acquisition has 
-% \begin{figure}[t]
-%   \centering
-%   \includegraphics[width=0.20\textwidth]{figures/cross-sit.pdf}
-%   \caption{Cross-situational simulation}
-%   \label{fig:cross-sit}
-% \end{figure}
+Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. A representative simulation is shown in Fig. \ref{fig:cross-sit}.
+
+\begin{SCfigure}[2.5]
+  \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
+  \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
+  \label{fig:cross-sit}
+\end{SCfigure}
 
 \subsection{Disambiguation using known words}
+
+\begin{SCfigure}[1]
+  \centering
+  % \includegraphics[width=0.24\textwidth]{figures/ME-1dax.pdf}
+  % \includegraphics[width=0.24\textwidth]{figures/ME-flat-10dog-10dax.pdf}
+  % \includegraphics[width=0.24\textwidth]{figures/ME-antisparse-10dog-10dax.pdf}
+  % \includegraphics[width=0.24\textwidth]{figures/ME-sparse-10dog-10dax.pdf}
+\includegraphics[width=.6\textwidth]{figures/ME-composite-small.pdf}
+  \caption{Results for simulations of the ``disambiguation'' phenomenon. A novel word is used in a situation with a novel object and a familiar object. Each plot shows the joint posterior probability that the familiar word refers to the familiar object (horizontal) and that the novel word refers to the familiar object (vertical). Left plot shows the posterior after a single situation; right plot shows multiple situations. 
+%The right middle plot shows the posterior after a single situation given either a prior that makes it likely that there are words referring to both the novel and familiar objects (perhaps because the two objects are physically similar; the right plot shows a situation where the prior makes it unlikely that a word refers to both (objects dissimilar). 
+}
+  \label{fig:me}
+\end{SCfigure}
+
+Children, when presented with both a novel and a familiar object (e.g. an eggbeater and a ball), will treat a novel label (e.g. ``dax'') as referring to the novel object, for example by supplying the eggbeater when asked to ``give me the dax'' \cite{markman1988}. This phenomenon is sometimes referred to as ``mutual exclusivity'' or even ``Fast mapping,'' and many distinct theoretical accounts have been proposed in the psychological literature. Simple probabilistic word learning models can produce a similar pattern of findings \cite{frank2009}, often due to the kinds of ``explaining away'' type phenomena that are observed in such models. But all such models assume that learners in fact retain the mapping between word and object that is demonstrated in the experimental situation; this observation is contradicted, however, by evidence that children often do not retain the mappings that are demonstrated by their inferences in the moment \cite{horst2008}. 
+
+Our model provides an intriguing possible explanation of this finding: given a single disambiguation situation, the model gives a substantial probability (e.g. 75\%) that the speaker is referring to the novel object. Nevertheless, integrating across lexicons reveals that this probability is not due to learning that the novel word refers to this object (as shown in Fig. \ref{fig:me}, left): instead, it comes in part from a specificity implicature because the listener knows that the familiar word \emph{does not} refer to the novel object--hence the novel word (even if it refers to the familiar object as well) is the best way to refer to the novel object. Nevertheless, on repeated exposure to the same novel word, novel object situation, the model does lexicalize this inference (Fig. \ref{fig:me}, right). 
 
 % Novel word means: Familiar object: 25.5%. Novel object: 74.5%.
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
 % To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.20\textwidth]{figures/ME-1dax.pdf}
-  \includegraphics[width=0.20\textwidth]{figures/ME-flat-10dog-10dax.pdf}
-  \includegraphics[width=0.20\textwidth]{figures/ME-antisparse-10dog-10dax.pdf}
-  \includegraphics[width=0.20\textwidth]{figures/ME-sparse-10dog-10dax.pdf}
-  \caption{Mutual exclusivity simulation}
-  \label{fig:mutual-exclusivity}
-\end{figure}
 
 \section{Experiments 2: Lexical learning in pragmatic contexts}
 
@@ -342,6 +366,7 @@ zipf, piantidosi et al
 
 % Thanks to ONR Grant #blahblah
 
+\newpage
 
 \bibliographystyle{plain}
 \bibliography{pragmatics}
