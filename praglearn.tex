@@ -7,6 +7,9 @@
 \usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
+% http://www.latex-community.org/forum/viewtopic.php?f=45&t=12364
+\sidecaptionvpos{figure}{c}
+
 \title{Language learning via recursive pragmatic reasoning}
 % \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
@@ -71,8 +74,9 @@ Stanford, CA, USA \\
 
 \section{Introduction}
 
-Natural language is a powerful tool for conveying meaning in
-context. Consider the utterances
+Two puzzles present themselves to language users: What do words mean in general and what do they mean in context?
+%Natural language is a powerful tool for conveying meaning in context. 
+Consider the utterances
 ``it's raining,'' ``I ate some of the cookies,'' or ``can you close
 the window?'' In each, a listener must go beyond the literal meaning
 of the words to fill in contextual details (``it's raining here and
@@ -87,8 +91,9 @@ reason, ``if she had wanted me to think `all' of the cookies, she
 would have said `all'---but she didn't. Hence `all' must not be true
 and she must have eaten some {\it but not all} of the cookies.'' This kind of reasoning is core to language use. 
 
-But pragmatic reasoning often intersects with language learning as
-well. In both adults and children, uncertainty about word meanings is
+But pragmatic reasoning about meaning-in-context relies on stable literal meanings that must  themselves be learned.
+%and often intersects with learning the meaning of language in general. 
+In both adults and children, uncertainty about word meanings is
 common, and often considering speakers' pragmatic goals can help to resolve this uncertainty. For example,
 if a novel word is used in a context containing both a novel and a
 familiar object, young children can make the inference
@@ -343,7 +348,7 @@ The top-level speaker attempts to select the word which soft-maximizes their uti
 \begin{align*}
   P_S(\word | \obj, \text{$S$'s data}) &\propto \exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
 \end{align*}
-Here $P(\lex|\text{$S$'s data}$ is defined similarly, when $S$ observes
+Here $P(\lex|\text{$S$'s data})$ is defined similarly, when $S$ observes
 $L$'s interpretations of various utterances, and treats them as
 samples from $L_n$, not $L$.
 
@@ -406,7 +411,6 @@ Interpreting Horn implicature & \cite{horn1984} & &  & x& x\\
 Cross-situational learning & \cite{smith2008} & x& & & x \\
 Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
 Disambiguation without mapping & \cite{horst2008} &  & & & x \\
-Learning/lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
 Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
 Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
@@ -435,8 +439,7 @@ Non-lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 \label{sec:spec}
 
 Many sets of words in natural language form scales in which each term
-refers to successively stronger restrictions on the situations
-compatible with the term. ``Some'' and ``all'' form a scale of this
+is more informative than, and is entailed by, the previous. ``Some'' and ``all'' form a scale of this
 type. While ``I ate some of the cookies'' is compatible with the
 followup ``in fact, I ate {\it all} of the cookies,'' the reverse is
 not true. ``Might'' and ``must'' are another example, as are ``OK,''
@@ -675,9 +678,10 @@ that no known language in fact lexicalizes {\sc some-but-not-all}.
   the conventional, consensus lexicon. From these posteriors we derive
   the probability $P(\text{$L$ understands $S$})$ (marginalizing over
   target objects and word choices), and also depict graphically $S$'s
-  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$,
+  model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$
+  (top row within each run),
   and $L$'s actual model, $P_{L_n}(\obj | \word, \text{$L$'s
-    data})$. }
+    data})$ (bottom row within each run). }
 \end{figure}
 
 Following the details of \S\ref{sec:spec}, we created a simulation in
@@ -724,9 +728,9 @@ appropriate contexts.
 
 % s2: 
 
-agents not sure whether some literally means some-not-all or not,
-could lexicalize given the right kind of input, but regular pragmatic
-strengthening alone is not enough
+% agents not sure whether some literally means some-not-all or not,
+% could lexicalize given the right kind of input, but regular pragmatic
+% strengthening alone is not enough
 
 \section{Mutual learning situations}
 
