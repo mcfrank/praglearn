@@ -237,7 +237,7 @@ $S_n$, is fully optimal with respect to the game, while the other,
 implementing $L_{n-1}$, is only nearly optimal---off by a single
 recursion.
 
-As soon as we attempt to add uncertainty about the meanings of words
+This resolves one paradox, but as soon as we attempt to add uncertainty about the meanings of words
 to such a model, new paradoxes arise. Suppose the listener is a young
 child who is uncertain about the lexicon their partner is using. The
 obvious solution is for them to place a prior on the lexicon; they
@@ -342,7 +342,12 @@ word-referent pairs $\{w_i, o_i\}$:
 \begin{align*}
   P(\lex | \text{$L$'s data}) \propto P(\lex) \prod_i P_{S_{n-1}}(w_i|o_i,  \lex)
 \end{align*}
-The top-level speaker attempts to select the word which soft-maximizes their utility, with utility now being defined in terms of the informativity of the expectation (over lexicons) that the listener will have for at the right referent\footnote{An alternative model would have the speaker take the expectation over informativity, instead of the informativity of the expectation.}:
+The top-level speaker attempts to select the word which soft-maximizes
+their utility, with utility now being defined in terms of the
+informativity of the expectation (over lexicons) that the listener
+will have for the right referent\footnote{An alternative model would
+  have the speaker take the expectation over informativity, instead of
+  the informativity of the expectation.}:
 \begin{align*}
   P_S(\word | \obj, \text{$S$'s data}) &\propto \exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
 \end{align*}
@@ -446,27 +451,27 @@ not true. ``Might'' and ``must'' are another example, as are ``OK,''
 listener is licensed to infer that the stronger term was not true in
 this situation. So although ``I ate some of the cookies'' could in
 principle be compatible with eating {\sc all} of them, the listener is lead
-to believe that {\sc some-but-not-all}' is the likely state of
+to believe that {\sc some-but-not-all} is the likely state of
 affairs. We use the term {\it specificity implicature} here (following
 \cite{bergen2012}) to denote that we are agnostic about whether such
 implicatures are conventionalized or whether they use a
 contextually-defined scale.
 
 The recursive pragmatic reasoning portions of our model capture
-findings on specificity implicature. Consider a representation of
-scalar implicature as a matrix $\left[
+findings on specificity implicature. Consider a lexicon in which the
+rows represent the meaning of ``some'' and ``all'', and the columns
+indicate worlds where \textsc{some-but-not-all} and \textsc{all} are
+true, respectively: $\left[
     \begin{array}{cc}
       0.5 & 0.5 \\
       0 & 1
     \end{array}
-  \right]$, where rows show the words ``some'' and ``all'' and columns
-  indicate worlds where {\sc some but not all} and {\sc all} are true,
-  respectively, capturing the regularity that ``some'' can be said of
+  \right]$. This lexicon captures the regularity that ``some'' can be said of
   situations where {\sc all} is actually the case. Assuming uniform
   costs for the two words, a rational speaker confronted with such a
   lexicon will prefer to say ``some'' only when they mean \textsc{some
     but not all}, and this is therefore the interpretation that a
-  rational listener will place on ``some'' as well.
+  rational listener -- and our model -- will place on ``some'' as well.
 
 % To simulate this
 %   situation, we place a Dirichlet(10, 10) prior on the meaning of
