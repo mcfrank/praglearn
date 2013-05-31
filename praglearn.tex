@@ -142,14 +142,12 @@ pragmatics for learning can be investigated directly.
 The goal of our current work is to investigate the possibilities for
 integrating models of recursive pragmatic reasoning with models of
 language learning, with the hope of capturing phenomena in both
-domains. We begin by describing previous models in each domain as well
-as proposals for bringing the two together. We next simulate findings
+domains. We begin by describing a proposal for bringing the two together, noting several issues in applying a purely normative framework to recursive reasoning under uncertainty. We next simulate findings
 on pragmatic inference in one-shot games (replicating previous
 work). We then build on these results to simulate the results of pragmatic
 learning in the language acquisition setting where one communicator is
 uncertain about the lexicon and in iterated communication games where both
-communicators are uncertain about the lexicon. We end by discussing the implications of our results for
-work on language change.
+communicators are uncertain about the lexicon. 
 
 % This
 % kind of counterfactual reasoning has a recursive character to it:
@@ -351,7 +349,8 @@ will have for the right referent\footnote{An alternative model would
   have the speaker take the expectation over informativity, instead of
   the informativity of the expectation.}:
 \begin{align*}
-  P_S(\word | \obj, \text{$S$'s data}) &\propto \exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
+  P_S(\word & | \obj, \text{$S$'s data})  \propto \\
+ &\exp\Big(\lambda \big(\log  \sum_\lex P_{L_{n-1}}(\obj | \word, \lex) P(\lex|\text{$S$'s data}) - \text{cost}(\word)\big)\Big)
 \end{align*}
 Here $P(\lex|\text{$S$'s data})$ is defined similarly, when $S$ observes
 $L$'s interpretations of various utterances, and treats them as
@@ -473,7 +472,7 @@ true, respectively: $\left[
   costs for the two words, a rational speaker confronted with such a
   lexicon will prefer to say ``some'' only when they mean \textsc{some
     but not all}, and this is therefore the interpretation that a
-  rational listener -- and our model -- will place on ``some'' as well.
+  rational listener---and our model---will place on ``some'' as well.
 
 % To simulate this
 %   situation, we place a Dirichlet(10, 10) prior on the meaning of
@@ -506,6 +505,8 @@ true, respectively: $\left[
 % How listener interprets "some" and "all" words:
 % array([[ 0.86214895,  0.13785105],
 %        [ 0.03151434,  0.96848566]])
+
+\vspace{-2ex}
 
 \subsection{Horn implicature}
 
@@ -754,7 +755,7 @@ over the course of repeated interactions (e.g., ``the ice skater'' for
 an abstract figure vaguely resembling an ice skater,
 \cite{clark1986}). From a pure learning perspective this behavior is anomalous,
 however: Since both agents know perfectly well that there is no
-underlying convention to discover, there is nothing to learn from the
+existing convention to discover, there is nothing to learn from the
 other's behavior. Furthermore, even if only one partner is producing
 the novel expressions, their behavior still becomes more regular
 (conventional) over time, which would seem to rule out a role for
@@ -875,8 +876,8 @@ will wager that since on average they will succed more often if
 listeners are using the ``good'' system, they might as well try
 it. When they succeed, they take their success as evidence that the listener was in
 fact using the good system all along. As a result, dyads in this game
-not only end up converging onto a stable system at a rate far above
-chance (Fig.~\ref{fig:horn}. 
+ end up converging onto a stable system at a rate far above
+chance (Fig.~\ref{fig:horn}). 
 
 Something
 fundamentally different happens in this case than in the specificity
