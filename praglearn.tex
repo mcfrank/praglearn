@@ -120,7 +120,7 @@ In several important cases, these assumptions are as close to rational as possib
 %
 % something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
 
-\section{Experiments: Pragmatic and word learning phenomena}
+\section{Results: Pragmatic inference}
 
 In this section, we describe the coverage of our pragmatic learning model on phenomena previously investigated with the pragmatics and word learning components of the model. To summarize these simulations: the pragmatic learning model reproduces previous findings and provides some new insights into the ``disambiguation'' phenomenon described above. 
 
@@ -184,6 +184,7 @@ $\left[
 %        [ 0.03151434,  0.96848566]])
 
 \subsection{Horn implicature}
+
 \label{sec:horn-implicature}
 
 % XX note the relation to BGL model; they need uncertainty in the middle of the pragmatics specifically, which is where we end up putting it for other reasons. And in Bayesian framework uncertainty and learning must always coincide. Also the intuition that this is a general property of uncertainty for soft-max agents -- if you don't know where you are, good worlds have more peaked utility distributions than bad worlds, and thus more consistent behaviour by other agents, so on average when you're guessing what other agents will do, good worlds contribute more to your average than bad worlds.
@@ -193,22 +194,6 @@ Consider a world in which contains two words and two types of objects. One word 
 Humans, however, unlike traditional game theoretic models, do make the inference that if two utterances seem equivalent except that one is more costly to utter, then the costly utterance refers to an unusual event. We call this pattern \textit{Horn implicature}, after \cite{horn1984}. For instance, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g.~not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car'' \cite{horn1984}. Surprisingly, Bergen et al \cite{bergen2012} show that the key to achieving this favorable result is ignorance. If a listener assigns equal probability to her partner using the good system or the bad system, then their best bet is to estimate $P_S(\word | \obj)$ as the average of $P_S(\word | \obj, \text{good system})$ and $P_S(\word | \obj, \text{bad system})$. These might seem to cancel out, but in fact they do not. In the good system, the speaker has higher expected utility than the bad system; therefore, a soft-max agent in the bad system has noiser behaviour than in the good system, and their behaviour in the good system dominates the average, breaking the symmetry. Similar reasoning applies to an uncertain speaker.
 
 % You know, this is almost exactly like a quantitatively graded version of Pascal's wager.
-
-% Mike's text:
-% Such an implicature again arises naturally from our model. We create a situation in which expressions have differential costs (e.g. $[.5 1.0]$) and referents have differential probabilities (e.g. $[.8 .2]$). At the settings used throughout the manuscript, speakers in such a situation choose simple words to refer to common referents at different rates than for uncommon references. This situation breaks the symmetry though does not result in as dramatic a diagonal as in the specificity implicature, e.g. for the speaker, \footnote{Rows indicate words and columns indicate referents. For speakers, columns are normalized to indicate a distribution over words to be produced given referents, and for listeners rows are normalized to indicate a distribution on referents given words heard.}
-% $\left[
-%     \begin{array}{cc}
-%       .88 & .54 \\
-%       .12 & .46
-%     \end{array} 
-%   \right]$ 
-% and for the listener,
-% $\left[
-%     \begin{array}{cc}
-%       .77 & .23 \\
-%       .65 & .35
-%     \end{array} 
-%   \right]$. See Section \ref{sec:hornlearn} for the consequences of repeating this implicature until it is lexicalized.
 
 % Simulation parameters:
 %   word costs: 0.5, 1.0
@@ -226,13 +211,18 @@ The model of \cite{bergen2012} differs from ours in that they then apply further
 
 \subsection{Statistical cross-situational word learning}
 
-Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. A representative simulation is shown in Fig. \ref{fig:cross-sit}.
+Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
 
-\begin{SCfigure}[2.5]
-  \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
-  \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
-  \label{fig:cross-sit}
-\end{SCfigure}
+% A representative simulation is shown in Fig. \ref{fig:cross-sit}.
+
+% \begin{SCfigure}[2.5]
+%   \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
+%   \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
+%   \label{fig:cross-sit}
+% \end{SCfigure}
+
+\section{Results: Learning in pragmatic contexts}
+
 
 \subsection{Disambiguation using known words}
 
@@ -257,9 +247,8 @@ Our model provides an intriguing possible explanation of this finding: given a s
 % To anti-sparse listener, novel word means: Familiar object: 21.4%. Novel object: 78.6%.
 % To sparse listener, novel word means: Familiar object: 30.5%. Novel object: 69.5%.
 
-\section{Experiments 2: Lexical learning in pragmatic contexts}
 
-XX maybe make the sections ``Pure pragmatics'' (scalar and horn implicature), ``Pure learning'' (cross-situational), ``Learning and pragmatics'' (subsection 1: disambiguation and learning scalar implicature, subsection 2: emergence with and without horn implicature)
+% XX maybe make the sections ``Pure pragmatics'' (scalar and horn implicature), ``Pure learning'' (cross-situational), ``Learning and pragmatics'' (subsection 1: disambiguation and learning scalar implicature, subsection 2: emergence with and without horn implicature)
 
 We now turn to phenomena which have not been modeled by previous pragmatic or learning models, as they seem to intrinsically require both together.
 
