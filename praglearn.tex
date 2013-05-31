@@ -218,9 +218,9 @@ Humans, however, unlike traditional game theoretic models, do make the inference
 
 The model of \cite{bergen2012} differs from ours in that they then apply further layers of pragmatic recursion on top of these marginal distributions, which as described above removes the possibility of learning; in their model it is only hypothetical agents who are ignorant, while the actual speaker and listener know everything there is to know about each other's behaviour. However, the core result carries over to our model. For example, with a uniform prior over lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$, $\text{cost}(\text{``cheap''}) = 0.5$, $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the appropriate way: Despite total ignorance about the conventional system, speakers prefer to use simple words for common referents ($P_S(\text{``cheap''} | \text{\textsc{common}}) = 0.88, P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) = 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) = 0.65$). This preference is somewhat weak, at least to start -- see \S\ref{sec:horn-emergence}
 
-\subsection{Statistical cross-situational word learning}
+% \subsection{Statistical cross-situational word learning}
 
-Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
+% Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. 
 
 % A representative simulation is shown in Fig. \ref{fig:cross-sit}.
 
