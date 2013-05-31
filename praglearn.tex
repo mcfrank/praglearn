@@ -7,8 +7,7 @@
 \usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
-\title{Learning to communicate using recursive pragmatic
-  reasoning about other agents}
+\title{Language learning via recursive pragmatic reasoning}
 % \title{Learning words via recursive pragmatic reasoning about other agents}
 % : The blessing of social anxiety - not a huge fan of colon titles
 
@@ -71,60 +70,67 @@ Stanford, CA, USA \\
 \section{Introduction}
 
 Natural language is a powerful tool for conveying meaning in
-context. Consider
+context. Consider the utterances
 ``it's raining,'' ``I ate some of the cookies,'' or ``can you close
 the window?'' In each, a listener must go beyond the literal meaning
 of the words to fill in contextual details (``it's raining here and
 now''), infer that a stronger alternative is not true (``I ate some
 but not all of the cookies''), or more generally infer the speaker's
 communicative goal (``I want you to close the window right now because
-I'm cold''), a process known as \textit{pragmatic reasoning}. 
-This kind of pragmatic reasoning is core to language use, 
-
-Following this intuition, theories of pragmatic communication frame
+I'm cold''), a process known as \textit{pragmatic reasoning}. Theories of pragmatics frame
 the process of language comprehension as inference about the
 generating goal of an utterance given a rational speaker
 \cite{grice1975,dale1995,frank2012}. For example, a listener might
 reason, ``if she had wanted me to think `all' of the cookies, she
 would have said `all'---but she didn't. Hence `all' must not be true
-and she must have eaten some {\it but not all} of the cookies.'' This
-kind of counterfactual reasoning has a recursive character to it:
-listener models speaker (who may in turn be modeling a listener).
+and she must have eaten some {\it but not all} of the cookies.'' This kind of reasoning is core to language use. 
 
-Even before they are proficient language users, children learn the
-meanings of words from their pattern of use in context. For example,
-in demonstrations of the ``disambiguation effect,'' a novel word
-(e.g.~``dax'') is used in a context containing both a novel and a
-familiar object. From quite young, children tend to make the inference
-that ``dax'' refers to the novel object \cite{markman1988}. In another
-demonstration, even young toddlers can extract mappings between words
-and objects from a pattern of individually-ambiguous co-occurrences
-between pairs of words and pairs of objects \cite{smith2008}. Taking
-inspiration from children's learning prowess, recent work in the field
-of grounded language learning has explored the possibility that even
-relatively complex word meanings can be inferred from corpus data
-(e.g.~\cite{zettlemoyer2005,chen2008,frank2009,kwiatkowski2010,johnson2012}).
-
-Recursive pragmatic inferences such as those described above could be
-an important part of language learning.\footnote{Very young children
+But pragmatic reasoning often intersects with language learning as
+well. In both adults and children, uncertainty about word meanings is
+common, and often considering speakers' pragmatic goals can help to resolve this uncertainty. For example,
+if a novel word is used in a context containing both a novel and a
+familiar object, young children can make the inference
+that the novel word refers to the novel object \cite{markman1988}.\footnote{Very young children
   make inferences that are often labeled as ``pragmatic'' in that they
   involve reasoning about context \cite{clark1988,baldwin1993}, though
   they also show weaknesses in specific inferences (e.g.~strengthening
-  ``some'' to ``some but not all'' \cite{papafragou2003}). Here we
+  {\sc some} to {\sc some but not all} \cite{papafragou2003}). Here we
   remain agnostic about the age at which children are able to make
   such inferences robustly, as it may vary depending on the linguistic
-  materials being used in the inference \cite{barner2011}.} For
-example, the disambiguation inference described above can emerge from
-such reasoning (``why would the speaker have said ``dax'' if there was
-a word for the known object that she knew I would know'')
-\cite{clark1988}. In addition, there are a variety of intriguing cases
+  materials being used in the inference \cite{barner2011}.} For adults
+who are proficient language users, there are also a variety of intriguing cases
 in which listeners seem to create situation- and task-specific ways of
 referring to particular objects. For example, when asked to refer to
 idiosyncratic geometric shapes, over the course of an experimental
 session, participants create conventionalized descriptions that allow
 them to perform accurately even though they do not begin with a shared
-label \cite{krauss1964,clark1986}. Yet models of grounded language
-learning have failed to take pragmatic factors into account.
+label \cite{krauss1964,clark1986}. In both of these examples, reasoning about another person's goals informs language learners' estimates of what words are likely to mean. 
+
+% Recursive pragmatic inferences such as those described above could be
+% an important part of language learning. For
+% example, the disambiguation inference described above can emerge from
+% such reasoning (``why would the speaker have said ``dax'' if there was
+% a word for the known object that she knew I would know'')
+% \cite{clark1988}.Yet models of grounded language
+% learning have failed to take pragmatic factors into account.
+
+Despite this intersection, there is relatively little work that takes pragmatic reasoning into account when considering language learning in context. Recent work on grounded language learning has attempted to learn large sets of (sometimes relatively complex) word meanings directly from corpus data
+(e.g.~\cite{zettlemoyer2005,chen2008,frank2009,kwiatkowski2010,johnson2012}). And
+a number of models have begun to formalize the consequences of
+pragmatic reasoning in situations where limited learning takes place
+\cite{golland2010,frank2012,bergen2012}. But as yet these two strands
+of research have not been brought together so that the implications of
+pragmatics for learning can be investigated directly.
+
+
+% \footnote{Very young children
+%   make inferences that are often labeled as ``pragmatic'' in that they
+%   involve reasoning about context \cite{clark1988,baldwin1993}, though
+%   they also show weaknesses in specific inferences (e.g.~strengthening
+%   {\sc some} to {\sc some but not all} \cite{papafragou2003}). Here we
+%   remain agnostic about the age at which children are able to make
+%   such inferences robustly, as it may vary depending on the linguistic
+%   materials being used in the inference \cite{barner2011}.}
 
 The goal of our current work is to investigate the possibilities for
 integrating models of recursive pragmatic reasoning with models of
@@ -137,6 +143,23 @@ learning in the language acquisition setting where one communicator is
 uncertain about the lexicon and in iterated communication games where both
 communicators are uncertain about the lexicon. We end by discussing the implications of our results for
 work on language change.
+
+% This
+% kind of counterfactual reasoning has a recursive character to it:
+% listener models speaker (who may in turn be modeling a listener).
+
+% Even before they are proficient language users, children learn the
+% meanings of words from their pattern of use in context. 
+
+
+
+% In another
+% demonstration, even young toddlers can extract mappings between words
+% and objects from a pattern of individually-ambiguous co-occurrences
+% between pairs of words and pairs of objects \cite{smith2008}. 
+
+% 
+
 
 \section{Model}
 
@@ -402,8 +425,8 @@ not true. ``Might'' and ``must'' are another example, as are ``OK,''
   implicatures} \cite{grice1975}: if a speaker uses a weaker term, a
 listener is licensed to infer that the stronger term was not true in
 this situation. So although ``I ate some of the cookies'' could in
-principle be compatible with eating all of them, the listener is lead
-to believe that ``some but not all'' is the likely state of
+principle be compatible with eating {\sc all} of them, the listener is lead
+to believe that {\sc some-but-not-all}' is the likely state of
 affairs. We use the term {\it specificity implicature} here (following
 \cite{bergen2012}) to denote that we are agnostic about whether such
 implicatures are conventionalized or whether they use a
@@ -425,8 +448,8 @@ scalar implicature as a matrix $\left[
     but not all}, and this is therefore the interpretation that a
   rational listener will place on ``some'' as well. To simulate this
   situation, we place a Dirichlet(10, 10) prior on the meaning of
-  \textit{some} and a Dirichlet(1, 10) prior on the meaning of
-  \textit{all}, giving speaker probabilities of
+``some'' and a Dirichlet(1, 10) prior on the meaning of
+``some'', giving speaker probabilities of
   $\left[
     \begin{array}{cc}
       1.00 & 0.00 \\
