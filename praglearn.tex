@@ -4,9 +4,10 @@
 \usepackage{url}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{booktabs}
 \usepackage[raggedright]{sidecap}
 
-\title{Learning words through recursive pragmatic reasoning about other agents}
+\title{Learning words by recursive pragmatic reasoning about other agents: The blessing of social anxiety}
 
 \author{
 Nathaniel Smith\thanks{...} \\
@@ -37,6 +38,9 @@ Stanford, CA, USA \\
 
 % \nipsfinalcopy % Uncomment for camera-ready version
 
+% Tell LaTeX to break pages in the middle of displayed math whenever this would be the slightest bit useful
+\allowdisplaybreaks[4]
+
 \begin{document}
 
 \maketitle
@@ -45,9 +49,9 @@ Stanford, CA, USA \\
   Adult language users are remarkably good at making inferences about speakers' intentions in context, and children learning their native language also display substantial pragmatic skill in acquiring the meanings of unknown words. While pragmatic inference and word learning have both been characterized in probabilistic terms, no current models make appropriate inferences about the meanings of words in pragmatically-rich inferential contexts. We describe a model in which language learners assume that they jointly approximate a shared, external lexicon and reason recursively about the goals of others in using this lexicon. This model captures phenomena in word learning and pragmatic inference; it additionally leads to insights about the emergence of communicative systems in conversation and the mechanisms by which pragmatic inferences become incorporated into word meanings.
 \end{abstract}
 
-\section{Introduction}
+%\section{Introduction}
 
-Natural language is a powerful tool for conveying meaning in context. Our utterances are pervasively underspecified. Consider ``it's raining,'' ``I ate some of the cookies,'' or ``can you close the window?'' In each, a listener must go beyond the literal meaning of the words to fill in contextual details (``it's raining here and now''), infer that a stronger alternative is not true (``I ate some but not all of the cookies''), or more generally infer the speaker's communicative goal (``I want you to close the window right now because I'm cold.'').
+Natural language is a powerful tool for conveying meaning in context. Our utterances are pervasively underspecified. Consider ``it's raining,'' ``I ate some of the cookies,'' or ``can you close the window?'' In each, a listener must go beyond the literal meaning of the words to fill in contextual details (``it's raining here and now''), infer that a stronger alternative is not true (``I ate some but not all of the cookies''), or more generally infer the speaker's communicative goal (``I want you to close the window right now because I'm cold.'') -- a process known as \textit{pragmatic reasoning}.
 
 Following this intuition, theories of pragmatic communication frame the process of language comprehension as inference about the generating goal of an utterance given a rational speaker \cite{grice1975,dale1995,frank2012}. For example, a listener might reason, ``if she had wanted me to think `all' of the cookies, she would have said `all'---but she didn't. Hence `all' must not be true and she must have eaten some {\it but not all} of the cookies.'' This kind of counterfactual reasoning has a recursive character to it: listener models speaker (who may in turn be modeling a listener).
 
@@ -67,7 +71,7 @@ available a fixed, finite set of words; they must pick one. The
 Listener then receives this word, and attempts to guess which object
 the Speaker meant by it.
 
-When modelling human behaviour, it's useful to begin with optimal models; this has the advantage that when we are then forced to deviate from the purely rational approach, it's generally in a theoretically interpretable way. However, multi-agent interactions are notoriously difficult to model in a normative fashion without falling prey to paradox. For example, consider a simple model of the agents in the above game. First we define a \textit{literal listener} agent denoted $L_0$. This agent has a \textit{lexicon} which probabilistically maps words to meanings; specifically, it assigns each word $w$ a vector describing the extent to which this word provides evidence for each object; each entry in the vector is in $(0, 1)$, and together they sum to 1:
+When modelling human behaviour, it's useful to begin with optimal models; this has the advantage that when we are then forced to deviate from the purely rational approach, it's generally in a theoretically interpretable way. However, multi-agent interactions are notoriously difficult to model in a normative fashion without falling prey to paradox. For example, consider a simple model of the agents in the above game. First we define a \textit{literal listener} agent denoted $L_0$. This agent has a \textit{lexicon} which probabilistically maps words to meanings; specifically, it assigns each word $w$ a vector describing the extent to which this word provides evidence for each object\footnote{In this model, words refer directly to objects; more realistically, words should refer to some sort of abstract semantic features, which in turn refer to objects. However, our simplification is without loss of generalization, because we can interpret our model as marginalizing over such a representation, with our literal $P_\lex(\obj | \word) = \sum_\text{features} P(\obj | \text{features}) P_\lex(\text{features} | \word)$.}. Each entry in the vector is in $(0, 1)$, and together they sum to 1:
 \begin{align*}
 P_{L_0}(\obj | \word, \lex) &\propto \lex(\word, \obj) \times \prior.
 \end{align*}
@@ -79,99 +83,42 @@ But if this is how the speaker will behave, then it's not rational for a listene
 \begin{align*}
 P_{L_2}(\obj | \word, \lex) &\propto P_{S_1}(\word | \obj, \lex) \times \prior.
 \end{align*}
-Now the paradox becomes apparent. Given such a listener, it's no longer rational for the speaker to implement strategy $S_1$; instead, they should implement strategy $S_3$ which replaces the $P_{L_0}$ term with $P_{L_2}$. And then the listener ought to implement $L_4$, and so on.
+Now the paradox becomes apparent. Given such a listener, it's no longer rational for the speaker to implement strategy $S_1$; instead, they should implement strategy $S_3$ which soft-maximizes $P_{L_2}$ instead of $P_{L_0}$. And then the listener ought to implement $L_4$, and so on.
 
-One computationally expensive option is to continue iterating such strategies until one reaches a fixed point equilibrium. But, while this guarantees each agent will behave normatively given the other agent's strategy, there is no guarantee that such a strategy will be optimal for the system as a whole; equilibria strategies make up only a small subspace of all possible strategies. Nor is there much evidence the humans find such equilibria; their behaviour in language games (and in other games XX p-beauty) can be well-modeled as implementing $S_n$ or $L_n$ for some small $n$ \cite{frank2012}. Here we adopt $n = 3$ for speakers and $n = 2$ for listeners.
+One computationally expensive option is to continue iterating such strategies until one reaches a fixed point equilibrium. But, while this guarantees each agent will behave normatively given the other agent's strategy, there is no guarantee that such strategies will be near the system's global optimum; equilibrium strategies make up only a small subspace of all possible strategies. Nor is there much evidence the humans find such equilibria; their behaviour in language games (and in other games XX p-beauty) can be well-modeled as implementing $S_n$ or $L_n$ for some small $n$ \cite{frank2012}. This paradox, then, is averted by simply recursing a small, finite number of times. The consequence is that one agent, implementing $S_n$, say, can be fully rational, while the other, implementing $L_{n-1}$, is nearly rational -- they're off by only a single recursion.
 
-Given such a model, it's conceptually straightforward for a listener to learn to understand a speaker -- the listener simply puts a prior on the speaker's lexicon, and updates it based on the speaker's utterances and whatever information the listener can glean about their intended meaning.
+But as soon as we attempt to add learning to this model, new paradoxes arise. Suppose the listener is a young child who is uncertain about the lexicon their partner is using. The obvious solution is for them to place a prior on the lexicon; they then update their posterior based on whatever utterances and contextual cues they observe, and in the mean time interpret each utterance by making their best guess, marginalizing out this uncertainty. This basic structure is the essence of previous models of Bayesian word learning (e.g., \cite{frank2009}). But when combined with the recursive pragmatic model, a new question arises: Given such a listener, what model should the speaker use? A rational speaker attempts to maximize the listener's likelihood of understanding, so if an uncertain listener interpets by marginalizing over some posterior, then a knowledgeable speaker should calculate this posterior and marginalize themselves, before applying the soft-max decision rule. But this means that the speaker is not using any particular lexicon at all, and a rational learning listener should therefore not be trying to infer the speaker's lexicon. In fact, such an uncertain listener's uncertainty dissolves; they may not know the lexicon, but they do know their posterior over the lexicon -- and because this is all that the speaker cares about, there is nothing for the listener to learn from the speaker's behaviour.
 
+Of course, in reality both parties will generally have some uncertainty, which makes things even worse. If we start from an uncertain listener with a prior over lexicons, then a first-level uncertain speaker needs a prior over priors on lexicons, a second-level uncertain listener needs a prior over priors over priors, etc. The original $L_0 \rightarrow S_1 \rightarrow \dots$ recursion was bad enough, but at least each step had a constant cost. This new recursion produces hyper$^n$-distributions for which inference almost immediately becomes intractable even in principle, since the dimensionality of the learning problem increases with each step. Yet, without this addition of new uncertainty at each level, the model would dissolve back into certainty as in the previous paragraph, making learning impossible.
+
+And one final problem is that in real life, the same agents alternate between speaking and listening, and generally use the same language to do so. There's nothing in these models to ensure this, and this is somehow reasonable: in principle, so long as I as a listener have a good model of you as a speaker, and I as a speaker have a good model of you as a listener, then we can communicate perfectly well, even if we use entirely different languages depending on who is talking. Yet most people do in fact speak languages that they have learned by listening to others, which suggests an additional constraint that should somehow be incorporated into learning: as I build a model of you as a speaker, it should also affect my model of myself as a speaker.
+
+\subsection{A ``social anxiety'' model of pragmatic word learning}
+
+Clearly we must deviate from pure normativity -- but how? Here, we propose to resolve the above problems with a model of speakers and listeners as rational agents afflicted by a kind of social anxiety. Specifically, each agent assumes: (a) There is some single, specific literal lexicon which everyone should be using, (b) and everyone else knows this lexicon, and believes that I know it as well, (c) but in fact I don't. Assumption (a) explains the lexicographer's illusion: naive language users are convinced and will vociferously that words have specific meanings, even though these meanings are unobservable to everyone who purportedly uses them. It also explains why children speak the language they hear, since observing your behaviour now gives me data about not just \textit{your} lexicon, but \textit{the} lexicon. Assumption (b) avoids the explosion of hyper$^n$-distributions: if agent $n$ knows the lexicon, they assume that all lower agents do as well, reducing to the original tractable model without uncertainty. And assumption (c) introduces a limited form of uncertainty, and thus the potential for learning. Everything else follows by applying standard Bayesian reasoning given these assumptions.
+
+Formally, let an unadorned $L$ and $S$ denote our socially-anxious listener and speaker. $L$ inverts their marginal distribution over the speaker; $S$ soft-maximizes their marginal distribution over the listener. With $L_i$ and $S_i$ as above, this gives:
 \begin{align*}
-  P_L(\obj | \word) &= P_{S_{n-1}}(\word | \obj, \text{L's data}) \times \prior \\
-    &= \sum_\lex P_{S_{n-1}}(\word | \obj, \lex) \times P(\lex | \text{L's data}) \times \prior \\
-    &= P_{L_n}(\obj | \word, \text{L's data}). \\
-  P_S(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_n}(\obj | \word, \text{S's data}) - \text{cost}(\word)\big)\Big).
+  P_L(\obj | \word) &= P_{S_{n-1}}(\word | \obj, \text{$L$'s data}) \times \prior \\
+    &= \sum_\lex P_{S_{n-1}}(\word | \obj, \lex) \times P(\lex | \text{$L$'s data}) \times \prior \\
+    &= P_{L_n}(\obj | \word, \text{$L$'s data}). \\
+  P_S(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_n}(\obj | \word, \text{$S$'s data}) - \text{cost}(\word)\big)\Big).
 \end{align*}
+Here $L$'s data consists of $S$'s utterances together with whatever other information $L$ may have about their meaning (e.g.~from contextual clues) -- but by assumption (b), $L$ treats these as utterances as samples from the knowledgeable speaker $S_{n-1}$, not $S$, and thus as being informative about the lexicon. Similarly, $S$ may observe $L$'s interpretations of various utterances, and will treat these as samples from $L_n$, not $L$.
+In several important cases, these assumptions are as close to rational as possible within the finite-recursion framework. If $L_n(\obj | \word, \text{$S$'s data})$ and $L_n(\obj | \word, \text{$L$'s data})$ coincide, then  $S$ is fully normative and $L$ is off by only a single recursion. This in particular includes all previous experiments using this pragmatic reasoning framework, which considered only single-turn interactions where $\text{$L$'s data} = \text{$S$'s data} = \emptyset$. Alternatively, if one agent has enough data that their uncertainty is effectively non-existent, then it becomes normative for their partner to treat them as being fully knowledgeable, and this is a reasonable description of the child language learning case. In general, though, in arbitrary multi-turn interactions in which both agents have non-trivial uncertainty, this model induces complex and non-normative learning dynamics. In the remainder of this paper, we computationally investigate the model's behaviour in all three situations.\footnote{In our simulations throughout, we somewhat arbitrarily set $n = 2$ (the minimal value that produces all the qualitative phenomena), $\lambda = 3$, and assume that all agents have shared priors on the lexicon and full knowledge of the cost function. Inference is via importance sampling.}
 
--- if they have the same data, $S$ is rational and $L$ is as close to rational as is possible given a finite recursion depth, i.e., if $S$ recursed one fewer times then $L$ would be rational. In particular, this describes all of the one-shot language games that have been considered in the literature to date, where neither agent has the time to acquire any data.
--- if one actually does know the lexicon and the other is relatively ignorant, as in the child language learning case, then both are rational (with the same caveat).
--- but in general, in multi-turn interactions, their beliefs will display some complicated
-
-% This suggest a simple probabilistic model. Given any particular
-% decision procedure used by the Speaker $S$, the optimal way for the
-% Listener $L$ to judge the probability of each object is to invert this
-% decision procedure using Bayes' rule, taking into account the prior
-% likelihood of each object:
-% \begin{align*}
-% P_L(\obj | \word) &\propto P_S(\word | \obj) P_{\text{prior}}(\obj |
-% \text{context})
-% \end{align*}
-% $S$, meanwhile, being herself a rational Bayesian agent, chooses her
-% word so as to soft-maximize a utility function $U(\word | \obj)$. She
-% gains utility if $L$ is likely to understand her; she loses utility if
-% the word is particularly costly to say (e.g., it may be long).
-% \begin{align*}
-% P_S(\word | \obj) &\propto \exp \lambda U(\word | \obj) \\
-% U(\word | \obj) &= \log P_L(\obj | \word) - \text{cost}(\word)
-% \end{align*}
-% The degree to which she optimizes this utility is controlled by the
-% softmax parameter $\lambda$. If $\lambda = 1$ and all words cost the
-% same, then her probability of producing a word will be proportional to
-% the likelihood that it will cause $L$ to reach the correct
-% interpretation; as $\lambda$ increases, she becomes more likely to
-% choose the word which maximizes this likelihood. (We somewhat
-% arbitrarily set $\lambda = 3$ throughout.)
-
-% This model as stated satisfies various normative criteria for each
-% agent individually, but suffers from a serious flaw that is intrinsic
-% to such multi-agent situations: $S$'s decision procedure depends on
-% $L$'s interpretive procedure, and vice-versa. If $S$ and $L$ want to
-% both be optimal simultaneously, then they must restrict themselves to
-% a low-dimensional subset of all available strategies. They must each choose
-% a strategy with the property that optimal counterpart of its optimal
-% counterpart is the original strategy. Finding such an equilibrium is
-% computationally non-trivial, and, even if found, there is no guarantee
-% that it will be optimal in any global sense. \cite{frank2012}
-% therefore propose an approximation to this model, in which $L$ and $S$
-% each perform a finite number of recursions, with $S_i$ reasoning about
-% $L_{i-1}$, who reasons about $S_{i-2}$ and so forth, until reaching
-% $L_0$, who interprets words according to an arbitrary rule (their
-% \textit{literal meaning}). In our case, we instantiate this as a
-% matrix (the \textit{lexicon}) with one column per object, and in which
-% each row represents the meaning of a particular word as a set of
-% values in $(0, 1)$ such that $\sum_\obj \lex(\word, \obj) = 1$.\footnote{In this model, words refer directly to objects; more realistically, words should refer to some sort of abstract semantic features, which in turn refer to objects. However, this simplification is without loss of generalization; we can interpret this model as marginalizing over such a representation, with our literal $P(\obj | \word) = \sum_\text{features} P(\obj | \text{features}) P(\text{features} | \word)$.}  Formally, we have:
-% \begin{align*}
-% P_{L_0}(\obj | \word) &= \lex(\word, \obj) P_{\text{prior}}(\obj | \text{context}). \\
-% P_{S_i}(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_{i - 1}}(\obj | \word) - \text{cost}(\word)\big)\Big) \\
-% P_{L_i}(\obj | \word) &\propto P_{S_{i-1}}(\word | \obj) P_{\text{prior}}(\obj | \text{context})
-% \end{align*}
-% This approach neatly avoids the infinite regress, and does well at predicting human behaviour in language games \cite{frank2012} and other multi-agent games (XX p-beauty). The minimal degree of recursion required to produce the effects we consider here is $S_3$ and $L_2$, and this what we use in the following.
-
-% When we consider adding learning to this model, however, we encounter a new and related problem. It's straightforward in principle to put a prior on $\lex(\word, \obj)$, and allow an agent to learn the 
-
-At each stage, $S_i$ defines a causal model for utterances described
-by a simple Bayes net, and $L_{i+1}$ does Bayesian inference over this net. But the likelihood function in $S_i$'s model is very complicated, and includes equations derived from considering how a hypothetical $L_{i-1}$ would interpret utterances if they were doing rational inference about another hypothetical causal agent $S_{i-2}$.
-
-extensional as marginalization over intensional
-
-
-we use $S_3$, $L_2$ and $\lambda = 3$.
-
-\subsection{Naive literal learner model}
-
-
-
-To see how
-Make $L_0$ uncertain about values in $\lex(\word, \obj)$, impose a prior, and then
-
-Needs feedback
-
-can't switch roles from speaker to listener
-
-knocks out the lexical uncertainty/horn implicature results (because you can only have uncertainty at one level)
-
-something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
-
-\subsection{``Social anxiety'' model}
+% \subsection{Naive literal learner model}
+%
+% To see how
+% Make $L_0$ uncertain about values in $\lex(\word, \obj)$, impose a prior, and then
+%
+% Needs feedback
+%
+% can't switch roles from speaker to listener
+%
+% knocks out the lexical uncertainty/horn implicature results (because you can only have uncertainty at one level)
+%
+% something wrong about taking evidence from the pragmatic speaker and using it to train the literal listener
 
 \section{Experiments: Pragmatic and word learning phenomena}
 
@@ -181,22 +128,21 @@ In this section, we describe the coverage of our pragmatic learning model on phe
 \label{tab:results}
 \begin{center}
 \begin{tabular}{lccccc}
-\hline \\
-Phenomenon & Ref. & WL & PI & Lifted PI  & PIL \\
-\hline
-Specificity implicature & \cite{grice1975} &  & x &x & x\\
-Horn implicature & \cite{horn1984} & &  & x& x\\
+\toprule
+Phenomenon & Ref. & WL & PI & PI+U & This work \\
+\midrule
+Interpreting specificity implicature & \cite{grice1975} &  & x &x & x\\
+Interpreting Horn implicature & \cite{horn1984} & &  & x& x\\
 Cross-situational learning & \cite{smith2008} & x& & & x \\
-Disambiguation effect & \cite{markman1988} &x  & & & x \\
+Disambiguating new words using old words & \cite{markman1988} &x  & & & x \\
 Disambiguation without mapping & \cite{horst2008} &  & & & x \\
-Emergence of communicative equilibria & \cite{galantucci2005} & & & & x \\
+Emergence of novel \& efficient communicative systems & \cite{galantucci2005} & & & & x \\
 Lexicalization of Horn implicature & \cite{horn1984} & & & & x \\
 Lexicalization of specificity implicature & \cite{levinson2000} & & & & x \\
 \hline
 \end{tabular}
 \end{center}
-\caption{Empirical results and references. WL refers to the word learning model of \cite{frank2009}; PI refers to the pragmatic inference model of \cite{frank2012}; Lifted PI refers to the pragmatic inference model of \cite{bergen2012}, and PIL refers to the pragmatic inference and learning model described here.  }
-
+\caption{Empirical results and references. WL refers to the word learning model of \cite{frank2009}; PI refers to the recursive pragmatic inference model of \cite{frank2012}; PI+U refers to the pragmatic inference model of \cite{bergen2012} which includes lexical uncertainty, marginalizes it out, and then recurses.}
 \end{table}
 
 \subsection{Specificity implicature}
@@ -206,11 +152,11 @@ Many sets of words in natural language form scales in which each term refers to 
 The recursive pragmatic reasoning portions of our model capture findings on specificity implicature. Consider a representation of scalar implicature as a matrix 
 $\left[
     \begin{array}{cc}
-      1 & 1 \\
+      0.5 & 0.5 \\
       0 & 1
     \end{array} 
   \right]$,
-where rows show the terms ``some'' and ``all'' and columns indicate worlds where {\sc some} and {\sc all} are true, respectively, capturing the regularity that ``some'' can be said of situations where {\sc all} is actually the case. Assuming uniform costs for the two words and uniform priors, each recursion of listener modeling speaker reduces the probability that ``some'' will be used to refer to {\sc all}. Using the fixed parameters employed in our other simulations results in speaker use probabilities of 
+where rows show the words ``some'' and ``all'' and columns indicate worlds where {\sc some but not all} and {\sc all} are true, respectively, capturing the regularity that ``some'' can be said of situations where {\sc all} is actually the case. Assuming uniform costs for the two words, a rational speaker confronted with such a lexicon will prefer to say ``some'' only when they mean \textsc{some but not all}, and this is therefore the interpretation that a rational listener will place on ``some'' as well. To simulate this situation, we place a Dirichlet(10, 10) prior on the meaning of \textit{some} and a Dirichlet(1, 10) prior on the meaning of \textit{all}, and find this gives speaker use probabilities of 
 $\left[
     \begin{array}{cc}
       1.00 & 0.00 \\
@@ -239,24 +185,13 @@ $\left[
 
 \subsection{Horn implicature}
 
-XX note the relation to BGL model; they need uncertainty in the middle of the pragmatics specifically, which is where we end up putting it for other reasons. And in Bayesian framework uncertainty and learning must always coincide. Also the intuition that this is a general property of uncertainty for soft-max agents -- if you don't know where you are, good worlds have more peaked utility distributions than bad worlds, and thus more consistent behaviour by other agents, so on average when you're guessing what other agents will do, good worlds contribute more to your average than bad worlds.
+\label{sec:horn-implicature}
 
-Horn implicatures are inferences where the critical factor is not the extension of the words in context (as in scalar implicatures), but instead the relative cost of two expressions. In Horn's example, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g. not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car.'' In other words, the costly expression is assumed to be associated with the unusual outcome.
+% XX note the relation to BGL model; they need uncertainty in the middle of the pragmatics specifically, which is where we end up putting it for other reasons. And in Bayesian framework uncertainty and learning must always coincide. Also the intuition that this is a general property of uncertainty for soft-max agents -- if you don't know where you are, good worlds have more peaked utility distributions than bad worlds, and thus more consistent behaviour by other agents, so on average when you're guessing what other agents will do, good worlds contribute more to your average than bad worlds.
 
-Such an implicature again arises naturally from our model. We create a situation in which expressions have differential costs (e.g. $[.5~1.0]$) and referents have differential probabilities (e.g. $[.8~.2]$). At the settings used throughout the manuscript, speakers in such a situation choose simple words to refer to common referents at different rates than for uncommon references. This situation breaks the symmetry though does not result in as dramatic a diagonal as in the specificity implicature, e.g. for the speaker, \footnote{Rows indicate words and columns indicate referents. For speakers, columns are normalized to indicate a distribution over words to be produced given referents, and for listeners rows are normalized to indicate a distribution on referents given words heard.}
-$\left[
-    \begin{array}{cc}
-      .88 & .54 \\
-      .12 & .46
-    \end{array} 
-  \right]$ 
-and for the listener,
-$\left[
-    \begin{array}{cc}
-      .77 & .23 \\
-      .65 & .35
-    \end{array} 
-  \right]$. See Section \ref{sec:hornlearn} for the consequences of repeating this implicature until it is lexicalized.
+Consider a world in which contains two words and two types of objects. One word is expensive to use, and one is cheap (call them ``expensive'' and ``cheap'' for short). One object type is common and one is rare; denote these \textsc{common} and \textsc{rare}. Intuitively, there are two possible communicative systems here: a good system where ``cheap'' means \textsc{common} and ``expensive'' means \textsc{rare}, and a bad system where the opposite holds. Obviously we would prefer to use the good system, but it has historically proven very difficult to derive this conclusion in a game theoretic setting, because both systems are stable equilibria; if our partner uses the bad system, then we would rather follow and communicate at some cost than switch to the good system and fail entirely \cite{bergen2012}.
+
+Humans, however, unlike traditional game theoretic models, do make the inference that if two utterances seem equivalent except that one is more costly to utter, then the costly utterance refers to an unusual event. We call this pattern \textit{Horn implicature}, after \cite{horn1984}. For instance, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g.~not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car'' \cite{horn1984}. Surprisingly, Bergen et al \cite{bergen2012} show that the key to achieving this favorable result is ignorance. If a listener assigns equal probability to her partner using the good system or the bad system, then their best bet is to estimate $P_S(\word | \obj)$ as the average of $P_S(\word | \obj, \text{good system})$ and $P_S(\word | \obj, \text{bad system})$. These might seem to cancel out, but in fact they do not. In the good system, the speaker has higher expected utility than the bad system; therefore, a soft-max agent in the bad system has noiser behaviour than in the good system, and their behaviour in the good system dominates the average, breaking the symmetry. Similar reasoning applies to an uncertain speaker.
 
 
 % Simulation parameters:
@@ -271,13 +206,15 @@ $\left[
 % array([[ 0.77458316,  0.22541684],
 %        [ 0.64702551,  0.35297449]])
 
+The model of \cite{bergen2012} differs from ours in that they then apply further layers of pragmatic recursion on top of these marginal distributions, which as described above removes the possibility of learning; in their model it is only hypothetical agents who are ignorant, while the actual speaker and listener know everything there is to know about each other's behaviour. However, the core result carries over to our model. For example, with a uniform prior over lexicons and $P_\text{prior}(\text{\textsc{common}}) = 0.8$, $\text{cost}(\text{``cheap''}) = 0.5$, $\text{cost}(\text{``expensive''}) = 1.0$, the symmetry breaks in the appropriate way: Despite total ignorance about the conventional system, speakers prefer to use simple words for common referents ($P_S(\text{``cheap''} | \text{\textsc{common}}) = 0.88, P_S(\text{``cheap''} | \text{\textsc{rare}}) = 0.46$), and listeners show a similar bias ($P_L(\text{\textsc{common}} | \text{``cheap''}) = 0.77, P_L(\text{\textsc{common}} | \text{``expensive''}) = 0.65$). This preference is somewhat weak, at least to start -- see \S\ref{sec:horn-emergence}
+
 \subsection{Statistical cross-situational word learning}
 
 Even very young children can learn words from individually ambiguous situations, e.g. where multiple words are spoken and multiple objects are present \cite{smith2008}. While no individual situation gives away the mapping, the pattern of co-occurrences between words and objects allows for learning. Our current model reproduces this pattern of results, converging to correct lexical mappings from ambiguous evidence. A representative simulation is shown in Fig. \ref{fig:cross-sit}.
 
 \begin{SCfigure}[2.5]
   \includegraphics[width=0.2\textwidth]{figures/cross-sit-mod.pdf}
-  \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects.}
+  \caption{Results from a simulation of cross-situational word learning. The posterior distribution over the learner's lexicon (diagonal entries are correct for word/object pairs 1 -- 3; word D is a distractor). Training data were situations including two of the three objects and a single word, either the distractor or a word matching one of the two objects. Crucially, at no point does the learner observe the meaning of any word; they observe only that a word was produced in each situation.}
   \label{fig:cross-sit}
 \end{SCfigure}
 
@@ -306,7 +243,13 @@ Our model provides an intriguing possible explanation of this finding: given a s
 
 \section{Experiments 2: Lexical learning in pragmatic contexts}
 
-\subsection{Emergence of communicative equilibria}
+XX maybe make the sections ``Pure pragmatics'' (scalar and horn implicature), ``Pure learning'' (cross-situational), ``Learning and pragmatics'' (subsection 1: disambiguation and learning scalar implicature, subsection 2: emergence with and without horn implicature)
+
+We now turn to phenomena which have not been modeled by previous pragmatic or learning models, as they seem to intrinsically require both together.
+
+\subsection{Emergence of efficient communicative conventions}
+
+If two humans are forced to play a game which depends on communication, but are allowed to communicate only via a set of novel symbols which have no pre-existing conventional meaning, then over time they will generally derive a set of new conventions which allow them to accomplish their task \cite{galantucci2005}. Or if, less drastically, a task requires two people to repeatedly refer to novel objects, they will implicitly through the course of the interaction invent conventional names for them (e.g., ``the ice skater'' for an abstract figure vaguely resembling an ice skater, \cite{clark1986}). From a pure learning perspective this is anomalous: since both agents know perfectly well that there is no underlying convention to discover, there is nothing to learn from the other's behaviour. Furthermore, even if only one partner is producing the novel expressions, their behaviour still becomes more regular (conventional) over time, which would seem to rule out a role for learning -- even if there is some pattern in the expressions the speaker chooses to use, there is certainly nothing for the \textit{speaker} to learn by observing these patterns, and thus their behaviour should not change over time. An obvious hack might be to simply stipulate that speakers take their own utterances as training data for further learning, but this would fail to explain yet another wrinkle in this phenomenon: speakers only regularize their production over time if they have some kind of feedback indicating that the listener understands; if such feedback is removed, the phenomenon is dramatically reduced (XX krauss 1966, branigan catchpole pickering 2011).
 
 \begin{figure}[t]
 \centering
@@ -314,10 +257,29 @@ Our model provides an intriguing possible explanation of this finding: given a s
 \includegraphics[width=0.48\textwidth]{figures/emergence2x2-3.pdf} \\
 \includegraphics[width=0.48\textwidth]{figures/emergence3x3-0.pdf}
 \includegraphics[width=0.48\textwidth]{figures/emergence3x3-1.pdf} \\
-\caption{\label{fig:emergence} Simulations....}
+\caption{\label{fig:emergence} Simulations of two learning pragmatic agents playing a naming game. At each stage, $S$ and $L$ have different, possibly contradictory posteriors over the literal lexicon. From these posteriors we derive the probability $P(\text{L understands S})$ (marginalizing over target objects and word choices), and also depict graphically $S$'s model of the listener, $P_{L_n}(\obj | \word, \text{$S$'s data})$, and $L$'s actual model, $P_{L_n}(\obj | \word, \text{$L$'s data})$.}
 \end{figure}
 
-\subsection{Lexicalization of Horn implicatures}
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.3\textwidth]{figures/emergence-average.pdf}
+\hspace{0.5in}
+\includegraphics[width=0.3\textwidth]{figures/emergence-horn-average.pdf}
+\caption{\label{fig:emergence-average} Behaviour of learning agents playing naming games as in Figs.~\ref{fig:emergence} and \ref{fig:horn}, averaged across 300 dialogues. Left: Average communicative success by game type and dialogue turn. Right: The proportion of dyads in the Horn implicature game (\S\ref{sec:horn-emergence}) who have not only converged on using the ``good'' or ``bad'' lexicons, but believe that these are the literal meanings of the words.}
+\end{figure}
+
+To model such phenomena, we imagine two agents playing the simple referential game introduced above, in which on each turn the speaker is assigned a target object, they utter some word referring to this object, the listener makes a guess at the object, and then, critically, the speaker observes the listener's guess and the listener receives feedback indicating the correct answer (i.e., the speaker's intended meaning), which they use to update their posterior over lexicons before proceeding to the next trial. As in \cite{krauss1964,clark1986}, the speaker and listener remain fixed in the same role throughout. Fig.~\ref{fig:emergence} shows the result of simulating several such games when both parties begin in total ignorance. Notice that: (a) agents' performance begins at chance, but quickly rises; (b) they tend towards structured, sparse lexicons with a one-to-one correspondence between objects and words; (c) as the speaker and listener have entirely different data (the listener's interpretations and the speaker's intended meaning, respectively), unlucky early guesses can lead them to believe in entirely contradictory lexicons -- but they generally recover and converge despite this.
+
+What's happening here is that each agent is, effectively, using their partner's behaviour as a basis for forming superstitions about the underlying lexicon that they assume must exist. Since they each then act on these superstitions, and their partner uses the actions to form new superstitions, soon they converge to using similar lexicons, and what started as a superstition becomes normatively correct.
+
+What happens if we remove feedback from the listener to the speaker? If the speaker is not allowed to observe the listener's guess, then the speaker does no learning and their posterior over lexicons remains perfectly uniform. They therefore choose words by simply flipping a coin, and performance remains at chance.
+
+The role of learning here is obvious, but what does the pragmatics part of the model do? It creates the sparse structure in the observed lexicons: at each step, the goal-directed speaker attempts to exploit whatever communicatively useful asymmetries exist in its current model of the listener, and these attempts tend to be successful, since if the listener has even a small asymmetry in their current posterior then their pragmatic reasoning will magnify it as well. But over time, the speaker's use of such patterns, and the listener's ability to understand them, will each be taken by the other as evidence that these patterns actually exist in the literal lexicon. The result is that while both agents start out with uniform priors over the lexicon, they are biased to end up believing in lexicons that are communicatively useful for the task at hand.
+
+% XXXX what can we say about the role pragmatics plays here? It's annoyingly non-trivial to sample from the equivalent model where the speaker just samples from a multinomial distribution and the listener inverts it. The listener's data is samples from a DM so they have conjugacy. But the speaker's data is listener interpretations, which necessarily do one tiny pragmatic inference step from using Bayes rule, which breaks conjugacy...
+
+\subsection{Lexicalization and loss of Horn implicatures}
+\label{sec:horn-emergence}
 
 \begin{figure}[t]
 \centering
@@ -325,6 +287,8 @@ Our model provides an intriguing possible explanation of this finding: given a s
 \includegraphics[width=0.48\textwidth]{figures/horn-emergence-1.pdf}
 \caption{\label{fig:horn} Simulations.}
 \end{figure}
+
+A stronger example of how pragmatics can create such biases can be observed if we simulate agents playing this naming game in the ``cheap''/''expensive'' \textsc{common}/\textsc{rare} domain of \S\ref{sec:horn-implicature}. Recall that in this domain, pragmatic reasoning causes each agent to start out independently be biased -- but only weakly -- towards the associations ``cheap'' $\leftrightarrow$ \textsc{common}, ``expensive'' $\leftrightarrow$ \textsc{rare}. Because this bias 
 
 % To show that they're lexicalized, at end of each of 4 dialogues, we
 % look at how speaker and listener talk about/interpret the objects/words:
@@ -361,7 +325,6 @@ Our model provides an intriguing possible explanation of this finding: given a s
 % array([[ 0.83985034,  0.16014966],
 %        [ 0.02170542,  0.97829458]])
 
-
 \subsection{Lexicalization and preservation of scalar implicature}
 
 
@@ -373,6 +336,16 @@ Our model provides an intriguing possible explanation of this finding: given a s
 \end{figure}
 
 \section{Conclusion}
+
+allows us to preserve most of the normative Bayesian framework within the multi-agent setting, while avoiding paradoxes and allowing both pragmatic reasoning and learning. The resulting model not only unifies previous models of each phenomenon separately, it also accounts for a range of 
+
+the deviations from rationality -- assumption that words have meanings, suspicion that everyone else knows what they are -- are highly interpretable and intuitively compelling, and while like any deviations from rationality they necessarily introduce biases, these biases appear in this case to improve the global performance of the system. 
+
+if you're trying to collaborate with an agent who soft-maximizes utility, but there are multiple possible rules which might underlie their utility function, you should assign more weight to those rules which provide a sharp distinction in utility for different actions -- which will generally be the rules that allow for higher expected utility. this actually explains both the uniform prior and the horn implicature emergence results.
+
+provides new insight into use of pragmatic reasoning in word learning, the learning of literal meanings given pragmatically strengthened input, and makes the interesting prediction that some implicatures are intrinsically more stable, while others if consistently supported will tend to enter the lexicon and become part of the literal meaning of the relevant words.
+
+zipf, piantidosi et al
 
 %\subsubsection*{Acknowledgments}
 
