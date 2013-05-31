@@ -31,6 +31,8 @@ Stanford, CA, USA \\
 
 \newcommand{\word}{\text{word}}
 \newcommand{\obj}{\text{object}}
+\newcommand{\lex}{\text{lexicon}}
+\newcommand{\prior}{P_{\text{prior}}(\obj | \text{context})}
 
 % \nipsfinalcopy % Uncomment for camera-ready version
 
@@ -54,7 +56,7 @@ Recursive pragmatic inferences such as those described above could be an importa
 
 The goal of our current work is to investigate the possibilities for integrating models of recursive pragmatic reasoning with models of language learning, with the hope of capturing phenomena in both domains. We begin by describing previous models in each domain as well as proposals for bringing the two together. We next simulate findings from the domains of pragmatic inference, word learning, and their intersection (summarized in Table \ref{tab:results}). We end by discussing the implications of our results for work on language change.
 
-\section{Models}
+\section{Model}
 
 Consider a simple communicative game: two participants each,
 separately, view identical arrays of objects. On the
@@ -64,57 +66,101 @@ available a fixed, finite set of words; they must pick one. The
 Listener then receives this word, and attempts to guess which object
 the Speaker meant by it.
 
-This suggest a simple probabilistic model. Given any particular
-decision procedure used by the Speaker $S$, the optimal way for the
-Listener $L$ to judge the probability of each object is to invert this
-decision procedure using Bayes' rule, taking into account the prior
-likelihood of each object:
+When modelling human behaviour, it's useful to begin with optimal models; this has the advantage that when we are then forced to deviate from the purely rational approach, it's generally in a theoretically interpretable way. However, multi-agent interactions are notoriously difficult to model in a normative fashion without falling prey to paradox. For example, consider a simple model of the agents in the above game. First we define a \textit{literal listener} agent denoted $L_0$. This agent has a \textit{lexicon} which probabilistically maps words to meanings; specifically, it assigns each word $w$ a vector describing the extent to which this word provides evidence for each object; each entry in the vector is in $(0, 1)$, and together they sum to 1:
 \begin{align*}
-P_L(\obj | \word) &\propto P_S(\word | \obj) P_{\text{prior}}(\obj |
-\text{context})
+P_{L_0}(\obj | \word, \lex) &\propto \lex(\word, \obj) \times \prior.
 \end{align*}
-$S$, meanwhile, being herself a rational Bayesian agent, chooses her
-word so as to soft-maximize a utility function $U(\word | \obj)$. She
-gains utility if $L$ is likely to understand her; she loses utility if
-the word is particularly costly to say (e.g., it may be long).
+Confronted with such a listener, a rational (but noisy) speaker should attempt to choose a word which soft-maximizes the probability that the listener will assign to the target object -- possibly modulated by the effort or cost associated with producing this word:
 \begin{align*}
-P_S(\word | \obj) &\propto \exp \lambda U(\word | \obj) \\
-U(\word | \obj) &= \log P_L(\obj | \word) - \text{cost}(\word)
+P_{S_1}(\word | \obj, \lex) &\propto \exp\Big(\lambda \big(\log P_{L_0}(\obj | \word, \lex) - \text{cost}(\word)\big)\Big).
 \end{align*}
-The degree to which she optimizes this utility is controlled by the
-softmax parameter $\lambda$. If $\lambda = 1$ and all words cost the
-same, then her probability of producing a word will be proportional to
-the likelihood that it will cause $L$ to reach the correct
-interpretation; as $\lambda$ increases, she becomes more likely to
-choose the word which maximizes this likelihood. (We somewhat
-arbitrarily set $\lambda = 3$ throughout.)
+But if this is how the speaker will behave, then it's not rational for a listener to implement the $L_0$ strategy. Instead, to best determine what object was intended, they should use Bayes rule to invert the speaker's decision procedure:
+\begin{align*}
+P_{L_2}(\obj | \word, \lex) &\propto P_{S_1}(\word | \obj, \lex) \times \prior.
+\end{align*}
+Now the paradox becomes apparent. Given such a listener, it's no longer rational for the speaker to implement strategy $S_1$; instead, they should implement strategy $S_3$ which replaces the $P_{L_0}$ term with $P_{L_2}$. And then the listener ought to implement $L_4$, and so on.
 
-This model as stated is optimal by various criteria, but suffers from
-a fatal flaw: $S$'s decision procedure depends on $L$'s interpretive
-procedure, and vice-versa. This means that it can only be implemented
-as stated for a very spei
+One computationally expensive option is to continue iterating such strategies until one reaches a fixed point equilibrium. But, while this guarantees each agent will behave normatively given the other agent's strategy, there is no guarantee that such a strategy will be optimal for the system as a whole; equilibria strategies make up only a small subspace of all possible strategies. Nor is there much evidence the humans find such equilibria; their behaviour in language games (and in other games XX p-beauty) can be well-modeled as implementing $S_n$ or $L_n$ for some small $n$ \cite{frank2012}. Here we adopt $n = 3$ for speakers and $n = 2$ for listeners.
 
-And indeed, in similar games, humans seem to reason only a few levels
-deep (XX cite p-beauty contests), and
+Given such a model, it's conceptually straightforward for a listener to learn to understand a speaker -- the listener simply puts a prior on the speaker's lexicon, and updates it based on the speaker's utterances and whatever information the listener can glean about their intended meaning.
 
-Basic idea of iterated pragmatic reasoning models. $S_i$ defines a causal model for utterances described by a simple Bayes net. $L_{i+1}$ does standard rational inference over this network. But the likelihood function in $S_i$'s model is very complicated, and includes equations derived from considering how a hypothetical $L_{i-1}$ would interpret utterances if they were doing rational inference about another hypothetical causal agent $S_{i-2}$.
+\begin{align*}
+  P_L(\obj | \word) &= P_{S_{n-1}}(\word | \obj, \text{L's data}) \times \prior \\
+    &= \sum_\lex P_{S_{n-1}}(\word | \obj, \lex) \times P(\lex | \text{L's data}) \times \prior \\
+    &= P_{L_n}(\obj | \word, \text{L's data}). \\
+  P_S(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_n}(\obj | \word, \text{S's data}) - \text{cost}(\word)\big)\Big).
+\end{align*}
 
-To simplify matters we envision a simple world that has $k$ words and $l$ objects. The \textit{lexicon} defines the literal meaning of each word, ...
+-- if they have the same data, $S$ is rational and $L$ is as close to rational as is possible given a finite recursion depth, i.e., if $S$ recursed one fewer times then $L$ would be rational. In particular, this describes all of the one-shot language games that have been considered in the literature to date, where neither agent has the time to acquire any data.
+-- if one actually does know the lexicon and the other is relatively ignorant, as in the child language learning case, then both are rational (with the same caveat).
+-- but in general, in multi-turn interactions, their beliefs will display some complicated
+
+% This suggest a simple probabilistic model. Given any particular
+% decision procedure used by the Speaker $S$, the optimal way for the
+% Listener $L$ to judge the probability of each object is to invert this
+% decision procedure using Bayes' rule, taking into account the prior
+% likelihood of each object:
+% \begin{align*}
+% P_L(\obj | \word) &\propto P_S(\word | \obj) P_{\text{prior}}(\obj |
+% \text{context})
+% \end{align*}
+% $S$, meanwhile, being herself a rational Bayesian agent, chooses her
+% word so as to soft-maximize a utility function $U(\word | \obj)$. She
+% gains utility if $L$ is likely to understand her; she loses utility if
+% the word is particularly costly to say (e.g., it may be long).
+% \begin{align*}
+% P_S(\word | \obj) &\propto \exp \lambda U(\word | \obj) \\
+% U(\word | \obj) &= \log P_L(\obj | \word) - \text{cost}(\word)
+% \end{align*}
+% The degree to which she optimizes this utility is controlled by the
+% softmax parameter $\lambda$. If $\lambda = 1$ and all words cost the
+% same, then her probability of producing a word will be proportional to
+% the likelihood that it will cause $L$ to reach the correct
+% interpretation; as $\lambda$ increases, she becomes more likely to
+% choose the word which maximizes this likelihood. (We somewhat
+% arbitrarily set $\lambda = 3$ throughout.)
+
+% This model as stated satisfies various normative criteria for each
+% agent individually, but suffers from a serious flaw that is intrinsic
+% to such multi-agent situations: $S$'s decision procedure depends on
+% $L$'s interpretive procedure, and vice-versa. If $S$ and $L$ want to
+% both be optimal simultaneously, then they must restrict themselves to
+% a low-dimensional subset of all available strategies. They must each choose
+% a strategy with the property that optimal counterpart of its optimal
+% counterpart is the original strategy. Finding such an equilibrium is
+% computationally non-trivial, and, even if found, there is no guarantee
+% that it will be optimal in any global sense. \cite{frank2012}
+% therefore propose an approximation to this model, in which $L$ and $S$
+% each perform a finite number of recursions, with $S_i$ reasoning about
+% $L_{i-1}$, who reasons about $S_{i-2}$ and so forth, until reaching
+% $L_0$, who interprets words according to an arbitrary rule (their
+% \textit{literal meaning}). In our case, we instantiate this as a
+% matrix (the \textit{lexicon}) with one column per object, and in which
+% each row represents the meaning of a particular word as a set of
+% values in $(0, 1)$ such that $\sum_\obj \lex(\word, \obj) = 1$.\footnote{In this model, words refer directly to objects; more realistically, words should refer to some sort of abstract semantic features, which in turn refer to objects. However, this simplification is without loss of generalization; we can interpret this model as marginalizing over such a representation, with our literal $P(\obj | \word) = \sum_\text{features} P(\obj | \text{features}) P(\text{features} | \word)$.}  Formally, we have:
+% \begin{align*}
+% P_{L_0}(\obj | \word) &= \lex(\word, \obj) P_{\text{prior}}(\obj | \text{context}). \\
+% P_{S_i}(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_{i - 1}}(\obj | \word) - \text{cost}(\word)\big)\Big) \\
+% P_{L_i}(\obj | \word) &\propto P_{S_{i-1}}(\word | \obj) P_{\text{prior}}(\obj | \text{context})
+% \end{align*}
+% This approach neatly avoids the infinite regress, and does well at predicting human behaviour in language games \cite{frank2012} and other multi-agent games (XX p-beauty). The minimal degree of recursion required to produce the effects we consider here is $S_3$ and $L_2$, and this what we use in the following.
+
+% When we consider adding learning to this model, however, we encounter a new and related problem. It's straightforward in principle to put a prior on $\lex(\word, \obj)$, and allow an agent to learn the 
+
+At each stage, $S_i$ defines a causal model for utterances described
+by a simple Bayes net, and $L_{i+1}$ does Bayesian inference over this net. But the likelihood function in $S_i$'s model is very complicated, and includes equations derived from considering how a hypothetical $L_{i-1}$ would interpret utterances if they were doing rational inference about another hypothetical causal agent $S_{i-2}$.
 
 extensional as marginalization over intensional
 
-\begin{align*}
-P_{L_0}(\obj | \word) &= \text{lexicon}(\word, \obj) P_{\text{prior}}(\obj | \text{context}). \\
-P_{S_i}(\word | \obj) &\propto \exp\Big(\lambda \big(\log P_{L_{i - 1}}(\obj | \word) - \text{cost}(\word)\big)\Big) \\
-P_{L_i}(\obj | \word) &\propto P_{S_{i-1}}(\word | \obj) P_{\text{prior}}(\obj | \text{context})
-\end{align*}
+
+we use $S_3$, $L_2$ and $\lambda = 3$.
 
 \subsection{Naive literal learner model}
 
 
 
 To see how
-Make $L_0$ uncertain about values in $\text{lexicon}(\word, \obj)$, impose a prior, and then
+Make $L_0$ uncertain about values in $\lex(\word, \obj)$, impose a prior, and then
 
 Needs feedback
 
@@ -189,6 +235,8 @@ $\left[
 %        [ 0.03151434,  0.96848566]])
 
 \subsection{Horn implicature}
+
+XX note the relation to BGL model; they need uncertainty in the middle of the pragmatics specifically, which is where we end up putting it for other reasons. And in Bayesian framework uncertainty and learning must always coincide. Also the intuition that this is a general property of uncertainty for soft-max agents -- if you don't know where you are, good worlds have more peaked utility distributions than bad worlds, and thus more consistent behaviour by other agents, so on average when you're guessing what other agents will do, good worlds contribute more to your average than bad worlds.
 
 Horn implicatures are inferences where the critical factor is not the extension of the words in context (as in scalar implicatures), but instead the relative cost of two expressions. In Horn's example, ``Lee got the car to stop'' implies that Lee used an unusual method (e.g. not the brakes) because, had he used the brakes, the speaker would have chosen the simpler and shorter (less costly) expression, ``Lee stopped the car.'' In other words, the costly expression is assumed to be associated with the unusual outcome.
 
