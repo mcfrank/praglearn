@@ -1,7 +1,0 @@
-How speaker refers to "some" and "all" objects:
-array([[  9.99939127e-01,   2.94819296e-03],
-       [  6.08733018e-05,   9.97051807e-01]])
-
-How listener interprets "some" and "all" words:
-array([[ 0.85968308,  0.14031692],
-       [ 0.03212642,  0.96787358]])
